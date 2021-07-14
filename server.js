@@ -5,15 +5,15 @@ const app = express();
 
 connectDB()
 
-app.use(express.json({extented: false}))
+app.use(express.json({extended: false}))
 
-app.get('/', (req, res) => res.send('Api running'))
+
 
 // Routes
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/todo', require('./routes/api/todo'));
 app.use('/api/auth', require('./routes/api/auth'));
-
+app.use('/api/todolist', require('./routes/api/todolist'));
 
 
 const PORT = process.env.PORT || 5000;
