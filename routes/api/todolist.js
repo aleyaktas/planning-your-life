@@ -3,6 +3,7 @@ const router = express.Router();
 const {check, validationResult} = require ('express-validator');
 const auth = require('../../middleware/auth');
 const TodoList = require('../../models/TodoList');
+const Todo = require("../../models/Todo")
 const User = require('../../models/User');
 
 
@@ -46,19 +47,86 @@ router.post('/',
 // DELETE api/todolist
 // Delete todolist & todos
 // Private
-router.delete('/' , auth, async (req,res) => {
+
+router.delete('/:id', auth, async (req,res) => {
   try {
-    // Remove user todos
-    await Todo.deleteMany({ todoList: req.todoList.id })
+    const todoList = await TodoList.findById(req.params.id);
 
-    // Remove todoList
-    await TodoList.findOneAndRemove({ user: req.user.id });
+    const todos = await Todo.find({todoList: req.params.id})
+    
+    todos.map(async(todo) => await todo.remove())
 
-    res.json({ msg: 'Todo List deleted' });
+    if(!todoList) {
+      return res.status(404).json({ msg:'Todolist not found' });
+    }
+    if(todoList.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
+    }
+
+    await todoList.remove();
+
+    res.json({ msg: 'Todo List removed' });
+  } catch (err) {
+    console.error(err.message);
+    if(err.kind === 'ObjectId') {
+      return res.status(400).json({ msg: 'Todo list not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
+// GET api/todolist
+// Get all todo list
+// Private
+router.get('/', auth, async (req,res) => {
+  try {
+    const todolist = await TodoList.find().sort({ date: -1 });
+    res.json(todolist)
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
+
+// GET api/todolist/:ID
+// Get todolist by ID
+// Private
+router.get('/:id', auth, async (req,res) => {
+  try {
+    const todolist = await TodoList.findById(req.params.id);
+    if(!todolist) return res.status(400).json({ msg: 'Todo List not found' });
+
+    res.json(todolist);
+  } catch (err) {
+    console.error(err.message);
+    if(err.kind === 'ObjectId') {
+      return res.status(400).json({ msg: 'Todo List not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
+// PUT api/todolist/complete/:id
+// Complete a todolist
+// Private
+router.put('/complete/:id', auth, async (req,res) => {
+  try {
+    const todolist = await TodoList.findById(req.params.id);
+
+    // Check if the todo has already been
+    if (todolist.isCompleted) {
+      return res.status(400).json({ msg: 'Todo List already completed' });
+    }
+
+    todolist.isCompleted = true;
+
+    await todolist.save();
+
+    res.json(todolist);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+})
 
 module.exports = router;

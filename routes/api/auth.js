@@ -8,7 +8,7 @@ const { check, validationResult } = require('express-validator')
 
 const User = require('../../models/User')
 // GET api/auth 
-// Test route
+// Get auth user
 // Public 
 router.get('/', auth, async (req, res) => { 
   try{

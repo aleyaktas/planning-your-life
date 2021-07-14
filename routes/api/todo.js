@@ -30,7 +30,8 @@ router.post('/',
       const newTodo = new Todo({
         text: req.body.text,
         name: user.name,
-        user: req.user.id
+        user: req.user.id,
+        todoList: req.body.todoList
       });
 
       const todo = await newTodo.save();
