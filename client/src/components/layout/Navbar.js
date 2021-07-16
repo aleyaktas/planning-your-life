@@ -1,10 +1,12 @@
 // import axios from 'axios';
 import React, { useState } from 'react'
 import { Navbar, Button, Container, Nav, Modal, Form, Row, Col} from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { setAlert } from '../../actions/alert';
+import PropTypes from 'prop-types'
 
 
-
-const NavbarItem = () => {
+const NavbarItem = ({ setAlert }) => {
   const [showregister, setShowRegister] = useState(false);
   const [showlogin, setShowLogin] = useState(false);
   const [formRegister, setFormRegister] = useState({
@@ -35,13 +37,16 @@ const NavbarItem = () => {
     e.preventDefault();
     const {firstname, lastname, email, password, confirmpassword} = formRegister;
     if (password !== confirmpassword) {
-      console.log('Passwords do not match')
+      // console.log('Passwords do not match')
+      setAlert('Passwords do not match')
     } else {
-      console.log('SUCCESS') 
+      // console.log('SUCCESS') 
+      setAlert('SUCCESS', 'success')
     }
   }
   const onClickLogin = e => {
-    console.log('SUCCESS LOGIN')
+    // console.log('SUCCESS LOGIN')
+    setAlert('SUCCESS LOGIN')
   }
 
   return (
@@ -64,37 +69,66 @@ const NavbarItem = () => {
           <Modal.Title>Sign Up</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Form onChange={event => console.log('aleyna')}>
+        <Form>
           <Form.Group className="mb-3" >
             <Row>
               <Col>
-                <Form.Control value={firstname} name="firstname" placeholder="First name"  onChange={e => onChangeRegister(e)}  />
+                <Form.Control 
+                  value={firstname} 
+                  name="firstname" 
+                  placeholder="First name"  
+                  onChange={e => onChangeRegister(e)}  />
+                  
               </Col>
               <Col>
-                <Form.Control value={lastname}  name="lastname" placeholder="Last name"  onChange={e => onChangeRegister(e)}  />
+                <Form.Control 
+                  value={lastname}  
+                  name="lastname" 
+                  placeholder="Last name"  
+                  onChange={e => onChangeRegister(e)}  />
               </Col>
             </Row>
             <Form.Label>Email address</Form.Label>
-            <Form.Control value={email}  name="email" type="email" placeholder="Enter email" onChange={e => onChangeRegister(e)} />
+            <Form.Control 
+              value={email}  
+              name="email" 
+              type="email" 
+              placeholder="Enter email" 
+              onChange={e => onChangeRegister(e)} />
             <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control value={password} name="password"  type="password" placeholder="Password" onChange={e => onChangeRegister(e)} />
+            <Form.Control 
+              value={password} 
+              name="password"  
+              type="password"
+              minLength="6"
+              placeholder="Password" 
+              onChange={e => onChangeRegister(e)} />
             <Form.Label>Confirm Password</Form.Label>
-            <Form.Control value={confirmpassword}  name="confirmpassword" type="password" placeholder="Confirm Password" onChange={e => onChangeRegister(e)} />
+            <Form.Control 
+              value={confirmpassword}  
+              name="confirmpassword" 
+              type="password"
+              minLength="6"
+              placeholder="Confirm Password" 
+              onChange={e => onChangeRegister(e)} />
           </Form.Group>
-          <Button variant="secondary" onClick={registerClose}>
+          
+          
+        </Form>
+        </Modal.Body>
+        <Modal.Footer>
+        <Button variant="secondary" onClick={registerClose}>
             Close
           </Button>
           <Button  variant="primary" onClick={onClickRegister}>
             Save Changes
           </Button>
-          
-        </Form>
-        </Modal.Body>
+        </Modal.Footer>
        
           
     
@@ -107,14 +141,24 @@ const NavbarItem = () => {
         <Form>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control value={login_email} name="login_email" type="email" placeholder="Enter email" onChange={e => onChangeLogin(e)}  />
+            <Form.Control 
+              value={login_email} 
+              name="login_email" 
+              type="email" 
+              placeholder="Enter email" 
+              onChange={e => onChangeLogin(e)}  />
             <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control value={login_password} name="login_password"  type="password" placeholder="Password" onChange={e => onChangeLogin(e)}  />
+            <Form.Control 
+              value={login_password} 
+              name="login_password" 
+              type="password" 
+              placeholder="Password" 
+              onChange={e => onChangeLogin(e)}  />
 
           </Form.Group>
           <Button variant="secondary" onClick={loginClose}>
@@ -135,5 +179,9 @@ const NavbarItem = () => {
   )
 }
 
+NavbarItem.propTypes = {
+  setAlert: PropTypes.func.isRequired
+}
 
-export default NavbarItem
+
+export default connect(null, { setAlert }) (NavbarItem)

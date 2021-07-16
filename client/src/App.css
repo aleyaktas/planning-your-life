@@ -3,9 +3,15 @@ body{
   padding: 0;
 }
 .landing {
-  position: relative;
+  position: absolute;
   background: url('./img/todo2.png') no-repeat center center/cover;
-  height: 94vh;
+  height: 100vh;
+  background-size: cover;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  left: 0;
 }
 .dark-overlay {
   background-color: rgba(0, 0, 0, 0.5);
@@ -40,11 +46,53 @@ body{
   background-color: #EBE3E0;
   position: fixed;
   box-sizing: border-box;
+  z-index: 3;
 }
 .text-size {
   font-size: 20px
 }
 
 .modal {
-    transform: translate(10px, 200px);
+    transform: translate(5px, 200px);
+}
+.alert {
+  padding: 0.8rem;
+  opacity: 0.9;
+  color: #333;
+  z-index: 1070;
+  box-sizing: border-box;
+  margin-bottom: 0;
+}
+
+.alert-primary {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.alert-light {
+  background: var(--light-color);
+  color: #333;
+}
+.alert-dark {
+  background: var(--dark-color);
+  color: #fff;
+}
+
+.alert-danger {
+  background: var(--danger-color);
+  color: #fff;
+}
+
+
+.alert-success {
+  background: var(--success-color);
+  color: #fff;
+  margin: 0;
+}
+
+
+.alert-white {
+  background: #fff;
+  color: #333;
+  border: #ccc solid 1px;
 }

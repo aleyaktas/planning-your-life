@@ -22,12 +22,9 @@
     "moment": "^2.29.1",
     "mongoose": "^5.13.2",
     "react-moment": "^1.1.1",
-    "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
-    "redux": "^4.1.0",
-    "redux-devtools-extension": "^2.13.9",
-    "redux-thunk": "^2.3.0",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "uuidv4": "^6.2.11"
   },
   "devDependencies": {
     "concurrently": "^6.2.0",
