@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 import React, { useState } from 'react'
 import { Navbar, Button, Container, Nav, Modal, Form, Row, Col} from 'react-bootstrap';
 
@@ -33,31 +33,16 @@ const NavbarItem = () => {
 
   const onClickRegister = async e => {
     e.preventDefault();
-    const {firstname, lastname, email, password} = formRegister;
+    const {firstname, lastname, email, password, confirmpassword} = formRegister;
     if (password !== confirmpassword) {
       console.log('Passwords do not match')
     } else {
-      const newUser = {
-        firstname,
-        lastname,
-        email,
-        password
-      }
-      try {
-        const config = {
-          headers: {
-            'Content-Type':'application/json'
-          }
-        }
-        const body = JSON.stringify(newUser);
-        const res = await axios.post('/api/users', body, config)
-        console.log(res.data)
-      } catch (err) {
-        console.error(err.response.data)
-      }
+      console.log('SUCCESS') 
     }
   }
-  const onClickLogin = e => {console.log(formLogin)}
+  const onClickLogin = e => {
+    console.log('SUCCESS LOGIN')
+  }
 
   return (
     <div>
@@ -116,7 +101,7 @@ const NavbarItem = () => {
       </Modal>
       <Modal className="modal" show={showlogin} onHide={loginClose}>
         <Modal.Header>
-          <Modal.Title>Sign Up</Modal.Title>
+          <Modal.Title>Login</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <Form>
@@ -138,6 +123,9 @@ const NavbarItem = () => {
           <Button variant="primary" onClick={onClickLogin}>
             Login
           </Button>
+          
+              <Button variant="light" onClick={registerShow}>Don't have an account?</Button>
+            
         </Form>
         </Modal.Body>
       </Modal>
