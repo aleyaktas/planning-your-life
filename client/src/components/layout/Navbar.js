@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react'
 import { Navbar, Button, Container, Nav, Modal, Form, Row, Col} from 'react-bootstrap';
 
@@ -6,12 +7,58 @@ import { Navbar, Button, Container, Nav, Modal, Form, Row, Col} from 'react-boot
 const NavbarItem = () => {
   const [showregister, setShowRegister] = useState(false);
   const [showlogin, setShowLogin] = useState(false);
+  const [formRegister, setFormRegister] = useState({
+    firstname: '',
+    lastname:'',
+    email: '',
+    password: '',
+    confirmpassword: ''
+  });
+
+  const [formLogin, setFormLogin] = useState({
+    login_email: '',
+    login_password: ''
+  });
 
   const registerClose = () => setShowRegister(false);
   const registerShow = () => setShowRegister(true);
-
   const loginClose = () => setShowLogin(false);
   const loginShow = () => setShowLogin(true);
+
+  const { firstname, lastname, email, password, confirmpassword } = setFormRegister;
+  const { login_email, login_password } = setFormLogin;
+
+  const onChangeRegister = e => setFormRegister({ ...formRegister, [e.target.name]: e.target.value });
+  const onChangeLogin = e => setFormLogin({ ...formLogin, [e.target.name]: e.target.value });
+
+  const onClickRegister = async e => {
+    e.preventDefault();
+    const {firstname, lastname, email, password} = formRegister;
+    if (password !== confirmpassword) {
+      console.log('Passwords do not match')
+    } else {
+      const newUser = {
+        firstname,
+        lastname,
+        email,
+        password
+      }
+      try {
+        const config = {
+          headers: {
+            'Content-Type':'application/json'
+          }
+        }
+        const body = JSON.stringify(newUser);
+        const res = await axios.post('/api/users', body, config)
+        console.log(res.data)
+      } catch (err) {
+        console.error(err.response.data)
+      }
+    }
+  }
+  const onClickLogin = e => {console.log(formLogin)}
+
   return (
     <div>
       <Navbar className="color-nav" variant="light">
@@ -32,38 +79,40 @@ const NavbarItem = () => {
           <Modal.Title>Sign Up</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Form>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form onChange={event => console.log('aleyna')}>
+          <Form.Group className="mb-3" >
             <Row>
               <Col>
-                <Form.Control placeholder="First name" />
+                <Form.Control value={firstname} name="firstname" placeholder="First name"  onChange={e => onChangeRegister(e)}  />
               </Col>
               <Col>
-                <Form.Control placeholder="Last name" />
+                <Form.Control value={lastname}  name="lastname" placeholder="Last name"  onChange={e => onChangeRegister(e)}  />
               </Col>
             </Row>
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control value={email}  name="email" type="email" placeholder="Enter email" onChange={e => onChangeRegister(e)} />
             <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control value={password} name="password"  type="password" placeholder="Password" onChange={e => onChangeRegister(e)} />
             <Form.Label>Confirm Password</Form.Label>
-            <Form.Control type="password" placeholder="Confirm Password" />
+            <Form.Control value={confirmpassword}  name="confirmpassword" type="password" placeholder="Confirm Password" onChange={e => onChangeRegister(e)} />
           </Form.Group>
-        </Form>
-        </Modal.Body>
-        <Modal.Footer>
           <Button variant="secondary" onClick={registerClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={registerClose}>
+          <Button  variant="primary" onClick={onClickRegister}>
             Save Changes
           </Button>
-        </Modal.Footer>
+          
+        </Form>
+        </Modal.Body>
+       
+          
+    
       </Modal>
       <Modal className="modal" show={showlogin} onHide={loginClose}>
         <Modal.Header>
@@ -73,26 +122,24 @@ const NavbarItem = () => {
         <Form>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control value={login_email} name="login_email" type="email" placeholder="Enter email" onChange={e => onChangeLogin(e)}  />
             <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control value={login_password} name="login_password"  type="password" placeholder="Password" onChange={e => onChangeLogin(e)}  />
 
           </Form.Group>
-        </Form>
-        </Modal.Body>
-        <Modal.Footer>
           <Button variant="secondary" onClick={loginClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={loginClose}>
-            Save Changes
+          <Button variant="primary" onClick={onClickLogin}>
+            Login
           </Button>
-        </Modal.Footer>
+        </Form>
+        </Modal.Body>
       </Modal>
       
     </div>
