@@ -3,10 +3,11 @@ import React, { useState } from 'react'
 import { Navbar, Button, Container, Nav, Modal, Form, Row, Col} from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/auth'
 import PropTypes from 'prop-types'
 
 
-const NavbarItem = ({ setAlert }) => {
+const NavbarItem = ({ setAlert, register }) => {
   const [showregister, setShowRegister] = useState(false);
   const [showlogin, setShowLogin] = useState(false);
   const [formRegister, setFormRegister] = useState({
@@ -41,7 +42,7 @@ const NavbarItem = ({ setAlert }) => {
       setAlert('Passwords do not match')
     } else {
       // console.log('SUCCESS') 
-      setAlert('SUCCESS', 'success')
+      register({firstname, lastname, email, password})
     }
   }
   const onClickLogin = e => {
@@ -180,8 +181,9 @@ const NavbarItem = ({ setAlert }) => {
 }
 
 NavbarItem.propTypes = {
-  setAlert: PropTypes.func.isRequired
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired
 }
 
 
-export default connect(null, { setAlert }) (NavbarItem)
+export default connect(null, { setAlert, register }) (NavbarItem)
