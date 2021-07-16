@@ -4,10 +4,12 @@ import { Navbar, Button, Container, Nav, Modal, Form, Row, Col} from 'react-boot
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth'
+import { login } from '../../actions/auth'
 import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom';
 
 
-const NavbarItem = ({ setAlert, register }) => {
+const NavbarItem = ({ setAlert, register, login, isAuthenticated }) => {
   const [showregister, setShowRegister] = useState(false);
   const [showlogin, setShowLogin] = useState(false);
   const [formRegister, setFormRegister] = useState({
@@ -46,8 +48,13 @@ const NavbarItem = ({ setAlert, register }) => {
     }
   }
   const onClickLogin = e => {
+    const {login_email, login_password} = formLogin;
     // console.log('SUCCESS LOGIN')
-    setAlert('SUCCESS LOGIN')
+    login(login_email, login_password)
+  }
+
+  if(isAuthenticated) {
+    return <Redirect to="/dashboard" />
   }
 
   return (
@@ -182,8 +189,12 @@ const NavbarItem = ({ setAlert, register }) => {
 
 NavbarItem.propTypes = {
   setAlert: PropTypes.func.isRequired,
-  register: PropTypes.func.isRequired
+  register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
 }
 
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+})
 
-export default connect(null, { setAlert, register }) (NavbarItem)
+export default connect(mapStateToProps, { setAlert, register, login }) (NavbarItem)
