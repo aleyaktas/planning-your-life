@@ -1,15 +1,15 @@
 // import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import { Navbar, Button, Container, Nav, Modal, Form, Row, Col} from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth'
 import { login } from '../../actions/auth'
+import { logout } from '../../actions/auth'
 import PropTypes from 'prop-types'
-import { Redirect } from 'react-router-dom';
 
-
-const NavbarItem = ({ setAlert, register, login, isAuthenticated }) => {
+const NavbarItem = ({ auth: {isAuthenticated, loading}, setAlert, register, login, logout}) => {
+ 
   const [showregister, setShowRegister] = useState(false);
   const [showlogin, setShowLogin] = useState(false);
   const [formRegister, setFormRegister] = useState({
@@ -40,24 +40,70 @@ const NavbarItem = ({ setAlert, register, login, isAuthenticated }) => {
     e.preventDefault();
     const {firstname, lastname, email, password, confirmpassword} = formRegister;
     if (password !== confirmpassword) {
-      // console.log('Passwords do not match')
       setAlert('Passwords do not match')
     } else {
-      // console.log('SUCCESS') 
       register({firstname, lastname, email, password})
     }
   }
   const onClickLogin = e => {
     const {login_email, login_password} = formLogin;
-    // console.log('SUCCESS LOGIN')
+
     login(login_email, login_password)
   }
 
-  if(isAuthenticated) {
-    return <Redirect to="/dashboard" />
-  }
+  const modal = 
+    <div>
+      <Modal className="modal" show={showregister} onHide={registerClose}>
+        <Modal.Header>
+          <Modal.Title>Sign Up</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-4 mt-2" >
+              <Row>
+                <Col>
+                  <Form.Control className="mb-4" value={firstname} name="firstname" placeholder="First name"  onChange={e => onChangeRegister(e)}  />  
+                </Col>
+                <Col>
+                  <Form.Control value={lastname}  name="lastname" placeholder="Last name"  onChange={e => onChangeRegister(e)}  />
+                </Col>
+              </Row>
+              <Form.Control value={email}  name="email" type="email" placeholder="Enter email" onChange={e => onChangeRegister(e)} />
+            </Form.Group>
+            <Form.Group className="mt-2 mb-2" controlId="formBasicPassword">
+              <Form.Control className="mb-4" value={password} name="password"  type="password"minLength="6"placeholder="Password" onChange={e => onChangeRegister(e)} />
+              <Form.Control value={confirmpassword}  name="confirmpassword" type="password"minLength="6"placeholder="Confirm Password" onChange={e => onChangeRegister(e)} />
+            </Form.Group>  
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={registerClose}>Close</Button>
+          <Button  variant="primary" onClick={onClickRegister}>Save Changes</Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal className="modal" show={showlogin} onHide={loginClose}>
+        <Modal.Header>
+          <Modal.Title>Login</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="m-2 mb-4" controlId="formBasicEmail">
+              <Form.Control value={login_email} name="login_email" type="email" placeholder="Enter email" onChange={e => onChangeLogin(e)}  />
+            </Form.Group>
+            <Form.Group className="m-2" controlId="formBasicPassword">
+              <Form.Control value={login_password} name="login_password" type="password" placeholder="Password" onChange={e => onChangeLogin(e)}  />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={loginClose}>Close</Button>
+          <Button variant="primary" onClick={onClickLogin}>Login</Button>
+          <Button variant="light" onClick={registerShow}>Don't have an account?</Button>
+        </Modal.Footer>
+      </Modal>
+      </div>
 
-  return (
+  const guestLinks = (
     <div>
       <Navbar className="color-nav" variant="light">
         <Container>
@@ -72,129 +118,45 @@ const NavbarItem = ({ setAlert, register, login, isAuthenticated }) => {
           </Nav>
         </Container>
       </Navbar>
-      <Modal className="modal" show={showregister} onHide={registerClose}>
-        <Modal.Header>
-          <Modal.Title>Sign Up</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-        <Form>
-          <Form.Group className="mb-3" >
-            <Row>
-              <Col>
-                <Form.Control 
-                  value={firstname} 
-                  name="firstname" 
-                  placeholder="First name"  
-                  onChange={e => onChangeRegister(e)}  />
-                  
-              </Col>
-              <Col>
-                <Form.Control 
-                  value={lastname}  
-                  name="lastname" 
-                  placeholder="Last name"  
-                  onChange={e => onChangeRegister(e)}  />
-              </Col>
-            </Row>
-            <Form.Label>Email address</Form.Label>
-            <Form.Control 
-              value={email}  
-              name="email" 
-              type="email" 
-              placeholder="Enter email" 
-              onChange={e => onChangeRegister(e)} />
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control 
-              value={password} 
-              name="password"  
-              type="password"
-              minLength="6"
-              placeholder="Password" 
-              onChange={e => onChangeRegister(e)} />
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control 
-              value={confirmpassword}  
-              name="confirmpassword" 
-              type="password"
-              minLength="6"
-              placeholder="Confirm Password" 
-              onChange={e => onChangeRegister(e)} />
-          </Form.Group>
-          
-          
-        </Form>
-        </Modal.Body>
-        <Modal.Footer>
-        <Button variant="secondary" onClick={registerClose}>
-            Close
-          </Button>
-          <Button  variant="primary" onClick={onClickRegister}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-       
-          
-    
-      </Modal>
-      <Modal className="modal" show={showlogin} onHide={loginClose}>
-        <Modal.Header>
-          <Modal.Title>Login</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-        <Form>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control 
-              value={login_email} 
-              name="login_email" 
-              type="email" 
-              placeholder="Enter email" 
-              onChange={e => onChangeLogin(e)}  />
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control 
-              value={login_password} 
-              name="login_password" 
-              type="password" 
-              placeholder="Password" 
-              onChange={e => onChangeLogin(e)}  />
-
-          </Form.Group>
-          <Button variant="secondary" onClick={loginClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={onClickLogin}>
-            Login
-          </Button>
-          
-              <Button variant="light" onClick={registerShow}>Don't have an account?</Button>
-            
-        </Form>
-        </Modal.Body>
-      </Modal>
-      
+      {modal}      
     </div>
+  );
 
+  const authLinks = (
+    <Navbar className="color-nav" variant="light">
+        <Container>
+          <Navbar.Brand className="text-size" href="#home">To Do List</Navbar.Brand>
+          <Nav className="justify-content-end">
+            <Nav.Link className="text-size">
+              <Button variant="light">Home</Button>
+            </Nav.Link>
+            <Nav.Link className="text-size">
+              <Button onClick={logout} variant="light" >Logout</Button>
+            </Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
+  );
+
+
+  return (    
+   <div>
+     {!loading && (
+        <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
+      )}
+   </div>
   )
-}
+    }
 
 NavbarItem.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
+  login: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  auth: state.auth
 })
 
-export default connect(mapStateToProps, { setAlert, register, login }) (NavbarItem)
+export default connect(mapStateToProps, { setAlert, register, login, logout }) (NavbarItem)
