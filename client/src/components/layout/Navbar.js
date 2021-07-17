@@ -7,8 +7,11 @@ import { register } from '../../actions/auth'
 import { login } from '../../actions/auth'
 import { logout } from '../../actions/auth'
 import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom';
+
 
 const NavbarItem = ({ auth: {isAuthenticated, loading}, setAlert, register, login, logout}) => {
+
  
   const [showregister, setShowRegister] = useState(false);
   const [showlogin, setShowLogin] = useState(false);
@@ -50,6 +53,9 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, setAlert, register, logi
 
     login(login_email, login_password)
   }
+
+
+
 
   const modal = 
     <div>
@@ -123,6 +129,7 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, setAlert, register, logi
   );
 
   const authLinks = (
+    
     <Navbar className="color-nav" variant="light">
         <Container>
           <Navbar.Brand className="text-size" href="#home">To Do List</Navbar.Brand>
@@ -136,14 +143,19 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, setAlert, register, logi
           </Nav>
         </Container>
       </Navbar>
+      
   );
+
 
 
   return (    
    <div>
-     {!loading && (
+     {!loading &&(
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       )}
+      {isAuthenticated ? 
+        <Redirect to="/dashboard"/> : <Redirect to="/"/>
+      }
    </div>
   )
     }
