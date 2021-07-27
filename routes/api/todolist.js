@@ -76,11 +76,11 @@ router.delete('/:id', auth, async (req,res) => {
 });
 
 // GET api/todolist
-// Get all todo list
+// Get all todo list by user id
 // Private
 router.get('/', auth, async (req,res) => {
   try {
-    const todolist = await TodoList.find().sort({ date: -1 });
+    const todolist = await TodoList.find({user: req.user.id});
     res.json(todolist)
   } catch (err) {
     console.error(err.message);

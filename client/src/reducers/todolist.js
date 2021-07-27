@@ -1,6 +1,7 @@
 import {
   ADD_TODOLIST,
-  TODOLIST_ERROR
+  TODOLIST_ERROR,
+  GET_TODOLIST
 } from '../actions/types'
 
 const initialState = {
@@ -17,10 +18,16 @@ export default function(state = initialState, action) {
     case ADD_TODOLIST:
       return {
         ...state,
-        todolists: [payload, ...state.todolists],
+        todolists: [...state.todolists,payload ],
         loading: false
       }
-
+    case GET_TODOLIST:
+      return {
+        ...state,
+        todolists: payload,
+        loading: false
+      }
+  
     case TODOLIST_ERROR:
       return {
         ...state,

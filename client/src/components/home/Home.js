@@ -1,10 +1,15 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import  PropTypes  from 'prop-types'
 import {Col, Row, ListGroup, Button, Modal, Form} from 'react-bootstrap'
-import { addTodoList } from '../../actions/todolist'
+import { addTodoList, getTodoList } from '../../actions/todolist'
+import todolist from '../../reducers/todolist'
 
-const Home = ({auth: {user}, addTodoList}) => {
+const Home = ({auth: {user}, getTodoList, todolist: {todolists}, addTodoList}) => {
+
+  useEffect(() => {
+    getTodoList()
+  }, [])
 
   const [showtodolist, setShowTodoList] = useState(false);
   const [formList, setFormList] = useState({
@@ -56,10 +61,9 @@ const modal =
           <Row className="m-0 position-home">
           <Col xs={2} className="p-0 border-col">
           <ListGroup variant="flush">
-            <div className="list-group-ite">Cras justo odio</div>
-            <div className="list-group-ite">Dapibus ac facilisis in</div>
-            <div className="list-group-ite">Morbi leo risus</div>
-            <div className="list-group-ite">Porta ac consectetur ac</div>
+            <div className="list-group-ite">My Day</div>
+            <div className="list-group-ite">Important</div>
+            {todolists && todolists.map(todolist => <div  className="list-group-ite">{todolist.title}</div>)}
             <Button onClick={todolistShow} variant="light">New Todo List +</Button>
           </ListGroup>
           </Col>
@@ -75,11 +79,13 @@ const modal =
 }
 Home.propTypes = {
   auth: PropTypes.object.isRequired,
-  addTodoList: PropTypes.func.isRequired
+  addTodoList: PropTypes.func.isRequired,
+  getTodoList: PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
   auth: state.auth,
+  todolist: state.todolist
 })
 
 
-export default connect(mapStateToProps, { addTodoList }) (Home)
+export default connect(mapStateToProps, { addTodoList,getTodoList }) (Home)

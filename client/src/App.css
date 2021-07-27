@@ -125,6 +125,7 @@ body{
 }
 .list-group-ite {
   position: relative;
+  cursor: pointer;
   display: block;
   padding: .5rem 1rem;
   color: beige;

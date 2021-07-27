@@ -8,6 +8,7 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAIL = 'LOGIN_FAIL'
 export const LOGOUT = 'LOGOUT'
 export const ADD_TODOLIST = 'ADD_TODOLIST'
+export const GET_TODOLIST = 'GET_TODOLIST'
 export const TODOLIST_ERROR = 'TODOLIST_ERROR'
 
 
