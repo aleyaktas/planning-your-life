@@ -5,7 +5,7 @@ import NavbarItem from './components/layout/Navbar'
 import Landing from './components/layout/Landing'
 import Alert from './components/layout/Alert'
 import PrivateRoute from './components/route/PrivateRoute'
-import Dashboard from './components/dashboard/Dashboard'
+import Home from './components/home/Home'
 import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken'
 
@@ -31,7 +31,7 @@ const App = () => {
         <Alert/> 
         <section>
           <Switch>
-            <PrivateRoute exact path="/dashboard" component={Dashboard}/>
+            <PrivateRoute exact path="/home" component={Home}/>
           </Switch>
         </section> 
       </Fragment>

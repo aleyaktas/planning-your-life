@@ -13,8 +13,19 @@ body{
   z-index: 1;
   left: 0;
 }
+.home {
+  position: absolute;
+  background: url('./img/todo-home.png') no-repeat center center/cover;
+  height: 100vh;
+  background-size: cover;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  left: 0;
+}
 .dark-overlay {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
   max-width: 100%;
   background-size: cover;
   position: absolute;
@@ -95,4 +106,31 @@ body{
   background: #fff;
   color: #333;
   border: #ccc solid 1px;
+}
+
+
+.center {
+  text-align-last: center;
+  color: antiquewhite;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.float-left {
+  float: left;
+}
+.position-home {
+  position: relative;
+  top: 52px;
+  height: inherit;
+}
+.list-group-ite {
+  position: relative;
+  display: block;
+  padding: .5rem 1rem;
+  color: beige;
+  text-decoration: none;
+  border: 1px solid rgba(0, 0, 0, .125);
+}
+.border-col {
+  border: 1px ridge ;
 }

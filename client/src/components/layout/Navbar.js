@@ -53,10 +53,6 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, setAlert, register, logi
 
     login(login_email, login_password)
   }
-
-
-
-
   const modal = 
     <div>
       <Modal className="modal" show={showregister} onHide={registerClose}>
@@ -111,7 +107,7 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, setAlert, register, logi
 
   const guestLinks = (
     <div>
-      <Navbar className="color-nav" variant="light">
+      <Navbar className="color-nav p-0" variant="light">
         <Container>
           <Navbar.Brand className="text-size" href="#home">To Do List</Navbar.Brand>
           <Nav className="justify-content-end">
@@ -130,7 +126,7 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, setAlert, register, logi
 
   const authLinks = (
     
-    <Navbar className="color-nav" variant="light">
+    <Navbar className="color-nav p-0" variant="light">
         <Container>
           <Navbar.Brand className="text-size" href="#home">To Do List</Navbar.Brand>
           <Nav className="justify-content-end">
@@ -154,7 +150,7 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, setAlert, register, logi
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       )}
       {isAuthenticated ? 
-        <Redirect to="/dashboard"/> : <Redirect to="/"/>
+        <Redirect to="/home"/> : <Redirect to="/"/>
       }
    </div>
   )

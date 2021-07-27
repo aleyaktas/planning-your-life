@@ -10,7 +10,6 @@ const Landing = () => {
           <p className="lead">
             Create a user and use to-do website for yourself
           </p>
-          
         </div>
       </div>
     </section>

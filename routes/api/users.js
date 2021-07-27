@@ -44,17 +44,13 @@ router.post('/', [
       }
       // Get users gravatar
 
-      const avatar = gravatar.url(email, {
-        s: '200',
-        r: 'pg',
-        d: 'mm'
-      })
+      const avatars = gravatar.url(email, {s: '200', r: 'pg', d: '404'});
 
       user = new User({
         firstname,
         lastname,
         email,
-        avatar,
+        avatars,
         password
       })
 
