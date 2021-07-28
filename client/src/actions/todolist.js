@@ -3,7 +3,8 @@ import { setAlert } from './alert';
 import {
   ADD_TODOLIST,
   TODOLIST_ERROR,
-  GET_TODOLIST
+  GET_TODOLIST,
+  DELETE_TODOLIST
 } from './types'
 
 // Add todo list
@@ -39,6 +40,24 @@ export const getTodoList = () => async (dispatch) => {
       type: GET_TODOLIST,
       payload: res.data
     })
+  } catch (err) {
+    dispatch({
+      type: TODOLIST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+}
+
+// Delete todo list by id 
+export const deleteTodoList = (id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/api/todolist/${id}`)
+
+    dispatch({
+      type: DELETE_TODOLIST,
+      payload: id
+    })
+    dispatch(setAlert('Todo List removed','success'))
   } catch (err) {
     dispatch({
       type: TODOLIST_ERROR,

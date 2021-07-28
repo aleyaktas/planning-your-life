@@ -4,7 +4,7 @@ import React from 'react'
 const Landing = () => {
   return (
     <section className="landing">
-      <div className="dark-overlay">
+      <div className="overlay">
         <div className="landing-inner">
           <h1 className="x-large">Welcome To-Do Website </h1>
           <p className="lead">

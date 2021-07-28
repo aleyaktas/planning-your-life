@@ -1,7 +1,8 @@
 import {
   ADD_TODOLIST,
   TODOLIST_ERROR,
-  GET_TODOLIST
+  GET_TODOLIST,
+  DELETE_TODOLIST
 } from '../actions/types'
 
 const initialState = {
@@ -27,7 +28,12 @@ export default function(state = initialState, action) {
         todolists: payload,
         loading: false
       }
-  
+    case DELETE_TODOLIST: 
+      return {
+        ...state,
+        todolists: state.todolists.filter(todolist => todolist._id !== payload),
+        loading: false
+      }
     case TODOLIST_ERROR:
       return {
         ...state,

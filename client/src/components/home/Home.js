@@ -1,11 +1,12 @@
 import React, { Fragment, useState, useEffect } from 'react'
+import "bootstrap-icons/font/bootstrap-icons.css";
+
 import { connect } from 'react-redux'
 import  PropTypes  from 'prop-types'
 import {Col, Row, ListGroup, Button, Modal, Form} from 'react-bootstrap'
-import { addTodoList, getTodoList } from '../../actions/todolist'
-import todolist from '../../reducers/todolist'
+import { addTodoList, getTodoList, deleteTodoList } from '../../actions/todolist'
 
-const Home = ({auth: {user}, getTodoList, todolist: {todolists}, addTodoList}) => {
+const Home = ({auth: {user}, getTodoList, todolist: {todolists}, addTodoList, deleteTodoList}) => {
 
   useEffect(() => {
     getTodoList()
@@ -21,7 +22,7 @@ const Home = ({auth: {user}, getTodoList, todolist: {todolists}, addTodoList}) =
 
   const onChange = e => setFormList({ ...formList, [e.target.name]: e.target.value });
 
-  const onClick = e => {
+  const onClickAdd = e => {
     e.preventDefault();
     const {title} = formList;
     addTodoList({title})
@@ -47,7 +48,7 @@ const modal =
           <Button variant="secondary" onClick={todolistClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={onClick}>
+          <Button variant="primary" onClick={onClickAdd}>
             Save Changes
           </Button>
         </Modal.Footer>
@@ -57,13 +58,27 @@ const modal =
   return (
     <Fragment>
       <section className="home">
-        <div className="dark-overlay"> 
+        <div className="overlay"> 
           <Row className="m-0 position-home">
           <Col xs={2} className="p-0 border-col">
           <ListGroup variant="flush">
-            <div className="list-group-ite">My Day</div>
-            <div className="list-group-ite">Important</div>
-            {todolists && todolists.map(todolist => <div  className="list-group-ite">{todolist.title}</div>)}
+            <div className="list-group-items">
+              My Day
+              <Button variant="outline-warning" className="float-right btn-sm">
+                <i className="bi bi-x-circle"></i>
+              </Button>
+            </div>
+            <div className="list-group-items">Important
+              <Button variant="outline-warning" className="float-right btn-sm">
+                <i className="bi bi-x-circle"></i>
+              </Button>
+            </div>
+            {todolists && todolists.map(todolist => 
+            <div  className="list-group-items">{todolist.title}
+            <Button onClick={() => deleteTodoList(todolist._id)} variant="outline-warning" className="float-right btn-sm">
+                <i className="bi bi-x-circle"></i>
+            </Button>
+            </div>)}
             <Button onClick={todolistShow} variant="light">New Todo List +</Button>
           </ListGroup>
           </Col>
@@ -80,7 +95,8 @@ const modal =
 Home.propTypes = {
   auth: PropTypes.object.isRequired,
   addTodoList: PropTypes.func.isRequired,
-  getTodoList: PropTypes.func.isRequired
+  getTodoList: PropTypes.func.isRequired,
+  deleteTodoList: PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
   auth: state.auth,
@@ -88,4 +104,4 @@ const mapStateToProps = state => ({
 })
 
 
-export default connect(mapStateToProps, { addTodoList,getTodoList }) (Home)
+export default connect(mapStateToProps, { addTodoList,getTodoList, deleteTodoList }) (Home)

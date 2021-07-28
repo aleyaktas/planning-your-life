@@ -3,8 +3,7 @@ body{
   padding: 0;
 }
 .landing {
-  position: absolute;
-  background: url('./img/todo2.png') no-repeat center center/cover;
+  background: url('./img/todo-landing.png') no-repeat center center/cover;
   height: 100vh;
   background-size: cover;
   top: 0;
@@ -12,27 +11,6 @@ body{
   bottom: 0;
   z-index: 1;
   left: 0;
-}
-.home {
-  position: absolute;
-  background: url('./img/todo-home.png') no-repeat center center/cover;
-  height: 100vh;
-  background-size: cover;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  left: 0;
-}
-.dark-overlay {
-  background-color: rgba(0, 0, 0, 0.4);
-  max-width: 100%;
-  background-size: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
 }
 .landing-inner {
   color: #fff;
@@ -52,15 +30,31 @@ body{
 .lead {
   font-size: 1rem;
 }
-
-.color-nav {
+.home {
+  background: url('./img/todo-home.png') no-repeat center center/cover;
+  height: 94vh;
+  background-size: cover;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  left: 0;
+}
+.overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+  max-width: 100%;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+}
+.navbar {
   background-color: #EBE3E0;
   position: fixed;
   box-sizing: border-box;
-  z-index: 3;
+  height: 6vh;
 }
 .text-size {
-  font-size: 20px
+  font-size: 1rem
 }
 
 .modal {
@@ -88,42 +82,35 @@ body{
   background: var(--dark-color);
   color: #fff;
 }
-
 .alert-danger {
   background: var(--danger-color);
   color: #fff;
 }
-
-
 .alert-success {
   background: var(--success-color);
   color: #fff;
   margin: 0;
 }
-
-
 .alert-white {
   background: #fff;
   color: #333;
   border: #ccc solid 1px;
 }
-
-
 .center {
   text-align-last: center;
   color: antiquewhite;
   font-family: "Times New Roman", Times, serif;
 }
-
 .float-left {
   float: left;
 }
+.float-right {
+  float: right;
+}
 .position-home {
-  position: relative;
-  top: 52px;
   height: inherit;
 }
-.list-group-ite {
+.list-group-items {
   position: relative;
   cursor: pointer;
   display: block;
@@ -134,4 +121,10 @@ body{
 }
 .border-col {
   border: 1px ridge ;
+  overflow: auto;
+  height: 94vh;
+}
+
+.bg-color {
+  background-color : bisque;
 }

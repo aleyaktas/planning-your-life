@@ -126,7 +126,7 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, setAlert, register, logi
 
   const authLinks = (
     
-    <Navbar className="color-nav p-0" variant="light">
+    <Navbar className="navbar p-0" variant="light">
         <Container>
           <Navbar.Brand className="text-size" href="#home">To Do List</Navbar.Brand>
           <Nav className="justify-content-end">
