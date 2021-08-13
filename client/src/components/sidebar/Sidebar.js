@@ -1,24 +1,32 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect, Component } from 'react'
 import "bootstrap-icons/font/bootstrap-icons.css";
-
 import { connect } from 'react-redux'
 import  PropTypes  from 'prop-types'
 import {Col, Row, ListGroup, Button, Modal, Form} from 'react-bootstrap'
 import { addTodoList, getTodoList, deleteTodoList } from '../../actions/todolist'
+import { Link } from 'react-router-dom';
 
-const Home = ({auth: {user}, getTodoList, todolist: {todolists}, addTodoList, deleteTodoList}) => {
+const Sidebar = ({auth: {user}, getTodoList, todolist: {todolists}, addTodoList, deleteTodoList}) => {
 
   useEffect(() => {
     getTodoList()
   }, [])
 
+  const [todoListId, setTodoListId] = useState("");
   const [showtodolist, setShowTodoList] = useState(false);
+  const [showcontrol, setShowControl] = useState(false);
   const [formList, setFormList] = useState({
     title: ''
   });
 
   const todolistClose = () => setShowTodoList(false);
   const todolistShow = () => setShowTodoList(true);
+  const controlShow = (id) => {setShowControl(true)
+    setTodoListId(id)
+  };
+  const modalClose = () => {setShowControl(false)
+    setTodoListId("");
+  };
 
   const onChange = e => setFormList({ ...formList, [e.target.name]: e.target.value });
 
@@ -29,8 +37,7 @@ const Home = ({auth: {user}, getTodoList, todolist: {todolists}, addTodoList, de
     todolistClose();
   }
 
-const modal = 
-
+const modalTodoListForm = 
     <div>
       <Modal className="modal" show={showtodolist} onHide={todolistClose}>
         <Modal.Header>
@@ -54,45 +61,60 @@ const modal =
         </Modal.Footer>
       </Modal>
     </div>
-
+    const modalControl = 
+    <div>
+      <Modal className="modal" show={showcontrol} onHide={modalClose}>
+        <Modal.Header>
+          <Modal.Title>Are you sure you want to delete this todo list?</Modal.Title>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={modalClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={() => {deleteTodoList(todoListId)
+          modalClose()}}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
   return (
     <Fragment>
-      <section className="home">
+      <div className="home">
         <div className="overlay"> 
-          <Row className="m-0 position-home">
-          <Col xs={2} className="p-0 border-col">
+          <Row className="m-0 position-home"> 
+          <Col  className="p-0 border-col">
           <ListGroup variant="flush">
-            <div className="list-group-items">
+            <Link to={'/todolist/myday'} className="list-group-items">
               My Day
-              <Button variant="outline-warning" className="float-right btn-sm">
-                <i className="bi bi-x-circle"></i>
-              </Button>
-            </div>
-            <div className="list-group-items">Important
-              <Button variant="outline-warning" className="float-right btn-sm">
-                <i className="bi bi-x-circle"></i>
-              </Button>
-            </div>
+            </Link>
+            <Link to={'/todolist/important'} className="list-group-items">
+              Important
+            </Link>
             {todolists && todolists.map(todolist => 
-            <div  className="list-group-items">{todolist.title}
-            <Button onClick={() => deleteTodoList(todolist._id)} variant="outline-warning" className="float-right btn-sm">
+            <Link to={`/todolist/${todolist._id}`} className="list-group-items">{todolist.title}
+            <Button onClick={() => controlShow(todolist._id)} variant="outline-warning" className="float-right btn-sm">
                 <i className="bi bi-x-circle"></i>
             </Button>
-            </div>)}
+            </Link>)}
             <Button onClick={todolistShow} variant="light">New Todo List +</Button>
           </ListGroup>
-          </Col>
-          <Col>
-          <h1 className="center" >Welcome {user && user.firstname}</h1>      
-          {modal}
-          </Col>
-        </Row>
+           </Col> 
+            {modalTodoListForm}
+            {modalControl}
+           {/* <Col>
+          <h1 className="center" >Welcome {user && user.firstname}</h1>
+          <p></p>
+          {modalTodoListForm}
+          {modalControl}
+          </Col>  */}
+         </Row> 
         </div>
-      </section>
+      </div>
     </Fragment>
   )
 }
-Home.propTypes = {
+Sidebar.propTypes = {
   auth: PropTypes.object.isRequired,
   addTodoList: PropTypes.func.isRequired,
   getTodoList: PropTypes.func.isRequired,
@@ -104,4 +126,4 @@ const mapStateToProps = state => ({
 })
 
 
-export default connect(mapStateToProps, { addTodoList,getTodoList, deleteTodoList }) (Home)
+export default connect(mapStateToProps, { addTodoList,getTodoList, deleteTodoList }) (Sidebar)

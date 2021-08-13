@@ -1,4 +1,5 @@
 import axios from 'axios';
+import showNotice from '../utils/showNotice';
 import { setAlert } from './alert';
 import {
   ADD_TODOLIST,
@@ -22,7 +23,8 @@ export const addTodoList = formList => async (dispatch) => {
       payload: res.data
     });
 
-    dispatch(setAlert('Todo List added','success'))
+    // dispatch(setAlert('Todo List added','success'))
+    showNotice('😿 Todo list added', 'warn')
   } catch (err) {
     dispatch({
       type: TODOLIST_ERROR,
@@ -57,7 +59,8 @@ export const deleteTodoList = (id) => async (dispatch) => {
       type: DELETE_TODOLIST,
       payload: id
     })
-    dispatch(setAlert('Todo List removed','success'))
+    // dispatch(setAlert('Todo List removed','success'))
+    showNotice('😿 Todo list removed', 'warn')
   } catch (err) {
     dispatch({
       type: TODOLIST_ERROR,

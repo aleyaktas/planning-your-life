@@ -43,7 +43,7 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, setAlert, register, logi
     e.preventDefault();
     const {firstname, lastname, email, password, confirmpassword} = formRegister;
     if (password !== confirmpassword) {
-      setAlert('Passwords do not match')
+      setAlert('Passwords do not match','danger')
     } else {
       register({firstname, lastname, email, password})
     }
@@ -128,9 +128,9 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, setAlert, register, logi
     
     <Navbar className="navbar p-0" variant="light">
         <Container>
-          <Navbar.Brand className="text-size" href="#home">To Do List</Navbar.Brand>
+          <Navbar.Brand className="text-size" href="/todolist/1">To Do List</Navbar.Brand>
           <Nav className="justify-content-end">
-            <Nav.Link className="text-size">
+            <Nav.Link href="/todolist/1" className="text-size">
               <Button variant="light">Home</Button>
             </Nav.Link>
             <Nav.Link className="text-size">
@@ -150,7 +150,7 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, setAlert, register, logi
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       )}
       {isAuthenticated ? 
-        <Redirect to="/home"/> : <Redirect to="/"/>
+        <Redirect to="/todolist/myday"/> : <Redirect to="/"/>
       }
    </div>
   )
