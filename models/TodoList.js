@@ -6,9 +6,6 @@ const TodoListSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'user'
   },
-  name: {
-    type: String
-  },
   title: {
     type: String,
     required: true

@@ -19,7 +19,7 @@ export default function(state = initialState, action) {
     case ADD_TODOLIST:
       return {
         ...state,
-        todolists: [...state.todolists,payload ],
+        todolists: [...state.todolists, payload ],
         loading: false
       }
     case GET_TODOLIST:

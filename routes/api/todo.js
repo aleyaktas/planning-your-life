@@ -48,7 +48,7 @@ router.post('/',
 // Private
 router.get('/', auth, async (req,res) => {
   try {
-    const todos = await Todo.find().sort({ date: -1 });
+    const todos = await Todo.find();
     res.json(todos)
   } catch (err) {
     console.error(err.message);

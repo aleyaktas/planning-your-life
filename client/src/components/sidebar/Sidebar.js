@@ -93,7 +93,7 @@ const modalTodoListForm =
             </Link>
             {todolists && todolists.map(todolist => 
             <Link to={`/todolist/${todolist._id}`} className="list-group-items">{todolist.title}
-            <Button onClick={() => controlShow(todolist._id)} variant="outline-warning" className="float-right btn-sm">
+            <Button onClick={() => controlShow(todolist._id)} variant="light" className="float-right btn-sm">
                 <i className="bi bi-x-circle"></i>
             </Button>
             </Link>)}

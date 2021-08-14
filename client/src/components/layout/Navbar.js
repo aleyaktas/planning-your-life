@@ -8,11 +8,10 @@ import { login } from '../../actions/auth'
 import { logout } from '../../actions/auth'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom';
+import { getTodoList } from '../../actions/todolist'
 
+const NavbarItem = ({ auth: {isAuthenticated, loading}, getTodoList ,setAlert, register, login, logout}) => {
 
-const NavbarItem = ({ auth: {isAuthenticated, loading}, setAlert, register, login, logout}) => {
-
- 
   const [showregister, setShowRegister] = useState(false);
   const [showlogin, setShowLogin] = useState(false);
   const [formRegister, setFormRegister] = useState({
@@ -48,10 +47,11 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, setAlert, register, logi
       register({firstname, lastname, email, password})
     }
   }
+  
   const onClickLogin = e => {
     const {login_email, login_password} = formLogin;
-
     login(login_email, login_password)
+    getTodoList();
   }
   const modal = 
     <div>
@@ -160,11 +160,12 @@ NavbarItem.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired
+  logout: PropTypes.func.isRequired,
+  getTodoList: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default connect(mapStateToProps, { setAlert, register, login, logout }) (NavbarItem)
+export default connect(mapStateToProps, { setAlert, register, login, logout, getTodoList }) (NavbarItem)
