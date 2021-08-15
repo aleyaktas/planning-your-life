@@ -13,5 +13,6 @@ export const TODOLIST_ERROR = 'TODOLIST_ERROR'
 export const DELETE_TODOLIST = 'DELETE_TODOLIST'
 export const ADD_TODO = 'ADD_TODO'
 export const GET_TODOS = 'GET_TODOS'
+export const DELETE_TODO = 'DELETE_TODO'
 
 

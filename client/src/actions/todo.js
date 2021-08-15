@@ -3,7 +3,8 @@ import showNotice from '../utils/showNotice';
 import {
   ADD_TODO,
   TODOLIST_ERROR,
-  GET_TODOS
+  GET_TODOS,
+  DELETE_TODO
 } from './types'
 
 // Add todo
@@ -29,7 +30,7 @@ export const addTodo = formList => async (dispatch) => {
     });
   }
 }
-
+// get all todo
 export const getAllTodo = () => async (dispatch) => {
   try {
     const res = await axios.get('/api/todo/');
@@ -46,4 +47,20 @@ export const getAllTodo = () => async (dispatch) => {
     });
   }
 }
+//delete todo by id
+export const deleteTodoById = (id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/api/todo/${id}/`);
 
+    dispatch({
+      type: DELETE_TODO,
+      payload: id
+    })
+  } catch (err) {
+    
+    dispatch({
+      type: TODOLIST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+}

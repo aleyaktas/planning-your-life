@@ -54,7 +54,7 @@ export const getTodoList = () => async (dispatch) => {
 export const deleteTodoList = (id) => async (dispatch) => {
   try {
     const res = await axios.delete(`/api/todolist/${id}`)
-
+    
     dispatch({
       type: DELETE_TODOLIST,
       payload: id

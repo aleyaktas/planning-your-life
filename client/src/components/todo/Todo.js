@@ -1,24 +1,27 @@
 import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
-import { addTodo } from '../../actions/todo'
+import { addTodo, deleteTodoById } from '../../actions/todo'
 import PropTypes from 'prop-types'
 import { Button, Card } from 'react-bootstrap'
 import { getAllTodo } from '../../actions/todo'
 import { useState } from 'react'
 import {Modal, Form} from 'react-bootstrap'
+import DeleteControl from '../modals/DeleteControl'
+import AddControl from '../modals/AddControl'
 
-const Todo = ({id, todo: {todos}, todolist: {todolists}, getAllTodo, addTodo}) => {
+const Todo = ({id, todo: {todos}, todolist: {todolists}, getAllTodo, addTodo, deleteTodoById}) => {
   useEffect(() => {
     getAllTodo()
   }, [])
 
-  const [showModal, setShowModal] = useState(false);
+  // For add todo 
+  const [todoId, setTodoId] = useState("");
+  const [showTodo, setShowTodo] = useState(false);
   const [formList, setFormList] = useState({
     text: ''
   });
-
-  const todoAddClose = () => setShowModal(false);
-  const todoAddShow = () => setShowModal(true);
+  const todoClose = () => setShowTodo(false);
+  const todoShow = () => setShowTodo(true);
 
   const todoListName = todolists.filter((item) => item._id === id)[0]?.title;
 
@@ -28,55 +31,48 @@ const Todo = ({id, todo: {todos}, todolist: {todolists}, getAllTodo, addTodo}) =
     e.preventDefault();
     const {text} = formList;
     addTodo({text, todoList: id})
-    todoAddClose();
+    todoClose();
   }
 
-  const modal = 
-  <div>
-    <Modal className="modal" show={showModal} onHide={todoAddClose}>
-      <Modal.Header>
-        <Modal.Title>New Todo Task</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-      <Form>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>New Todo Task</Form.Label>
-          <Form.Control name="text" onChange={e => onChange(e)}  placeholder="Enter header" />
-        </Form.Group>
-      </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={todoAddClose}>
-          Close
-        </Button>
-        <Button variant="primary" onClick={onClickAdd}>
-          Save Changes
-        </Button>
-      </Modal.Footer>
-    </Modal>
-</div>
+  // For delete todo
+  const [showcontrol, setShowControl] = useState(false);
+  const controlShow = (id) => {setShowControl(true)
+    setTodoId(id)
+  };
+  const modalClose = () => {setShowControl(false)
+    setTodoId("");
+  };
+
+  const onClickDelete = e => {
+    e.preventDefault();
+    deleteTodoById(todoId)
+    modalClose()
+  }
 
   return (
     <div>
       <Card.Title className = "todo-section" style={{marginTop: 10, padding: 15}}>
         {id == "myday" ? "My day" : id == "important" ? "important" : todoListName} 
-        <Button onClick={todoAddShow} variant= 'warning' style = {{marginLeft: 25, color: 'white'}}>Add new todo +</Button>
+        <button id="button" className="style-5" onClick={todoShow} variant= 'warning' style = {{marginLeft: 30, color: 'black', width: "20%", fontSize: 17, padding: 4, backgroundColor: "pink"}}>Add new todo +</button>
       </Card.Title>
         {todos && todos.map(todo => {
-        return todo.todoList == id ? 
-            <Card className = "todo-section" style= {{textAlign: "start"}}>
-                <Card.Body>
-                  <Card.Text>
+        return todo.todoList == id ?  
+            <Card className = "todo-section" style= {{textAlign: "start", borderRadius: 15}}>
+                <Card.Body style={{padding: "0.5rem 1rem", display:"flex"}}>
+                  <Card.Text style={{display:'inline-block', margin: 0, justifyContent:"center", alignSelf:"center"}}>
                     {todo.text}
                   </Card.Text>
+                  <Button onClick={() => controlShow(todo._id)} variant="light" style={{marginLeft:"auto"}} className="btn-mg">
+                      <i className="bi bi-x-circle"></i>
+                  </Button>
                 </Card.Body>
             </Card> 
             :  ''
         }
         )}
-        {modal}
+        <AddControl onChange={onChange} todoClose={todoClose} onClickAdd={onClickAdd} showTodo={showTodo} name="text"/>
+        <DeleteControl showcontrol={showcontrol} onClickDelete={onClickDelete} modalClose={modalClose} name="text" />
     </div>
-    
   )
 }
 
@@ -84,7 +80,8 @@ Todo.propTypes = {
   addTodo: PropTypes.func.isRequired,
   getAllTodo: PropTypes.func.isRequired,
   todo: PropTypes.object.isRequired,
-  todolist: PropTypes.object.isRequired
+  todolist: PropTypes.object.isRequired,
+  deleteTodoById: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -92,4 +89,4 @@ const mapStateToProps = state => ({
   todolist: state.todolist
 })
 
-export default connect(mapStateToProps, {addTodo, getAllTodo}) (Todo)
+export default connect(mapStateToProps, {addTodo, getAllTodo, deleteTodoById}) (Todo)

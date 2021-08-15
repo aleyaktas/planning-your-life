@@ -1,4 +1,4 @@
-import{ ADD_TODO, GET_TODOS} from "../actions/types";
+import{ ADD_TODO, DELETE_TODO, GET_TODOS} from "../actions/types";
 
 const initialState = {
   todos : [],
@@ -20,6 +20,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         todos: payload,
+        loading: false
+      }
+    case DELETE_TODO:
+      return {
+        ...state,
+        todos: state.todos.filter(todo => todo._id !== payload),
         loading: false
       }
     default:

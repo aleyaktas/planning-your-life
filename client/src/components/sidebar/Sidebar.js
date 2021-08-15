@@ -2,25 +2,39 @@ import React, { Fragment, useState, useEffect, Component } from 'react'
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { connect } from 'react-redux'
 import  PropTypes  from 'prop-types'
-import {Col, Row, ListGroup, Button, Modal, Form} from 'react-bootstrap'
+import {Col, Row, ListGroup, Button } from 'react-bootstrap'
 import { addTodoList, getTodoList, deleteTodoList } from '../../actions/todolist'
-import { Link } from 'react-router-dom';
+import { deleteTodoById } from '../../actions/todo'
+import DeleteControl from '../modals/DeleteControl';
+import AddControl from '../modals/AddControl';
 
-const Sidebar = ({auth: {user}, getTodoList, todolist: {todolists}, addTodoList, deleteTodoList}) => {
+const Sidebar = ({ getTodoList, todolist: {todolists}, addTodoList, deleteTodoList, todo: {todos}, deleteTodoById, history}) => {
 
   useEffect(() => {
     getTodoList()
   }, [])
 
+  // For add todo list modal
   const [todoListId, setTodoListId] = useState("");
-  const [showtodolist, setShowTodoList] = useState(false);
-  const [showcontrol, setShowControl] = useState(false);
+  const [showTodo, setShowTodo] = useState(false);
   const [formList, setFormList] = useState({
     title: ''
   });
+  const todoClose = () => setShowTodo(false);
+  const todoShow = () => setShowTodo(true);
 
-  const todolistClose = () => setShowTodoList(false);
-  const todolistShow = () => setShowTodoList(true);
+  const onChange = e => setFormList({ ...formList, [e.target.name]: e.target.value });
+
+  const onClickAdd = e => {
+    e.preventDefault();
+    const {title} = formList;
+    addTodoList({title});
+    todoClose();
+    history.push('/myday')
+  }
+
+  // For delete control modal
+  const [showcontrol, setShowControl] = useState(false);
   const controlShow = (id) => {setShowControl(true)
     setTodoListId(id)
   };
@@ -28,102 +42,55 @@ const Sidebar = ({auth: {user}, getTodoList, todolist: {todolists}, addTodoList,
     setTodoListId("");
   };
 
-  const onChange = e => setFormList({ ...formList, [e.target.name]: e.target.value });
-
-  const onClickAdd = e => {
+  const onClickDelete = e => {
     e.preventDefault();
-    const {title} = formList;
-    addTodoList({title})
-    todolistClose();
+    deleteTodoList(todoListId) 
+    history.push('/todolist/myday')
+    const id = todos.filter((item) => item.todoList == todoListId)
+    id.map(item => deleteTodoById(item._id))
+    modalClose()
   }
 
-const modalTodoListForm = 
-    <div>
-      <Modal className="modal" show={showtodolist} onHide={todolistClose}>
-        <Modal.Header>
-          <Modal.Title>New Todo List</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-        <Form>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>New Todo List Header</Form.Label>
-            <Form.Control name="title" onChange={e => onChange(e)}  placeholder="Enter header" />
-          </Form.Group>
-        </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={todolistClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={onClickAdd}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
-    const modalControl = 
-    <div>
-      <Modal className="modal" show={showcontrol} onHide={modalClose}>
-        <Modal.Header>
-          <Modal.Title>Are you sure you want to delete this todo list?</Modal.Title>
-        </Modal.Header>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={modalClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={() => {deleteTodoList(todoListId)
-          modalClose()}}>
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
   return (
     <Fragment>
       <div className="home">
         <div className="overlay"> 
-          <Row className="m-0 position-home"> 
-          <Col  className="p-0 border-col">
+          <Row className="position-home"> 
+          <Col  className="border-col">
           <ListGroup variant="flush">
-            <Link to={'/todolist/myday'} className="list-group-items">
+            <button id="button" onClick={() => history.push('/todolist/myday')} className="style-5">
               My Day
-            </Link>
-            <Link to={'/todolist/important'} className="list-group-items">
+            </button>
+            <button id="button" onClick={() => history.push('/todolist/important')} className="style-5">
               Important
-            </Link>
+            </button>
             {todolists && todolists.map(todolist => 
-            <Link to={`/todolist/${todolist._id}`} className="list-group-items">{todolist.title}
-            <Button onClick={() => controlShow(todolist._id)} variant="light" className="float-right btn-sm">
+            <button id="button" onClick={() => history.push(`/todolist/${todolist._id}`)} className="style-5">{todolist.title}
+            <Button onClick={() => controlShow(todolist._id)} variant="light" style={{backgroundColor:"floralwhite"}} className="float-right btn-sm">
                 <i className="bi bi-x-circle"></i>
             </Button>
-            </Link>)}
-            <Button onClick={todolistShow} variant="light">New Todo List +</Button>
+            </button>)}
+            <button id="button" className="style-5" style={{backgroundColor: "pink"}} onClick={todoShow} variant="light">New Todo List +</button>
           </ListGroup>
            </Col> 
-            {modalTodoListForm}
-            {modalControl}
-           {/* <Col>
-          <h1 className="center" >Welcome {user && user.firstname}</h1>
-          <p></p>
-          {modalTodoListForm}
-          {modalControl}
-          </Col>  */}
+            <AddControl onChange={onChange} todoClose={todoClose} onClickAdd={onClickAdd} showTodo={showTodo} name="title" />
+            <DeleteControl showcontrol={showcontrol} onClickDelete={onClickDelete} modalClose={modalClose} name="title"/>
          </Row> 
         </div>
       </div>
     </Fragment>
   )
 }
+
 Sidebar.propTypes = {
-  auth: PropTypes.object.isRequired,
   addTodoList: PropTypes.func.isRequired,
   getTodoList: PropTypes.func.isRequired,
-  deleteTodoList: PropTypes.func.isRequired
+  deleteTodoList: PropTypes.func.isRequired,
+  deleteTodoById: PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
-  auth: state.auth,
-  todolist: state.todolist
+  todolist: state.todolist,
+  todo: state.todo
 })
 
-
-export default connect(mapStateToProps, { addTodoList,getTodoList, deleteTodoList }) (Sidebar)
+export default connect(mapStateToProps, { addTodoList,getTodoList, deleteTodoList, deleteTodoById }) (Sidebar)
