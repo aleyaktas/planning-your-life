@@ -1,18 +1,19 @@
 import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
-import { addTodo, deleteTodoById } from '../../actions/todo'
+import { addTodo, deleteTodoById, completeTodo } from '../../actions/todo'
 import PropTypes from 'prop-types'
 import { Button, Card } from 'react-bootstrap'
 import { getAllTodo } from '../../actions/todo'
 import { useState } from 'react'
-import {Modal, Form} from 'react-bootstrap'
 import DeleteControl from '../modals/DeleteControl'
 import AddControl from '../modals/AddControl'
+import { FaRegTimesCircle, FaCheck } from 'react-icons/fa';
 
-const Todo = ({id, todo: {todos}, todolist: {todolists}, getAllTodo, addTodo, deleteTodoById}) => {
+const Todo = ({id, todo: {todos}, todolist: {todolists}, getAllTodo, addTodo, deleteTodoById, completeTodo}) => {
   useEffect(() => {
     getAllTodo()
   }, [])
+
 
   // For add todo 
   const [todoId, setTodoId] = useState("");
@@ -33,6 +34,16 @@ const Todo = ({id, todo: {todos}, todolist: {todolists}, getAllTodo, addTodo, de
     addTodo({text, todoList: id})
     todoClose();
   }
+
+  // For complete todo func
+
+  const [isComplete, setIsComplete] = useState("false");
+
+  
+  const onClickComplete = (e, id) => {
+    e.preventDefault();
+    setIsComplete(!isComplete)
+    completeTodo({id, isComplete})};
 
   // For delete todo
   const [showcontrol, setShowControl] = useState(false);
@@ -56,18 +67,29 @@ const Todo = ({id, todo: {todos}, todolist: {todolists}, getAllTodo, addTodo, de
         <button id="button" className="style-5" onClick={todoShow} variant= 'warning' style = {{marginLeft: 30, color: 'black', width: "20%", fontSize: 17, padding: 4, backgroundColor: "pink"}}>Add new todo +</button>
       </Card.Title>
         {todos && todos.map(todo => {
-        return todo.todoList == id ?  
-            <Card className = "todo-section" style= {{textAlign: "start", borderRadius: 15}}>
-                <Card.Body style={{padding: "0.5rem 1rem", display:"flex"}}>
-                  <Card.Text style={{display:'inline-block', margin: 0, justifyContent:"center", alignSelf:"center"}}>
-                    {todo.text}
-                  </Card.Text>
-                  <Button onClick={() => controlShow(todo._id)} variant="light" style={{marginLeft:"auto"}} className="btn-mg">
-                      <i className="bi bi-x-circle"></i>
-                  </Button>
-                </Card.Body>
-            </Card> 
-            :  ''
+        return todo.todoList == id ? 
+          <Card className = {`todo-section ${todo.isCompleted ? "bg-complete" : null}`} style= {{textAlign: "start", borderRadius: 15}}>
+            <Card.Body style={{padding: "0.5rem 1rem", display:"flex "}}>
+              {todo.isCompleted ===true ? 
+              <Card.Text  className="todo-text" style={{ textDecoration:"line-through"}}>
+                {todo.text}
+              </Card.Text> 
+                : 
+              <Card.Text className="todo-text">
+                {todo.text}
+              </Card.Text>}
+                  
+              <div style={{marginLeft:"auto"}}>
+              <Button onClick={(e) => onClickComplete(e,todo._id)} variant="light" className="btn-mg complete-button">
+                  <FaCheck size={22} color="#5ECC62"/>
+              </Button>       
+              <Button onClick={() => controlShow(todo._id)} variant="light" style={{marginLeft:"auto"}} className="btn-mg delete-button">
+                  <FaRegTimesCircle size={22} color="#FF0033"/>
+              </Button>
+              </div>
+            </Card.Body>
+          </Card> 
+          :  ''
         }
         )}
         <AddControl onChange={onChange} todoClose={todoClose} onClickAdd={onClickAdd} showTodo={showTodo} name="text"/>
@@ -81,7 +103,8 @@ Todo.propTypes = {
   getAllTodo: PropTypes.func.isRequired,
   todo: PropTypes.object.isRequired,
   todolist: PropTypes.object.isRequired,
-  deleteTodoById: PropTypes.func.isRequired
+  deleteTodoById: PropTypes.func.isRequired,
+  completeTodo: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -89,4 +112,4 @@ const mapStateToProps = state => ({
   todolist: state.todolist
 })
 
-export default connect(mapStateToProps, {addTodo, getAllTodo, deleteTodoById}) (Todo)
+export default connect(mapStateToProps, {addTodo, getAllTodo, deleteTodoById, completeTodo}) (Todo)

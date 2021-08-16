@@ -64,6 +64,21 @@ body{
   margin: 10px;
 }
 
+.card.todo-section {
+  background-color: floralwhite;
+}
+
+.card.bg-complete {
+  background-color: #E7DCDD;
+}
+
+.card.todo-text {
+  display:'inline-block';
+  margin: 0; 
+  justify-content:"center";
+   align-self:"center"
+}
+
 .navbar {
   background-color: floralwhite;
   position: fixed;
@@ -192,6 +207,11 @@ body{
 
 .btn.delete-button:hover {
   background-color: pink;
+  border-radius: 10px;
+}
+
+.btn.complete-button:hover {
+  background-color: #B0DB64;
   border-radius: 10px;
 }
 

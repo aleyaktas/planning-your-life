@@ -14,5 +14,5 @@ export const DELETE_TODOLIST = 'DELETE_TODOLIST'
 export const ADD_TODO = 'ADD_TODO'
 export const GET_TODOS = 'GET_TODOS'
 export const DELETE_TODO = 'DELETE_TODO'
-
+export const COMPLETE_TODO = 'COMPLETE_TODO'
 

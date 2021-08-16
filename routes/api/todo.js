@@ -110,10 +110,10 @@ router.put('/complete/:id', auth, async (req,res) => {
 
     // Check if the todo has already been
     if (todo.isCompleted) {
-      return res.status(400).json({ msg: 'todo already completed' });
+      todo.isCompleted = false;
+    } else {
+      todo.isCompleted = true
     }
-
-    todo.isCompleted = true;
 
     await todo.save();
 

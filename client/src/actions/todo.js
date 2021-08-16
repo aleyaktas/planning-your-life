@@ -4,7 +4,8 @@ import {
   ADD_TODO,
   TODOLIST_ERROR,
   GET_TODOS,
-  DELETE_TODO
+  DELETE_TODO,
+  COMPLETE_TODO
 } from './types'
 
 // Add todo
@@ -55,6 +56,31 @@ export const deleteTodoById = (id) => async (dispatch) => {
     dispatch({
       type: DELETE_TODO,
       payload: id
+    })
+  } catch (err) {
+    
+    dispatch({
+      type: TODOLIST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+}
+
+//complete todo
+
+export const completeTodo = form => async (dispatch) => {
+  const {id} = form
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  try {
+    const res = await axios.put(`/api/todo/complete/${id}/`, form, config);
+
+    dispatch({
+      type: COMPLETE_TODO,
+      payload: {id, isCompleted : res.data} ,
     })
   } catch (err) {
     

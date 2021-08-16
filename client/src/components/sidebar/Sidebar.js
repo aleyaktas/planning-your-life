@@ -7,6 +7,7 @@ import { addTodoList, getTodoList, deleteTodoList } from '../../actions/todolist
 import { deleteTodoById } from '../../actions/todo'
 import DeleteControl from '../modals/DeleteControl';
 import AddControl from '../modals/AddControl';
+import { FaRegTimesCircle } from 'react-icons/fa';
 
 const Sidebar = ({ getTodoList, todolist: {todolists}, addTodoList, deleteTodoList, todo: {todos}, deleteTodoById, history}) => {
 
@@ -66,8 +67,8 @@ const Sidebar = ({ getTodoList, todolist: {todolists}, addTodoList, deleteTodoLi
             </button>
             {todolists && todolists.map(todolist => 
             <button id="button" onClick={() => history.push(`/todolist/${todolist._id}`)} className="style-5">{todolist.title}
-            <Button onClick={() => controlShow(todolist._id)} variant="light" style={{backgroundColor:"floralwhite"}} className="float-right btn-sm">
-                <i className="bi bi-x-circle"></i>
+            <Button onClick={() => controlShow(todolist._id)} variant="light" className="float-right btn-sm">
+              <FaRegTimesCircle size={20} color="#FF0033"/>
             </Button>
             </button>)}
             <button id="button" className="style-5" style={{backgroundColor: "pink"}} onClick={todoShow} variant="light">New Todo List +</button>
