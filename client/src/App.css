@@ -1,7 +1,7 @@
 body{
   margin: 0;
   padding: 0;
-  background: linear-gradient(rgba(0,0,0,-0.6), rgba(0,0,0,0.2)), url('./img/todo-home-3.png') no-repeat center center/cover;
+  background: linear-gradient(rgba(0,0,0,-0.6), rgba(0,0,0,0.2)), url('./img/todo-home-5.png') no-repeat center center/cover;
 }
 .landing {
   background: url('./img/todo-landing.png') no-repeat center center/cover;
@@ -72,11 +72,18 @@ body{
   background-color: #E7DCDD;
 }
 
-.card.todo-text {
-  display:'inline-block';
+.card-text.todo-text {
+  display:inline-block;
   margin: 0; 
-  justify-content:"center";
-   align-self:"center"
+  justify-content: center;
+  align-self:center;
+  width: 80%;
+  padding: 3px;
+}
+
+.todo-border {
+  border: 2px solid;
+  border-radius: 10px;
 }
 
 .navbar {
@@ -94,9 +101,43 @@ body{
   font-size: 1rem
 }
 
-.modal {
+.modal-content {
     transform: translate(5px, 200px);
+    background-color: floralwhite !important;
+    border-radius: 30px !important;
+    padding: 10px
 }
+
+.btn.modal-save-button {
+  background-color:#bda96c;
+  border-color: #bda96c !important;
+  border-radius: 15px;
+  color: white;
+}
+
+.btn.modal-save-button:hover {
+  color: #fff;
+}
+
+.btn.modal-control-button {
+  font-style: italic;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+.btn.modal-control-button:hover {
+  color:rgb(2, 95, 182);
+  background-color: transparent;
+}
+
+
+
+.btn.modal-close-button {
+  color: #fff;
+  background-color: #8f9498;
+  border-color: #8f9498;
+}
+
 .alert {
   padding: 0.8rem;
   opacity: 0.9;
@@ -206,14 +247,31 @@ body{
 }
 
 .btn.delete-button:hover {
-  background-color: pink;
+  background-color: pink !important;
   border-radius: 10px;
 }
 
 .btn.complete-button:hover {
-  background-color: #B0DB64;
+  background-color: #B0DB64 !important;
   border-radius: 10px;
 }
+
+.btn.save-button:hover {
+  border-radius: 10px;
+  background-color: #C6AF92 !important;
+}
+
+.btn.edit-button:hover {
+  background-color: #F6B128 !important;
+  border-radius: 10px;
+}
+
+.edit-button, .save-button, .complete-button, .delete-button {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  border-radius: 10px;
+}
+
 
 .list-group-items:hover {
   color:#333;
@@ -221,4 +279,21 @@ body{
 
 .bg-color {
   background-color : bisque;
+}
+
+.btn.navbar-button {
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 7px 12px;
+  color: #b38879;
+  border-color: #ddb028;
+}
+
+.btn.modal-button {
+  border-radius: 15px !important;
+}
+
+.form-control.modal-form-text {
+  border-radius: 15px !important;
+  margin: 10px 0px;
 }

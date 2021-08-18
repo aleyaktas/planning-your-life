@@ -1,19 +1,18 @@
 import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
-import { addTodo, deleteTodoById, completeTodo } from '../../actions/todo'
+import { addTodo, deleteTodoById, completeTodo, editTodo } from '../../actions/todo'
 import PropTypes from 'prop-types'
 import { Button, Card } from 'react-bootstrap'
 import { getAllTodo } from '../../actions/todo'
 import { useState } from 'react'
 import DeleteControl from '../modals/DeleteControl'
 import AddControl from '../modals/AddControl'
-import { FaRegTimesCircle, FaCheck } from 'react-icons/fa';
+import { FaRegTimesCircle, FaCheck, FaPencilAlt, FaRegSave } from 'react-icons/fa';
 
-const Todo = ({id, todo: {todos}, todolist: {todolists}, getAllTodo, addTodo, deleteTodoById, completeTodo}) => {
+const Todo = ({id, todo: {todos}, todolist: {todolists}, getAllTodo, addTodo, deleteTodoById, completeTodo, editTodo}) => {
   useEffect(() => {
     getAllTodo()
   }, [])
-
 
   // For add todo 
   const [todoId, setTodoId] = useState("");
@@ -38,12 +37,31 @@ const Todo = ({id, todo: {todos}, todolist: {todolists}, getAllTodo, addTodo, de
   // For complete todo func
 
   const [isComplete, setIsComplete] = useState("false");
+  const [isEdit, setIsEdit] = useState("false");
+  const [editTodoId, setEditTodoId] = useState("");
+  const [editTodoText, setEditTodoText] = useState("");
 
   
   const onClickComplete = (e, id) => {
     e.preventDefault();
     setIsComplete(!isComplete)
     completeTodo({id, isComplete})};
+
+  const onClickEdit = (e,id) => {
+    e.preventDefault();
+    setIsEdit(!isEdit);
+    setEditTodoId(id)
+  }
+
+  const onClickSave = (e,id) => {
+    e.preventDefault();
+    console.log(id);
+    console.log(editTodoText)
+    editTodo({id:editTodoId, text:editTodoText});
+    setEditTodoText("");
+    setTodoId("");
+    setIsEdit(false);
+  }
 
   // For delete todo
   const [showcontrol, setShowControl] = useState(false);
@@ -59,6 +77,7 @@ const Todo = ({id, todo: {todos}, todolist: {todolists}, getAllTodo, addTodo, de
     deleteTodoById(todoId)
     modalClose()
   }
+ 
 
   return (
     <div>
@@ -71,20 +90,27 @@ const Todo = ({id, todo: {todos}, todolist: {todolists}, getAllTodo, addTodo, de
           <Card className = {`todo-section ${todo.isCompleted ? "bg-complete" : null}`} style= {{textAlign: "start", borderRadius: 15}}>
             <Card.Body style={{padding: "0.5rem 1rem", display:"flex "}}>
               {todo.isCompleted ===true ? 
-              <Card.Text  className="todo-text" style={{ textDecoration:"line-through"}}>
+              <Card.Text className="todo-text" style={{ textDecoration:"line-through"}}>
                 {todo.text}
               </Card.Text> 
                 : 
-              <Card.Text className="todo-text">
+              <Card.Text className={`todo-text ${(isEdit === true && editTodoId===todo._id) ? "todo-border" : null}`} contentEditable= {(isEdit === true && editTodoId===todo._id) ? "true" : "false"} onInput={(e) => setEditTodoText(e.target.innerText)}>
                 {todo.text}
               </Card.Text>}
-                  
-              <div style={{marginLeft:"auto"}}>
+              
+              <div style={{marginLeft:"auto", textAlign:"center", width: '20%'}}>
+              {(isEdit === true && editTodoId === todo._id && todo.isCompleted === false ? 
+              <Button onClick={(e) => onClickSave(e, editTodoId)} variant="light" className="save-button" >                
+                <FaRegSave size={20} color="#A25016" />
+              </Button> : null)}
+              <Button onClick={(e) => onClickEdit(e, todo._id)} variant="light" className="btn-mg edit-button">
+                  <FaPencilAlt size={20} color="#F48924"/>
+              </Button>  
               <Button onClick={(e) => onClickComplete(e,todo._id)} variant="light" className="btn-mg complete-button">
-                  <FaCheck size={22} color="#5ECC62"/>
+                  <FaCheck size={20} color="#5ECC62"/>
               </Button>       
               <Button onClick={() => controlShow(todo._id)} variant="light" style={{marginLeft:"auto"}} className="btn-mg delete-button">
-                  <FaRegTimesCircle size={22} color="#FF0033"/>
+                  <FaRegTimesCircle size={20} color="#FF0033"/>
               </Button>
               </div>
             </Card.Body>
@@ -104,7 +130,8 @@ Todo.propTypes = {
   todo: PropTypes.object.isRequired,
   todolist: PropTypes.object.isRequired,
   deleteTodoById: PropTypes.func.isRequired,
-  completeTodo: PropTypes.func.isRequired
+  completeTodo: PropTypes.func.isRequired,
+  editTodo: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -112,4 +139,4 @@ const mapStateToProps = state => ({
   todolist: state.todolist
 })
 
-export default connect(mapStateToProps, {addTodo, getAllTodo, deleteTodoById, completeTodo}) (Todo)
+export default connect(mapStateToProps, {addTodo, getAllTodo, deleteTodoById, completeTodo, editTodo}) (Todo)

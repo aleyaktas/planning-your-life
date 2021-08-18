@@ -68,7 +68,7 @@ const Sidebar = ({ getTodoList, todolist: {todolists}, addTodoList, deleteTodoLi
             {todolists && todolists.map(todolist => 
             <button id="button" onClick={() => history.push(`/todolist/${todolist._id}`)} className="style-5">{todolist.title}
             <Button onClick={() => controlShow(todolist._id)} variant="light" className="float-right btn-sm">
-              <FaRegTimesCircle size={20} color="#FF0033"/>
+              <FaRegTimesCircle size={18} color="#FF0033"/>
             </Button>
             </button>)}
             <button id="button" className="style-5" style={{backgroundColor: "pink"}} onClick={todoShow} variant="light">New Todo List +</button>

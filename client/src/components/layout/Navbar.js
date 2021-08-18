@@ -1,6 +1,6 @@
 // import axios from 'axios';
 import React, { useState, Fragment } from 'react'
-import { Navbar, Button, Container, Nav, Modal, Form, Row, Col} from 'react-bootstrap';
+import { Navbar, Button, Container, Nav } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth'
@@ -9,6 +9,8 @@ import { logout } from '../../actions/auth'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom';
 import { getTodoList } from '../../actions/todolist'
+import LoginModal from '../modals/LoginModal';
+import RegisterModal from '../modals/RegisterModal';
 
 const NavbarItem = ({ auth: {isAuthenticated, loading}, getTodoList ,setAlert, register, login, logout}) => {
 
@@ -28,12 +30,12 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, getTodoList ,setAlert, r
   });
 
   const registerClose = () => setShowRegister(false);
-  const registerShow = () => setShowRegister(true);
+  const registerShow = () => {
+    setShowRegister(true);
+    loginClose(); 
+  };
   const loginClose = () => setShowLogin(false);
   const loginShow = () => setShowLogin(true);
-
-  const { firstname, lastname, email, password, confirmpassword } = setFormRegister;
-  const { login_email, login_password } = setFormLogin;
 
   const onChangeRegister = e => setFormRegister({ ...formRegister, [e.target.name]: e.target.value });
   const onChangeLogin = e => setFormLogin({ ...formLogin, [e.target.name]: e.target.value });
@@ -53,57 +55,6 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, getTodoList ,setAlert, r
     login(login_email, login_password)
     getTodoList();
   }
-  const modal = 
-    <div>
-      <Modal className="modal" show={showregister} onHide={registerClose}>
-        <Modal.Header>
-          <Modal.Title>Sign Up</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-4 mt-2" >
-              <Row>
-                <Col>
-                  <Form.Control className="mb-4" value={firstname} name="firstname" placeholder="First name"  onChange={e => onChangeRegister(e)}  />  
-                </Col>
-                <Col>
-                  <Form.Control value={lastname}  name="lastname" placeholder="Last name"  onChange={e => onChangeRegister(e)}  />
-                </Col>
-              </Row>
-              <Form.Control value={email}  name="email" type="email" placeholder="Enter email" onChange={e => onChangeRegister(e)} />
-            </Form.Group>
-            <Form.Group className="mt-2 mb-2" controlId="formBasicPassword">
-              <Form.Control className="mb-4" value={password} name="password"  type="password"minLength="6"placeholder="Password" onChange={e => onChangeRegister(e)} />
-              <Form.Control value={confirmpassword}  name="confirmpassword" type="password"minLength="6"placeholder="Confirm Password" onChange={e => onChangeRegister(e)} />
-            </Form.Group>  
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={registerClose}>Close</Button>
-          <Button  variant="primary" onClick={onClickRegister}>Save Changes</Button>
-        </Modal.Footer>
-      </Modal>
-      <Modal className="modal" show={showlogin} onHide={loginClose}>
-        <Modal.Header>
-          <Modal.Title>Login</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="m-2 mb-4" controlId="formBasicEmail">
-              <Form.Control value={login_email} name="login_email" type="email" placeholder="Enter email" onChange={e => onChangeLogin(e)}  />
-            </Form.Group>
-            <Form.Group className="m-2" controlId="formBasicPassword">
-              <Form.Control value={login_password} name="login_password" type="password" placeholder="Password" onChange={e => onChangeLogin(e)}  />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={loginClose}>Close</Button>
-          <Button variant="primary" onClick={onClickLogin}>Login</Button>
-          <Button variant="light" onClick={registerShow}>Don't have an account?</Button>
-        </Modal.Footer>
-      </Modal>
-      </div>
 
   const guestLinks = (
     <div>
@@ -112,37 +63,35 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, getTodoList ,setAlert, r
           <Navbar.Brand className="text-size" href="#home">To Do List</Navbar.Brand>
           <Nav className="justify-content-end">
             <Nav.Link className="text-size">
-              <Button variant="light" onClick={registerShow}>Sign Up</Button>
+              <Button className="navbar-button" variant="outline-warning" onClick={registerShow}>Sign Up</Button>
             </Nav.Link>
             <Nav.Link className="text-size">
-              <Button variant="light" onClick={loginShow}>Login</Button>
+              <Button className="navbar-button" variant="outline-warning" onClick={loginShow}>Login</Button>
             </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
-      {modal}      
+      <LoginModal onChangeLogin={onChangeLogin} showlogin={showlogin} loginClose={loginClose} onClickLogin={onClickLogin} registerShow={registerShow} loginData={formLogin} />
+      <RegisterModal showregister={showregister} registerClose={registerClose} onChangeRegister={onChangeRegister} registerData={formRegister} onClickRegister={onClickRegister}/>
     </div>
   );
 
   const authLinks = (
-    
     <Navbar className="navbar p-0" variant="light">
         <Container>
           <Navbar.Brand className="text-size" href="/todolist/1">To Do List</Navbar.Brand>
           <Nav className="justify-content-end">
             <Nav.Link href="/todolist/1" className="text-size">
-              <Button variant="light">Home</Button>
+              <Button className="navbar-button" variant="outline-warning">Home</Button>
             </Nav.Link>
             <Nav.Link className="text-size">
-              <Button onClick={logout} variant="light" >Logout</Button>
+              <Button className="navbar-button" onClick={logout} variant="outline-warning" >Logout</Button>
             </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
       
   );
-
-
 
   return (    
    <div>

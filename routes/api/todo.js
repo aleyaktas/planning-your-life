@@ -124,5 +124,24 @@ router.put('/complete/:id', auth, async (req,res) => {
   }
 })
 
+// PUT api/todo/edit/:id
+// Edit todo
+// Private
+
+router.put('/edit/:id', auth, async (req,res) => {
+  try {
+    const todo = await Todo.findById(req.params.id);
+
+    todo.text = req.body.text;
+
+    await todo.save();
+    res.json(todo);
+
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+})
+
 
 module.exports = router;

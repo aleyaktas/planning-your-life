@@ -5,7 +5,8 @@ import {
   TODOLIST_ERROR,
   GET_TODOS,
   DELETE_TODO,
-  COMPLETE_TODO
+  COMPLETE_TODO,
+  EDIT_TODO
 } from './types'
 
 // Add todo
@@ -67,21 +68,46 @@ export const deleteTodoById = (id) => async (dispatch) => {
 }
 
 //complete todo
-
-export const completeTodo = form => async (dispatch) => {
-  const {id} = form
+export const completeTodo = completeForm => async (dispatch) => {
+  const {id} = completeForm
   const config = {
     headers: {
       'Content-Type': 'application/json'
     }
   }
   try {
-    const res = await axios.put(`/api/todo/complete/${id}/`, form, config);
+    const res = await axios.put(`/api/todo/complete/${id}/`, completeForm, config);
 
     dispatch({
       type: COMPLETE_TODO,
-      payload: {id, isCompleted : res.data} ,
+      payload: {id, isCompleted : res.data.isCompleted} ,
     })
+    console.log(res.data.isCompleted)
+  } catch (err) {
+    
+    dispatch({
+      type: TODOLIST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+}
+
+//edit todo
+export const editTodo = (formEdit) => async (dispatch) => {
+  const {id} = formEdit
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  try {
+    const res = await axios.put(`/api/todo/edit/${id}/`, formEdit, config);
+
+    dispatch({
+      type: EDIT_TODO,
+      payload: {id, text: res.data.text },
+    })
+    console.log(res.data)
   } catch (err) {
     
     dispatch({
