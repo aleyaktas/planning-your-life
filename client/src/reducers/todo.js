@@ -1,4 +1,4 @@
-import{ ADD_TODO, COMPLETE_TODO, DELETE_TODO, EDIT_TODO, GET_TODOS} from "../actions/types";
+import{ ADD_TODO, COMPLETE_TODO, DELETE_TODO, EDIT_TODO, GET_TODOS, CLEAR_TODO} from "../actions/types";
 
 const initialState = {
   todos : [],
@@ -44,6 +44,12 @@ export default function(state = initialState, action) {
         ),
         loading: false
       }
+    case CLEAR_TODO:
+      return {
+        todos : [],
+        loading: true,
+        error : {}
+      };
     default:
       return state;
   }

@@ -25,11 +25,9 @@ router.post('/',
     }
 
     try {
-      const user = await User.findById(req.user.id).select('-password');
 
       const newTodo = new Todo({
         text: req.body.text,
-        name: user.name,
         user: req.user.id,
         todoList: req.body.todoList
       });
@@ -46,10 +44,11 @@ router.post('/',
 // GET api/todo 
 // Get all todos
 // Private
-router.get('/', auth, async (req,res) => {
+router.get('/:id', auth, async (req,res) => {
   try {
-    const todos = await Todo.find();
+    const todos = await Todo.find({todoList: req.params.id});
     res.json(todos)
+    
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -59,20 +58,20 @@ router.get('/', auth, async (req,res) => {
 // GET api/todo/:ID
 // Get todo by ID
 // Private
-router.get('/:id', auth, async (req,res) => {
-  try {
-    const todo = await Todo.findById(req.params.id);
-    if(!todo) return res.status(400).json({ msg: 'Todo not found' });
+// router.get('/:id', auth, async (req,res) => {
+//   try {
+//     const todo = await Todo.findById(req.params.id);
+//     if(!todo) return res.status(400).json({ msg: 'Todo not found' });
 
-    res.json(todo);
-  } catch (err) {
-    console.error(err.message);
-    if(err.kind === 'ObjectId') {
-      return res.status(400).json({ msg: 'Todo not found' });
-    }
-    res.status(500).send('Server Error');
-  }
-});
+//     res.json(todo);
+//   } catch (err) {
+//     console.error(err.message);
+//     if(err.kind === 'ObjectId') {
+//       return res.status(400).json({ msg: 'Todo not found' });
+//     }
+//     res.status(500).send('Server Error');
+//   }
+// });
 
 // DELETE api/todo/:ID
 // Delete a todo

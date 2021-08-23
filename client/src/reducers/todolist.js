@@ -2,13 +2,16 @@ import {
   ADD_TODOLIST,
   TODOLIST_ERROR,
   GET_TODOLIST,
-  DELETE_TODOLIST
+  DELETE_TODOLIST,
+  CLEAR_TODOLIST,
+  CONTROL_MENU,
 } from '../actions/types'
 
 const initialState = {
   todolists: [],
   loading: true,
-  error: {}
+  error: {},
+  isDropDownBtn: false
 }
 
 export default function(state = initialState, action) {
@@ -39,6 +42,17 @@ export default function(state = initialState, action) {
         ...state,
         error: payload,
         loading: false
+      }
+    case CLEAR_TODOLIST:
+      return {
+        todolists: [],
+        loading: true,
+        error: {}
+      }
+    case CONTROL_MENU: 
+      return {
+        ...state,
+        isDropDownBtn: !state.isDropDownBtn
       }
     default:
       return state;

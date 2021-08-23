@@ -1,13 +1,12 @@
 import React from 'react'
 
-
 const Landing = () => {
   return (
     <section className="landing">
       <div className="overlay">
         <div className="landing-inner">
           <h1 className="x-large">Welcome To-Do Website </h1>
-          <p className="lead">
+          <p>
             Create a user and use to-do website for yourself
           </p>
         </div>
@@ -15,7 +14,5 @@ const Landing = () => {
     </section>
   )
 }
-
-
 
 export default Landing

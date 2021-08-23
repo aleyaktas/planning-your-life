@@ -7,9 +7,13 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT
+  LOGOUT,
+  CLEAR_TODO,
+  CLEAR_TODOLIST
 } from './types';
 import setAuthToken from '../utils/setAuthToken'
+import {getTodoList, addTodoList} from "./todolist"
+import {getAllTodo} from "./todo"
 
 // Load User
 
@@ -45,13 +49,12 @@ export const register = ({ firstname, lastname, email, password }) => async disp
   try {
     const res = await axios.post('/api/users', body, config);
 
-    dispatch({
+    await dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data
     })
 
-    dispatch(loadUser());
-    
+    await dispatch(loadUser());
 
   } catch (err) {
     const errors = err.response.data.errors;
@@ -84,7 +87,9 @@ export const login = ( email, password ) => async dispatch => {
       payload: res.data
     });
 
-    dispatch(loadUser());
+    await dispatch(loadUser());
+    dispatch(getTodoList())
+    dispatch(getAllTodo())
 
   } catch (err) {
     const errors = err.response.data.errors;
@@ -101,4 +106,8 @@ export const login = ( email, password ) => async dispatch => {
 
 export const logout = () => dispatch => {
   dispatch({type: LOGOUT})
+  dispatch({type: CLEAR_TODO})
+  dispatch({type: CLEAR_TODOLIST})
 }
+
+

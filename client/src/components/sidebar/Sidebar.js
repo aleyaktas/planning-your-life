@@ -1,19 +1,25 @@
-import React, { Fragment, useState, useEffect, Component } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import  PropTypes  from 'prop-types'
 import {Col, Row, ListGroup, Button } from 'react-bootstrap'
 import { addTodoList, getTodoList, deleteTodoList } from '../../actions/todolist'
 import { deleteTodoById } from '../../actions/todo'
 import DeleteControl from '../modals/DeleteControl';
 import AddControl from '../modals/AddControl';
-import { FaRegTimesCircle } from 'react-icons/fa';
+import { FaRegTimesCircle, FaBars } from 'react-icons/fa';
+import useSound from 'use-sound';
+import addSound from '../../sounds/add.mp3';
+import { CONTROL_MENU } from '../../actions/types';
 
-const Sidebar = ({ getTodoList, todolist: {todolists}, addTodoList, deleteTodoList, todo: {todos}, deleteTodoById, history}) => {
+
+const Sidebar = ({ getTodoList, todolists, addTodoList, deleteTodoList, todo: {todos}, deleteTodoById, history, isDropDownBtn }) => {
 
   useEffect(() => {
     getTodoList()
   }, [])
+
+  const [playAdd] = useSound(addSound);
 
   // For add todo list modal
   const [todoListId, setTodoListId] = useState("");
@@ -26,12 +32,15 @@ const Sidebar = ({ getTodoList, todolist: {todolists}, addTodoList, deleteTodoLi
 
   const onChange = e => setFormList({ ...formList, [e.target.name]: e.target.value });
 
-  const onClickAdd = e => {
+  const dispatch = useDispatch()
+
+  const onClickAdd = async (e) => {
     e.preventDefault();
     const {title} = formList;
-    addTodoList({title});
+    const id = await addTodoList({title});
+    playAdd();
     todoClose();
-    history.push('/myday')
+    history.push(`/todolist/${id}`)
   }
 
   // For delete control modal
@@ -51,27 +60,59 @@ const Sidebar = ({ getTodoList, todolist: {todolists}, addTodoList, deleteTodoLi
     id.map(item => deleteTodoById(item._id))
     modalClose()
   }
+  const [shake, setShake] = useState(false);
+  const onClickMenu = e => {
+    e.preventDefault();
+    dispatch({type: CONTROL_MENU})
+    setShake(true);
+    setTimeout(() => setShake(false), 2000);
+  }
+
+  const onClickTodos = (e, id) => {
+    e.preventDefault();
+    history.push(`/todolist/${id}`);
+    if(isDropDownBtn) {
+      dispatch({type: CONTROL_MENU})
+    }
+  }
 
   return (
     <Fragment>
-      <div className="home">
+      <div className={`drop-down`} style={{display: "none"}}> 
+      <Button variant="light" onClick={onClickMenu} className="drop-down-button">
+            <FaBars className="drop-down-item" />
+        </Button>
+      </div>
+      <div className={`home ${isDropDownBtn? "d-block" : null} ${shake? "shake": null}`} >
         <div className="overlay"> 
-          <Row className="position-home"> 
-          <Col  className="border-col">
+          <Row style={{display:"block"}} className="position-home"> 
+          <Col>
           <ListGroup variant="flush">
-            <button id="button" onClick={() => history.push('/todolist/myday')} className="style-5">
-              My Day
-            </button>
-            <button id="button" onClick={() => history.push('/todolist/important')} className="style-5">
-              Important
-            </button>
             {todolists && todolists.map(todolist => 
-            <button id="button" onClick={() => history.push(`/todolist/${todolist._id}`)} className="style-5">{todolist.title}
-            <Button onClick={() => controlShow(todolist._id)} variant="light" className="float-right btn-sm">
-              <FaRegTimesCircle size={18} color="#FF0033"/>
-            </Button>
-            </button>)}
-            <button id="button" className="style-5" style={{backgroundColor: "pink"}} onClick={todoShow} variant="light">New Todo List +</button>
+              <button 
+                id="button" 
+                onClick={(e) => onClickTodos(e,todolist._id)}
+                className={`list-button ${isDropDownBtn? "d-flex p-2" : null }`}
+                >
+                <p >{todolist.title}</p>
+              {(todolist.title !=="My Day" && todolist.title!=="Important") && 
+              <Button 
+                onClick={() => controlShow(todolist._id)} 
+                variant="light" 
+                className="float-right btn-sm delete-btn" 
+                style={{backgroundColor:"transparent", borderColor:"transparent"}}>
+              <FaRegTimesCircle className="delete-btn-item" size={18} color="#FF0033"/>
+            </Button>}
+            </button>
+          )}
+            <button 
+              id="button" 
+              className={`list-button ${isDropDownBtn? "d-block" : null }`} 
+              style={{backgroundColor: "pink"}} 
+              onClick={todoShow} 
+              variant="light">
+              New Todo List +
+            </button>
           </ListGroup>
            </Col> 
             <AddControl onChange={onChange} todoClose={todoClose} onClickAdd={onClickAdd} showTodo={showTodo} name="title" />
@@ -87,11 +128,15 @@ Sidebar.propTypes = {
   addTodoList: PropTypes.func.isRequired,
   getTodoList: PropTypes.func.isRequired,
   deleteTodoList: PropTypes.func.isRequired,
-  deleteTodoById: PropTypes.func.isRequired
+  deleteTodoById: PropTypes.func.isRequired,
+  todo: PropTypes.object.isRequired,
+  todolists: PropTypes.array.isRequired,
+  isDropDownBtn: PropTypes.bool.isRequired
 }
 const mapStateToProps = state => ({
-  todolist: state.todolist,
-  todo: state.todo
+  todolists: state.todolist.todolists.filter((item) => item.user == state.auth.user?._id),
+  todo: state.todo,
+  isDropDownBtn: state.todolist.isDropDownBtn
 })
 
 export default connect(mapStateToProps, { addTodoList,getTodoList, deleteTodoList, deleteTodoById }) (Sidebar)

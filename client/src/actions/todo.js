@@ -24,7 +24,7 @@ export const addTodo = formList => async (dispatch) => {
       payload: res.data
     });
 
-    showNotice('😿 Todo added', 'warn')
+    showNotice('😿 Todo added', 'success')
   } catch (err) {
     dispatch({
       type: TODOLIST_ERROR,
@@ -33,9 +33,9 @@ export const addTodo = formList => async (dispatch) => {
   }
 }
 // get all todo
-export const getAllTodo = () => async (dispatch) => {
+export const getAllTodo = (id) => async (dispatch) => {
   try {
-    const res = await axios.get('/api/todo/');
+    const res = await axios.get(`/api/todo/${id}`);
 
     dispatch({
       type: GET_TODOS,
@@ -58,6 +58,7 @@ export const deleteTodoById = (id) => async (dispatch) => {
       type: DELETE_TODO,
       payload: id
     })
+    showNotice('😿 Todo removed', 'error')
   } catch (err) {
     
     dispatch({

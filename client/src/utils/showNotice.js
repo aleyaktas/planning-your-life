@@ -24,7 +24,7 @@ const showNotice = (msg, type, timer = 3000, position = "top-center") => {
         progress: undefined,
       });
     case "dark":
-      toast.dark(msg, {
+      return toast.dark(msg, {
         position: position,
         autoClose: timer,
         hideProgressBar: false,
@@ -33,7 +33,16 @@ const showNotice = (msg, type, timer = 3000, position = "top-center") => {
         draggable: true,
         progress: undefined,
       });
-      break;
+    case "success": 
+      return toast.success(msg, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
     default:
       return;
   }

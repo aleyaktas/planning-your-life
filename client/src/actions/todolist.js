@@ -24,7 +24,8 @@ export const addTodoList = formList => async (dispatch) => {
     });
 
     // dispatch(setAlert('Todo List added','success'))
-    showNotice('😿 Todo list added', 'warn')
+    showNotice('😿 Todo list added', 'success')
+    return res.data._id
   } catch (err) {
     dispatch({
       type: TODOLIST_ERROR,
@@ -60,7 +61,7 @@ export const deleteTodoList = (id) => async (dispatch) => {
       payload: id
     })
     // dispatch(setAlert('Todo List removed','success'))
-    showNotice('😿 Todo list removed', 'warn')
+    showNotice('😿 Todo list removed', 'error')
   } catch (err) {
     dispatch({
       type: TODOLIST_ERROR,
@@ -68,3 +69,5 @@ export const deleteTodoList = (id) => async (dispatch) => {
     });
   }
 }
+
+

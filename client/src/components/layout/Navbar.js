@@ -1,5 +1,5 @@
 // import axios from 'axios';
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import { Navbar, Button, Container, Nav } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
@@ -8,11 +8,14 @@ import { login } from '../../actions/auth'
 import { logout } from '../../actions/auth'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom';
-import { getTodoList } from '../../actions/todolist'
+import { addTodoList, getTodoList } from '../../actions/todolist'
 import LoginModal from '../modals/LoginModal';
 import RegisterModal from '../modals/RegisterModal';
+import icon from '../../img/todo-icon-2.png'
 
-const NavbarItem = ({ auth: {isAuthenticated, loading}, getTodoList ,setAlert, register, login, logout}) => {
+const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, getTodoList ,setAlert, register, login, logout, addTodoList}) => {
+
+  let myDayId = todolists.filter((todolist) => todolist.title === "My Day")[0]?._id;
 
   const [showregister, setShowRegister] = useState(false);
   const [showlogin, setShowLogin] = useState(false);
@@ -46,26 +49,56 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, getTodoList ,setAlert, r
     if (password !== confirmpassword) {
       setAlert('Passwords do not match','danger')
     } else {
-      register({firstname, lastname, email, password})
+      
+    await register({firstname, lastname, email, password})
+    if(firstname && lastname && email && (password === confirmpassword)) {
+      await addTodoList({title: "My Day"});
+      await addTodoList({title: "Important"}) 
+      await getTodoList();
+    }
+    
+    myDayId = todolists.filter((todolist) => todolist.title === "My Day")[0]?._id;
+      
+      setFormRegister({
+        firstname: '',
+        lastname:'',
+        email: '',
+        password: '',
+        confirmpassword: ''})
+      registerClose();
     }
   }
   
   const onClickLogin = e => {
     const {login_email, login_password} = formLogin;
-    login(login_email, login_password)
+    login(login_email, login_password);
+    setFormLogin({
+      login_email: '',
+      login_password: ''
+    })
     getTodoList();
+    
+  }
+
+  const onClickLogout = e => {
+    e.preventDefault();
+    logout();
+    loginClose();
   }
 
   const guestLinks = (
     <div>
-      <Navbar className="color-nav p-0" variant="light">
+      <Navbar variant="light">
         <Container>
-          <Navbar.Brand className="text-size" href="#home">To Do List</Navbar.Brand>
-          <Nav className="justify-content-end">
-            <Nav.Link className="text-size">
+          <Navbar.Brand>
+            <img className="todo-icon" src={icon} alt="" width="70" />
+            <Navbar.Text className="text">Planning your life</Navbar.Text>
+          </Navbar.Brand>
+          <Nav>
+            <Nav.Link>
               <Button className="navbar-button" variant="outline-warning" onClick={registerShow}>Sign Up</Button>
             </Nav.Link>
-            <Nav.Link className="text-size">
+            <Nav.Link>
               <Button className="navbar-button" variant="outline-warning" onClick={loginShow}>Login</Button>
             </Nav.Link>
           </Nav>
@@ -77,20 +110,20 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, getTodoList ,setAlert, r
   );
 
   const authLinks = (
-    <Navbar className="navbar p-0" variant="light">
-        <Container>
-          <Navbar.Brand className="text-size" href="/todolist/1">To Do List</Navbar.Brand>
-          <Nav className="justify-content-end">
-            <Nav.Link href="/todolist/1" className="text-size">
+    <Navbar variant="light">
+        <Navbar.Brand href="/todolist/1">
+            <img src={icon} alt="" width="70" />
+            <Navbar.Text className="text">Planning your life</Navbar.Text>
+          </Navbar.Brand>
+          <Nav>
+            <Nav.Link href="/todolist/1">
               <Button className="navbar-button" variant="outline-warning">Home</Button>
             </Nav.Link>
-            <Nav.Link className="text-size">
-              <Button className="navbar-button" onClick={logout} variant="outline-warning" >Logout</Button>
+            <Nav.Link>
+              <Button className="navbar-button" onClick={onClickLogout} variant="outline-warning" >Logout</Button>
             </Nav.Link>
           </Nav>
-        </Container>
       </Navbar>
-      
   );
 
   return (    
@@ -99,22 +132,26 @@ const NavbarItem = ({ auth: {isAuthenticated, loading}, getTodoList ,setAlert, r
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       )}
       {isAuthenticated ? 
-        <Redirect to="/todolist/myday"/> : <Redirect to="/"/>
+        <Redirect to={`/todolist/${myDayId}`}/> : <Redirect to="/"/>
       }
    </div>
   )
-    }
+}
 
 NavbarItem.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
-  getTodoList: PropTypes.func.isRequired
+  getTodoList: PropTypes.func.isRequired,
+  addTodoList: PropTypes.func.isRequired,
+  todolist: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  todolist: state.todolist,
 })
 
-export default connect(mapStateToProps, { setAlert, register, login, logout, getTodoList }) (NavbarItem)
+export default connect(mapStateToProps, { setAlert, register, login, logout, getTodoList, addTodoList }) (NavbarItem)

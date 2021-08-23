@@ -4,7 +4,7 @@ import { Button, Modal } from 'react-bootstrap'
 const DeleteControl = ({showcontrol,modalClose,onClickDelete, name}) => {
   return (
     <div>
-      <Modal className="modal" show={showcontrol} onHide={modalClose}>
+      <Modal show={showcontrol} onHide={modalClose}>
         <Modal.Header>
           {name==="title" ? 
           <Modal.Title>Are you sure you want to delete this todo list?</Modal.Title>
@@ -14,10 +14,10 @@ const DeleteControl = ({showcontrol,modalClose,onClickDelete, name}) => {
           
         </Modal.Header>
         <Modal.Footer>
-          <Button variant="secondary" onClick={modalClose}>
+          <Button className="modal-button modal-close-button" variant="secondary" onClick={modalClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={onClickDelete}>
+          <Button className="modal-button modal-delete-button" variant="danger" onClick={onClickDelete}>
             Delete
           </Button>
         </Modal.Footer>

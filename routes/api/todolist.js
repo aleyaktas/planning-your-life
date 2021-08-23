@@ -6,8 +6,6 @@ const TodoList = require('../../models/TodoList');
 const Todo = require("../../models/Todo")
 const User = require('../../models/User');
 
-
-
 // POST api/todolist
 // Create a todoList
 // Private
@@ -27,11 +25,9 @@ router.post('/',
     }
 
     try {
-      const user = await User.findById(req.user.id).select('-password');
 
       const newTodoList = new TodoList({
         title: req.body.title,
-        name: user.name,
         user: req.user.id
       });
 
@@ -54,18 +50,19 @@ router.delete('/:id', auth, async (req,res) => {
 
     const todos = await Todo.find({todoList: req.params.id})
     
-    todos.map(async(todo) => await todo.remove())
-
     if(!todoList) {
       return res.status(404).json({ msg:'Todolist not found' });
     }
     if(todoList.user.toString() !== req.user.id) {
       return res.status(401).json({ msg: 'User not authorized' });
     }
-
-    await todoList.remove();
-
-    res.json({ msg: 'Todo List removed' });
+    if(todoList.title.toString() !== "My Day" && todoList.title.toString() !== "Important") {
+      todos.map(async(todo) => await todo.remove())
+      await todoList.remove();
+      res.json({ msg: 'Todo List removed' });
+    }
+    
+    
   } catch (err) {
     console.error(err.message);
     if(err.kind === 'ObjectId') {

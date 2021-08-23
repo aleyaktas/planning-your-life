@@ -7,8 +7,8 @@ const TodoSchema = new Schema({
     ref: 'user'
   },
   todoList: {
-    type: Schema.Types.ObjectId,
-    ref: 'todoList'
+    type: Schema.Types.String,
+    ref: 'todolist'
   },
   text: {
     type: String,

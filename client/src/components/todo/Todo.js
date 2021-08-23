@@ -8,11 +8,18 @@ import { useState } from 'react'
 import DeleteControl from '../modals/DeleteControl'
 import AddControl from '../modals/AddControl'
 import { FaRegTimesCircle, FaCheck, FaPencilAlt, FaRegSave } from 'react-icons/fa';
+import useSound from 'use-sound';
+import completeSound from '../../sounds/complete.mp3';
+import addSound from '../../sounds/add.mp3';
+import { Link } from 'react-router-dom'
 
-const Todo = ({id, todo: {todos}, todolist: {todolists}, getAllTodo, addTodo, deleteTodoById, completeTodo, editTodo}) => {
+const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodoById, completeTodo, editTodo, isDropDownBtn}) => {
   useEffect(() => {
-    getAllTodo()
-  }, [])
+    getAllTodo(id)
+  }, [id])
+
+  const [playComplete] = useSound(completeSound);
+  const [playAdd] = useSound(addSound);
 
   // For add todo 
   const [todoId, setTodoId] = useState("");
@@ -32,21 +39,22 @@ const Todo = ({id, todo: {todos}, todolist: {todolists}, getAllTodo, addTodo, de
     const {text} = formList;
     addTodo({text, todoList: id})
     todoClose();
+    playAdd();
   }
 
   // For complete todo func
 
-  const [isComplete, setIsComplete] = useState("false");
-  const [isEdit, setIsEdit] = useState("false");
+  const [isComplete, setIsComplete] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [editTodoId, setEditTodoId] = useState("");
   const [editTodoText, setEditTodoText] = useState("");
 
-  
   const onClickComplete = (e, id) => {
     e.preventDefault();
     setIsComplete(!isComplete)
-    completeTodo({id, isComplete})};
-
+    completeTodo({id, isComplete});
+    {!isComplete && playComplete() }
+  }
   const onClickEdit = (e,id) => {
     e.preventDefault();
     setIsEdit(!isEdit);
@@ -55,8 +63,6 @@ const Todo = ({id, todo: {todos}, todolist: {todolists}, getAllTodo, addTodo, de
 
   const onClickSave = (e,id) => {
     e.preventDefault();
-    console.log(id);
-    console.log(editTodoText)
     editTodo({id:editTodoId, text:editTodoText});
     setEditTodoText("");
     setTodoId("");
@@ -77,18 +83,16 @@ const Todo = ({id, todo: {todos}, todolist: {todolists}, getAllTodo, addTodo, de
     deleteTodoById(todoId)
     modalClose()
   }
- 
 
   return (
     <div>
-      <Card.Title className = "todo-section" style={{marginTop: 10, padding: 15}}>
-        {id == "myday" ? "My day" : id == "important" ? "important" : todoListName} 
-        <button id="button" className="style-5" onClick={todoShow} variant= 'warning' style = {{marginLeft: 30, color: 'black', width: "20%", fontSize: 17, padding: 4, backgroundColor: "pink"}}>Add new todo +</button>
+      <Card.Title className = "todo-section" style={{marginTop: 10, padding: 15, borderRadius: 10, display: 'flex'}}>
+        <Card.Text className="text">{id == "myday" ? "My day" : id == "important" ? "important" : todoListName}</Card.Text>
+          <button id="button" className="list-button add-button" onClick={todoShow} variant= 'warning'>Add new todo +</button>
       </Card.Title>
-        {todos && todos.map(todo => {
-        return todo.todoList == id ? 
-          <Card className = {`todo-section ${todo.isCompleted ? "bg-complete" : null}`} style= {{textAlign: "start", borderRadius: 15}}>
-            <Card.Body style={{padding: "0.5rem 1rem", display:"flex "}}>
+        {todos.length>0 ? todos.map(todo => (
+         <Card className = {`todo-section ${todo.isCompleted ? "bg-complete" : null}`} style= {{textAlign: "start", borderRadius: 15}}>
+            <Card.Body className="body">
               {todo.isCompleted ===true ? 
               <Card.Text className="todo-text" style={{ textDecoration:"line-through"}}>
                 {todo.text}
@@ -98,26 +102,35 @@ const Todo = ({id, todo: {todos}, todolist: {todolists}, getAllTodo, addTodo, de
                 {todo.text}
               </Card.Text>}
               
-              <div style={{marginLeft:"auto", textAlign:"center", width: '20%'}}>
+              <div className="todo-button-style">
               {(isEdit === true && editTodoId === todo._id && todo.isCompleted === false ? 
-              <Button onClick={(e) => onClickSave(e, editTodoId)} variant="light" className="save-button" >                
-                <FaRegSave size={20} color="#A25016" />
-              </Button> : null)}
-              <Button onClick={(e) => onClickEdit(e, todo._id)} variant="light" className="btn-mg edit-button">
-                  <FaPencilAlt size={20} color="#F48924"/>
-              </Button>  
-              <Button onClick={(e) => onClickComplete(e,todo._id)} variant="light" className="btn-mg complete-button">
-                  <FaCheck size={20} color="#5ECC62"/>
-              </Button>       
-              <Button onClick={() => controlShow(todo._id)} variant="light" style={{marginLeft:"auto"}} className="btn-mg delete-button">
-                  <FaRegTimesCircle size={20} color="#FF0033"/>
-              </Button>
+                <Button onClick={(e) => onClickSave(e, editTodoId)} variant="light" className="save-button" >                
+                  <FaRegSave size={20} color="#A25016" />
+                </Button> : null)}
+                <Button onClick={(e) => onClickEdit(e, todo._id)} variant="light" className="btn-mg edit-button">
+                    <FaPencilAlt size={20} color="#F48924"/>
+                </Button>  
+                <Button onClick={(e) => onClickComplete(e,todo._id)} variant="light" className="btn-mg complete-button">
+                    <FaCheck size={20} color="#5ECC62"/>
+                </Button>       
+                <Button onClick={() => controlShow(todo._id)} variant="light" className="btn-mg delete-button">
+                    <FaRegTimesCircle size={20} color="#FF0033"/>
+                </Button>
               </div>
             </Card.Body>
-          </Card> 
-          :  ''
+          </Card>))
+            : 
+          (<Card className = {`todo-section`} style= {{width: "fit-content", borderRadius: "50%",margin: 20,padding: 20}}>
+            <Card.Body className="body-item">           
+              <Card.Text className="text-item">
+                You haven't any todo.
+                <Link style={{display:"block"}} onClick={todoShow}> Are you want add new todo task?</Link>
+              </Card.Text>            
+              <Card.Text className={`todo-text`}>      
+              </Card.Text>
+            </Card.Body>
+          </Card>)
         }
-        )}
         <AddControl onChange={onChange} todoClose={todoClose} onClickAdd={onClickAdd} showTodo={showTodo} name="text"/>
         <DeleteControl showcontrol={showcontrol} onClickDelete={onClickDelete} modalClose={modalClose} name="text" />
     </div>
@@ -131,12 +144,14 @@ Todo.propTypes = {
   todolist: PropTypes.object.isRequired,
   deleteTodoById: PropTypes.func.isRequired,
   completeTodo: PropTypes.func.isRequired,
-  editTodo: PropTypes.func.isRequired
+  editTodo: PropTypes.func.isRequired,
+  isDropDownBtn: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({
-  todo: state.todo,
-  todolist: state.todolist
+  todos: state.todo.todos,
+  todolist: state.todolist,
+  isDropDownBtn: state.todolist.isDropDownBtn
 })
 
 export default connect(mapStateToProps, {addTodo, getAllTodo, deleteTodoById, completeTodo, editTodo}) (Todo)
