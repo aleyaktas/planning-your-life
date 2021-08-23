@@ -39,7 +39,7 @@ body{
 /*for navbar component*/
 .navbar {
   background-color: floralwhite;
-  position: fixed;
+  position: relative;
   box-sizing: border-box;
   height: 7vh;
   justify-content: space-between !important;
@@ -47,7 +47,10 @@ body{
   width: 100%;
 }
 .navbar-button {
-  background-color: #FFDAD7;
+  background-color: transparent;
+}
+.nav-link {
+  width: max-content;
 }
 .navbar-text.text {
   font-style:italic; 
@@ -65,6 +68,9 @@ body{
 .form-control.modal-form-text {
   border-radius: 15px !important;
   margin: 10px 0px;
+}
+.fade {
+  padding-left: 0px !important;
 }
 .btn.modal-button {
   border-radius: 15px !important;
