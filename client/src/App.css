@@ -44,6 +44,7 @@ body{
   height: 7vh;
   justify-content: space-between !important;
   padding: 1rem 2rem;
+  width: 100%;
 }
 .navbar-button {
   background-color: #FFDAD7;
