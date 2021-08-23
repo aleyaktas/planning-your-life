@@ -264,7 +264,6 @@ body{
   display: inline-block;
   width: 80%;
   height: 93vh;
-  float: right;
   text-align: -webkit-center;
   overflow-y: scroll;
 }
