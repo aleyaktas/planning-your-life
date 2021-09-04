@@ -28,13 +28,11 @@ const App = () => {
   <Provider store={store} >
     <Router>
       <Fragment>
-        <NavbarItem/>      
-        <PrivateRoute path='/' component={Sidebar} />
+        <NavbarItem/>   
         <Alert/>
         <Route exact path='/' component={Landing} /> 
-        <Switch>
-          <PrivateRoute exact path="/todolist/:id" component={Todos} />
-        </Switch>
+        <PrivateRoute path='/todolist' component={Sidebar} />
+        <PrivateRoute path="/todolist/:id" component={Todos} />
       </Fragment>
       <ToastContainer />
     </Router> 

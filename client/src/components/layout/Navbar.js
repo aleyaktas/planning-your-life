@@ -7,16 +7,17 @@ import { register } from '../../actions/auth'
 import { login } from '../../actions/auth'
 import { logout } from '../../actions/auth'
 import PropTypes from 'prop-types'
-import { Redirect } from 'react-router-dom';
 import { addTodoList, getTodoList } from '../../actions/todolist'
 import LoginModal from '../modals/LoginModal';
 import RegisterModal from '../modals/RegisterModal';
 import icon from '../../img/todo-icon-2.png'
+import { useHistory } from 'react-router';
 
 const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, getTodoList ,setAlert, register, login, logout, addTodoList}) => {
 
   let myDayId = todolists.filter((todolist) => todolist.title === "My Day")[0]?._id;
-
+  let history = useHistory();
+  
   const [showregister, setShowRegister] = useState(false);
   const [showlogin, setShowLogin] = useState(false);
   const [formRegister, setFormRegister] = useState({
@@ -52,13 +53,12 @@ const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, ge
       
     await register({firstname, lastname, email, password})
     if(firstname && lastname && email && (password === confirmpassword)) {
-      await addTodoList({title: "My Day"});
+      myDayId = await addTodoList({title: "My Day"});
       await addTodoList({title: "Important"}) 
       await getTodoList();
     }
     
-    myDayId = todolists.filter((todolist) => todolist.title === "My Day")[0]?._id;
-      
+    history.push(`/todolist/${myDayId}`)  
       setFormRegister({
         firstname: '',
         lastname:'',
@@ -69,15 +69,15 @@ const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, ge
     }
   }
   
-  const onClickLogin = e => {
+  const onClickLogin = async e => {
     const {login_email, login_password} = formLogin;
-    login(login_email, login_password);
+    await login(login_email, login_password);
     setFormLogin({
       login_email: '',
       login_password: ''
     })
-    getTodoList();
-    
+    myDayId = await getTodoList();
+    history.push(`/todolist/${myDayId}`)
   }
 
   const onClickLogout = e => {
@@ -111,12 +111,12 @@ const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, ge
 
   const authLinks = (
     <Navbar variant="light">
-        <Navbar.Brand href="/todolist/1">
+        <Navbar.Brand href={`/todolist/${myDayId}`}>
             <img src={icon} alt="" width="70" />
             <Navbar.Text className="text">Planning your life</Navbar.Text>
           </Navbar.Brand>
           <Nav>
-            <Nav.Link href="/todolist/1">
+            <Nav.Link href={`/todolist/${myDayId}`}>
               <Button className="navbar-button" variant="outline-warning">Home</Button>
             </Nav.Link>
             <Nav.Link>
@@ -131,9 +131,6 @@ const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, ge
      {!loading &&(
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       )}
-      {isAuthenticated ? 
-        <Redirect to={`/todolist/${myDayId}`}/> : <Redirect to="/"/>
-      }
    </div>
   )
 }

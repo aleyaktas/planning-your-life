@@ -11,14 +11,16 @@ import { FaRegTimesCircle, FaBars } from 'react-icons/fa';
 import useSound from 'use-sound';
 import addSound from '../../sounds/add.mp3';
 import { CONTROL_MENU } from '../../actions/types';
+import { useHistory } from 'react-router';
 
-
-const Sidebar = ({ getTodoList, todolists, addTodoList, deleteTodoList, todo: {todos}, deleteTodoById, history, isDropDownBtn }) => {
+const Sidebar = ({ getTodoList, todolists, addTodoList, deleteTodoList, todo: {todos}, deleteTodoById, isDropDownBtn }) => {
 
   useEffect(() => {
     getTodoList()
   }, [])
 
+  let myDayId = todolists.filter((todolist) => todolist.title === "My Day")[0]?._id;
+  let history = useHistory()
   const [playAdd] = useSound(addSound);
 
   // For add todo list modal
@@ -55,7 +57,7 @@ const Sidebar = ({ getTodoList, todolists, addTodoList, deleteTodoList, todo: {t
   const onClickDelete = e => {
     e.preventDefault();
     deleteTodoList(todoListId) 
-    history.push('/todolist/myday')
+    history.push(`/todolist/${myDayId}`)
     const id = todos.filter((item) => item.todoList == todoListId)
     id.map(item => deleteTodoById(item._id))
     modalClose()

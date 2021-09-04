@@ -12,6 +12,7 @@ import useSound from 'use-sound';
 import completeSound from '../../sounds/complete.mp3';
 import addSound from '../../sounds/add.mp3';
 import { Link } from 'react-router-dom'
+import showNotice from '../../utils/showNotice'
 
 const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodoById, completeTodo, editTodo, isDropDownBtn}) => {
   useEffect(() => {
@@ -82,6 +83,7 @@ const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodo
     e.preventDefault();
     deleteTodoById(todoId)
     modalClose()
+    showNotice('😿 Todo removed', 'error')
   }
 
   return (

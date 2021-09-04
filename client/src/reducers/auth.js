@@ -10,7 +10,7 @@ import {
 
 const initialState = {
   token: localStorage.getItem('token'),
-  isAuthenticated: null,
+  isAuthenticated: false,
   loading: true,
   user: null
 }
@@ -22,7 +22,7 @@ export default function(state = initialState, action) {
     case USER_LOADED: 
       return {
         ...state,
-        isAuthenticated: true,
+        isAuthenticated: payload?._id ? true : false,
         loading: false,
         user: payload
       }

@@ -43,6 +43,7 @@ export const getTodoList = () => async (dispatch) => {
       type: GET_TODOLIST,
       payload: res.data
     })
+    return res.data[0]._id
   } catch (err) {
     dispatch({
       type: TODOLIST_ERROR,

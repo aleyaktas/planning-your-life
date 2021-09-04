@@ -58,7 +58,7 @@ export const deleteTodoById = (id) => async (dispatch) => {
       type: DELETE_TODO,
       payload: id
     })
-    showNotice('😿 Todo removed', 'error')
+    
   } catch (err) {
     
     dispatch({

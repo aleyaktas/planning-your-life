@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const showNotice = (msg, type, timer = 3000, position = "top-center") => {
+const showNotice = (msg, type, timer = 2000, position = "top-center") => {
   switch (type) {
     case "warn":
       return toast.warn(msg, {
@@ -36,7 +36,7 @@ const showNotice = (msg, type, timer = 3000, position = "top-center") => {
     case "success": 
       return toast.success(msg, {
         position: "top-center",
-        autoClose: 5000,
+        autoClose: timer,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
