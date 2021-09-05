@@ -6,10 +6,14 @@ import { getTodoList } from '../../actions/todolist'
 
 const Landing = ({isAuthenticated, getTodoList}) => {
   let history = useHistory();
+  const fetchId = async () => {
+     var myDayId = await getTodoList()
+     if(isAuthenticated) history.push(`/todolist/${myDayId}`)
+  }
+
+  fetchId()
   
-  var myDayId = getTodoList()
-  if(isAuthenticated) history.push(`/todolist/${myDayId}`)
-  
+
   return (
     <section className="landing">
       <div className="overlay">
