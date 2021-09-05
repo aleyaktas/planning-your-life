@@ -1,7 +1,5 @@
 {
   "mongoURI": "mongodb+srv://aleyaktas:aleyaktas@todo.2u1tc.mongodb.net/todo-app?retryWrites=true&w=majority",
-  "jwtSecret": "mysecrettoken",
-  "githubClientId": "d0bb905c88165b456fc3",
-  "githubSecret":"7c42f02a279c4b4b876a873d9c78b5e27212cdee"
+  "jwtSecret": "mysecrettoken"
 }
 
