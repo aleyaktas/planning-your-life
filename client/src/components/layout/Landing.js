@@ -1,6 +1,15 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import { connect } from 'react-redux'
+import  PropTypes  from 'prop-types'
+import {useHistory} from 'react-router'
+import { getTodoList } from '../../actions/todolist'
 
-const Landing = () => {
+const Landing = ({isAuthenticated, getTodoList}) => {
+  let history = useHistory();
+  
+  var myDayId = getTodoList()
+  if(isAuthenticated) history.push(`/todolist/${myDayId}`)
+  
   return (
     <section className="landing">
       <div className="overlay">
@@ -15,4 +24,13 @@ const Landing = () => {
   )
 }
 
-export default Landing
+Landing.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  getTodoList: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+})
+
+export default connect(mapStateToProps, {getTodoList}) (Landing)
