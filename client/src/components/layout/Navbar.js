@@ -11,6 +11,8 @@ import { addTodoList, getTodoList } from '../../actions/todolist'
 import LoginModal from '../modals/LoginModal';
 import RegisterModal from '../modals/RegisterModal';
 import icon from '../../img/todo-icon-2.png'
+import iconGithub from '../../img/github-icon.png'
+import iconLinkedin from '../../img/linkedin-icon.png'
 import { useHistory } from 'react-router';
 
 const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, getTodoList ,setAlert, register, login, logout, addTodoList}) => {
@@ -91,9 +93,17 @@ const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, ge
       <Navbar variant="light">
         <Container>
           <Navbar.Brand>
-            <img className="todo-icon" src={icon} alt="" width="70" />
+            <img className="todo-icon" src={icon} alt="" width="60" />
             <Navbar.Text className="text">Planning your life</Navbar.Text>
           </Navbar.Brand>
+          <div> 
+            <Nav.Link style={{display: 'inline-block', padding:0, paddingRight: 1}} to={'https://github.com/aleyaktas'} >
+              <img src={iconGithub} alt="" width="40" />
+            </Nav.Link>
+            <Nav.Link style={{display: 'inline-block', padding:0}} to={'https://www.linkedin.com/in/aleyna-akta%C5%9F-39b660197/'}>
+              <img src={iconLinkedin} alt="" width="45" />
+            </Nav.Link>
+          </div>
           <Nav>
             <Nav.Link>
               <Button className="navbar-button" variant="outline-warning" onClick={registerShow}>Sign Up</Button>

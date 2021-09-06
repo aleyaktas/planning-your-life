@@ -11,8 +11,9 @@ const Landing = ({isAuthenticated, getTodoList}) => {
      if(isAuthenticated) history.push(`/todolist/${myDayId}`)
   }
 
-  fetchId()
-  
+  useEffect(() => {
+   fetchId()
+  }, [fetchId])
 
   return (
     <section className="landing">

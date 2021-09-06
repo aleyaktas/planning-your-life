@@ -33,6 +33,7 @@ const App = () => {
         <Route exact path='/' component={Landing} /> 
         <PrivateRoute path='/todolist' component={Sidebar} />
         <PrivateRoute path="/todolist/:id" component={Todos} />
+        {/* <Route component={Landing}/> */}
       </Fragment>
       <ToastContainer />
     </Router> 

@@ -13,6 +13,8 @@ import completeSound from '../../sounds/complete.mp3';
 import addSound from '../../sounds/add.mp3';
 import { Link } from 'react-router-dom'
 import showNotice from '../../utils/showNotice'
+import { format, formatDistance } from 'date-fns'
+import {parseISO} from 'date-fns/esm';
 
 const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodoById, completeTodo, editTodo, isDropDownBtn}) => {
   useEffect(() => {
@@ -88,12 +90,15 @@ const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodo
 
   return (
     <div>
+      
       <Card.Title className = "todo-section" style={{marginTop: 10, padding: 15, borderRadius: 10, display: 'flex'}}>
+      
         <Card.Text className="text">{id == "myday" ? "My day" : id == "important" ? "important" : todoListName}</Card.Text>
           <button id="button" className="list-button add-button" onClick={todoShow} variant= 'warning'>Add new todo +</button>
       </Card.Title>
         {todos.length>0 ? todos.map(todo => (
          <Card className = {`todo-section ${todo.isCompleted ? "bg-complete" : null}`} style= {{textAlign: "start", borderRadius: 15}}>
+           <p className="date-style"> {format(parseISO(todo.date), 'Pp')} </p>
             <Card.Body className="body">
               {todo.isCompleted ===true ? 
               <Card.Text className="todo-text" style={{ textDecoration:"line-through"}}>
@@ -122,11 +127,11 @@ const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodo
             </Card.Body>
           </Card>))
             : 
-          (<Card className = {`todo-section`} style= {{width: "fit-content", borderRadius: "50%",margin: 20,padding: 20}}>
+          (<Card className = {`todo-section`} style= {{width: "fit-content", borderRadius: "50%",padding: 20}}>
             <Card.Body className="body-item">           
               <Card.Text className="text-item">
                 You haven't any todo.
-                <Link style={{display:"block"}} onClick={todoShow}> Are you want add new todo task?</Link>
+                <Link style={{display:"block"}} onClick={todoShow}> Do you want add new todo task?</Link>
               </Card.Text>            
               <Card.Text className={`todo-text`}>      
               </Card.Text>

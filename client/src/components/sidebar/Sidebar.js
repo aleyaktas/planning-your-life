@@ -79,7 +79,7 @@ const Sidebar = ({ getTodoList, todolists, addTodoList, deleteTodoList, todo: {t
   }
 
   return (
-    <Fragment>
+    <>
       <div className={`drop-down`} style={{display: "none"}}> 
       <Button variant="light" onClick={onClickMenu} className="drop-down-button">
             <FaBars className="drop-down-item" />
@@ -122,7 +122,7 @@ const Sidebar = ({ getTodoList, todolists, addTodoList, deleteTodoList, todo: {t
          </Row> 
         </div>
       </div>
-    </Fragment>
+    </>
   )
 }
 

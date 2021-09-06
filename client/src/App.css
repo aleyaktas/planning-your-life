@@ -123,7 +123,7 @@ body{
 .position-home {
   height: inherit;
   overflow-y: scroll;
-  margin-top: 10px !important;
+  padding-top: 10px;
 }
 .drop-down-button {
   display: none !important;
@@ -192,6 +192,7 @@ body{
   opacity: 0.8;
   width: 80%;
   margin: 10px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 }
 .card-text.text {
   flex: auto;
@@ -230,6 +231,14 @@ body{
   border: 2px solid;
   border-radius: 10px;
 }
+.date-style {
+  margin-bottom: 0px; 
+  padding-bottom: 3px;
+  font-size: 0.85rem; 
+  font-style: italic;
+  padding-left: 9px; 
+  color: #592a2a;
+}
 .btn.delete-button:hover {
   background-color: pink !important;
   border-radius: 10px;
@@ -253,6 +262,7 @@ body{
 }
 .card-body.body {
   padding: 0.5rem 1rem; 
+  padding-top: 0;
   display: flex;
 }
 .card-body.body-item {
