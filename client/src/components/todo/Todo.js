@@ -13,13 +13,18 @@ import completeSound from '../../sounds/complete.mp3';
 import addSound from '../../sounds/add.mp3';
 import { Link } from 'react-router-dom'
 import showNotice from '../../utils/showNotice'
-import { format, formatDistance } from 'date-fns'
+import { format } from 'date-fns'
 import {parseISO} from 'date-fns/esm';
 
-const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodoById, completeTodo, editTodo, isDropDownBtn}) => {
+const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodoById, completeTodo, editTodo}) => {
   useEffect(() => {
     getAllTodo(id)
   }, [id])
+
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    setCount(todos.filter((todo) => todo.isCompleted).length)
+  }, [todos])
 
   const [playComplete] = useSound(completeSound);
   const [playAdd] = useSound(addSound);
@@ -27,23 +32,20 @@ const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodo
   // For add todo 
   const [todoId, setTodoId] = useState("");
   const [showTodo, setShowTodo] = useState(false);
-  const [formList, setFormList] = useState({
-    text: ''
-  });
+  const [text, setText] = useState("");
   const todoClose = () => setShowTodo(false);
   const todoShow = () => setShowTodo(true);
 
   const todoListName = todolists.filter((item) => item._id === id)[0]?.title;
 
-  const onChange = e => setFormList({ ...formList, [e.target.name]: e.target.value });
+  const onChange = e => setText(e.target.value)
 
-  const onClickAdd = e => {
-    e.preventDefault();
-    const {text} = formList;
-    addTodo({text, todoList: id})
+  const onClickAdd = async e => {
+    await addTodo({text, todoList: id})
     todoClose();
     playAdd();
   }
+ 
 
   // For complete todo func
 
@@ -90,14 +92,12 @@ const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodo
 
   return (
     <div>
-      
       <Card.Title className = "todo-section" style={{marginTop: 10, padding: 15, borderRadius: 10, display: 'flex'}}>
-      
         <Card.Text className="text">{id == "myday" ? "My day" : id == "important" ? "important" : todoListName}</Card.Text>
           <button id="button" className="list-button add-button" onClick={todoShow} variant= 'warning'>Add new todo +</button>
       </Card.Title>
         {todos.length>0 ? todos.map(todo => (
-         <Card className = {`todo-section ${todo.isCompleted ? "bg-complete" : null}`} style= {{textAlign: "start", borderRadius: 15}}>
+         <Card key={todo._id} className = {`todo-section ${todo.isCompleted ? "bg-complete display-none" : "display-block"}`} style= {{textAlign: "start", borderRadius: 15}}>
            <p className="date-style"> {format(parseISO(todo.date), 'Pp')} </p>
             <Card.Body className="body">
               {todo.isCompleted ===true ? 
@@ -105,7 +105,7 @@ const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodo
                 {todo.text}
               </Card.Text> 
                 : 
-              <Card.Text className={`todo-text ${(isEdit === true && editTodoId===todo._id) ? "todo-border" : null}`} contentEditable= {(isEdit === true && editTodoId===todo._id) ? "true" : "false"} onInput={(e) => setEditTodoText(e.target.innerText)}>
+              <Card.Text className={`todo-text ${(isEdit === true && editTodoId===todo._id) ? "todo-border" : null}`} suppressContentEditableWarning={true} contentEditable= {(isEdit === true && editTodoId===todo._id) ? "true" : "false"} onInput={(e) => setEditTodoText(e.target.innerText)}>
                 {todo.text}
               </Card.Text>}
               
@@ -137,6 +137,44 @@ const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodo
               </Card.Text>
             </Card.Body>
           </Card>)
+        }
+        {count>0 && <div style={{border: "2px solid rgb(255 255 255 / 46%)", width: "80%", margin:10}} ></div>}
+        {todos.length>0 ? todos.map(todo => (
+          <div key={todo._id} className={`${todo.isCompleted ? "display-block" : "display-none"}`} > 
+          <Card className = {`todo-section ${todo.isCompleted ? "bg-complete" : null}`} style= {{textAlign: "start", borderRadius: 15}}>
+           <p className="date-style"> {format(parseISO(todo.date), 'Pp')} </p>
+            <Card.Body className="body">
+              {todo.isCompleted ===true ? 
+              <Card.Text className="todo-text" style={{ textDecoration:"line-through"}}>
+                {todo.text}
+              </Card.Text> 
+                : 
+              <Card.Text className={`todo-text ${(isEdit === true && editTodoId===todo._id) ? "todo-border" : null}`} suppressContentEditableWarning={true} contentEditable= {(isEdit === true && editTodoId===todo._id) ? "true" : "false"} onInput={(e) => setEditTodoText(e.target.innerText)}>
+                {todo.text}
+              </Card.Text>}
+              
+              <div className="todo-button-style">
+              {(isEdit === true && editTodoId === todo._id && todo.isCompleted === false ? 
+                <Button onClick={(e) => onClickSave(e, editTodoId)} variant="light" className="save-button" >                
+                  <FaRegSave size={20} color="#A25016" />
+                </Button> : null)}
+                <Button onClick={(e) => onClickEdit(e, todo._id)} variant="light" className="btn-mg edit-button">
+                    <FaPencilAlt size={20} color="#F48924"/>
+                </Button>  
+                <Button onClick={(e) => onClickComplete(e,todo._id)} variant="light" className="btn-mg complete-button">
+                    <FaCheck size={20} color="#5ECC62"/>
+                </Button>       
+                <Button onClick={() => controlShow(todo._id)} variant="light" className="btn-mg delete-button">
+                    <FaRegTimesCircle size={20} color="#FF0033"/>
+                </Button>
+              </div>
+            </Card.Body>
+          </Card>
+          
+          </div>
+          ))
+          :
+          null
         }
         <AddControl onChange={onChange} todoClose={todoClose} onClickAdd={onClickAdd} showTodo={showTodo} name="text"/>
         <DeleteControl showcontrol={showcontrol} onClickDelete={onClickDelete} modalClose={modalClose} name="text" />

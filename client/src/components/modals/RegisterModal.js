@@ -2,6 +2,9 @@ import React from 'react';
 import { Modal, Form, Row, Col, Button} from 'react-bootstrap';
 
 const RegisterModal = ({showregister, registerClose, onChangeRegister, onClickRegister, registerData }) => {
+  const onKeyPress = async e => {
+    e.key === 'Enter' && await onClickRegister()
+  }
   return (
     <div>
       <Modal className="modal" show={showregister} onHide={registerClose}>
@@ -23,7 +26,10 @@ const RegisterModal = ({showregister, registerClose, onChangeRegister, onClickRe
             </Form.Group>
             <Form.Group className="mt-2 mb-2" controlId="formBasicPassword">
               <Form.Control className="mb-4 modal-form-text" value={registerData.password} name="password"  type="password"minLength="6"placeholder="Password" onChange={e => onChangeRegister(e)} />
-              <Form.Control className="modal-form-text" value={registerData.confirmpassword}  name="confirmpassword" type="password"minLength="6"placeholder="Confirm Password" onChange={e => onChangeRegister(e)} />
+              <Form.Control className="modal-form-text" value={registerData.confirmpassword}  name="confirmpassword" type="password"minLength="6"placeholder="Confirm Password" 
+                onChange={e => onChangeRegister(e)}
+                onKeyPress={e => onKeyPress(e)}
+               />
             </Form.Group>  
           </Form>
         </Modal.Body>

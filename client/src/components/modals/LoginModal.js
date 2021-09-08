@@ -14,7 +14,7 @@ const LoginModal = ({onChangeLogin,showlogin,loginClose, onClickLogin, registerS
               <Form.Control className="modal-form-text" value={loginData.login_email} name="login_email" type="email" placeholder="Enter email" onChange={e => onChangeLogin(e)}  />
             </Form.Group>
             <Form.Group className="m-2" controlId="formBasicPassword">
-              <Form.Control className="modal-form-text" value={loginData.login_password} name="login_password" type="password" placeholder="Password" onChange={e => onChangeLogin(e)}  />
+              <Form.Control className="modal-form-text" value={loginData.login_password} name="login_password" type="password" placeholder="Password" onChange={e => onChangeLogin(e)} onKeyPress={(e) => { e.key === 'Enter' && onClickLogin() }} />
             </Form.Group>
           </Form>
         </Modal.Body>

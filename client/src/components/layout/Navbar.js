@@ -47,7 +47,6 @@ const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, ge
   const onChangeLogin = e => setFormLogin({ ...formLogin, [e.target.name]: e.target.value });
 
   const onClickRegister = async e => {
-    e.preventDefault();
     const {firstname, lastname, email, password, confirmpassword} = formRegister;
     if (password !== confirmpassword) {
       setAlert('Passwords do not match','danger')
@@ -56,11 +55,11 @@ const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, ge
     await register({firstname, lastname, email, password})
     if(firstname && lastname && email && (password === confirmpassword)) {
       myDayId = await addTodoList({title: "My Day"});
+      console.log(myDayId)
       await addTodoList({title: "Important"}) 
-      await getTodoList();
+      // await getTodoList();
     }
-    
-    history.push(`/todolist/${myDayId}`)  
+    await history.push(`/todolist/${myDayId}`)  
       setFormRegister({
         firstname: '',
         lastname:'',
@@ -97,10 +96,10 @@ const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, ge
             <Navbar.Text className="text">Planning your life</Navbar.Text>
           </Navbar.Brand>
           <div> 
-            <Nav.Link style={{display: 'inline-block', padding:0, paddingRight: 1}} to={'https://github.com/aleyaktas'} >
+            <Nav.Link style={{display: 'inline-block', padding:0, paddingRight: 1}} href={'https://github.com/aleyaktas'} >
               <img src={iconGithub} alt="" width="40" />
             </Nav.Link>
-            <Nav.Link style={{display: 'inline-block', padding:0}} to={'https://www.linkedin.com/in/aleyna-akta%C5%9F-39b660197/'}>
+            <Nav.Link style={{display: 'inline-block', padding:0}} href={'https://www.linkedin.com/in/aleyna-akta%C5%9F-39b660197/'}>
               <img src={iconLinkedin} alt="" width="45" />
             </Nav.Link>
           </div>

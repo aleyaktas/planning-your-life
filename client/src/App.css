@@ -343,6 +343,14 @@ body{
   border-radius: 10px;
 }
 
+/**/
+.display-block {
+  display: block;
+}
+
+.display-none {
+  display: none !important;
+}
 
 @media (max-width:768px){
   .home {
@@ -514,3 +522,4 @@ body{
     padding: 1rem 1rem !important;
   }
 }
+

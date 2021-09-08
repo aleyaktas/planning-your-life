@@ -2,6 +2,15 @@ import React from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 
 const AddControl = ({onChange,todoClose,onClickAdd,showTodo, name}) => {
+
+  const handleKeypress = e => {
+    
+    if (e.key === "Enter") {
+      console.log('do validate')
+      onClickAdd();
+      e.preventDefault();
+    }
+  };
   return (
     <div>
       <Modal show={showTodo} onHide={todoClose}>
@@ -10,8 +19,9 @@ const AddControl = ({onChange,todoClose,onClickAdd,showTodo, name}) => {
         </Modal.Header>
         <Modal.Body>
         <Form>
-          <Form.Group className="mb-3">
-            <Form.Control className="modal-form-text" name={`${name}`} onChange={e => onChange(e)}  placeholder={name==="title" ? "Enter header" : "Enter task"} />
+          <Form.Group type="text" className="mb-3" >
+            <Form.Control  onKeyDown={e => handleKeypress(e) } className="modal-form-text" onChange={e => onChange(e)}  placeholder={name==="title" ? "Enter header" : "Enter task"}
+             />
           </Form.Group>
         </Form>
         </Modal.Body>

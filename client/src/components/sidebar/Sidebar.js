@@ -26,19 +26,15 @@ const Sidebar = ({ getTodoList, todolists, addTodoList, deleteTodoList, todo: {t
   // For add todo list modal
   const [todoListId, setTodoListId] = useState("");
   const [showTodo, setShowTodo] = useState(false);
-  const [formList, setFormList] = useState({
-    title: ''
-  });
+  const [title, setTitle] = useState("");
   const todoClose = () => setShowTodo(false);
   const todoShow = () => setShowTodo(true);
 
-  const onChange = e => setFormList({ ...formList, [e.target.name]: e.target.value });
+  const onChange = (e) => setTitle(e.target.value);
 
   const dispatch = useDispatch()
 
   const onClickAdd = async (e) => {
-    e.preventDefault();
-    const {title} = formList;
     const id = await addTodoList({title});
     playAdd();
     todoClose();
@@ -92,6 +88,7 @@ const Sidebar = ({ getTodoList, todolists, addTodoList, deleteTodoList, todo: {t
           <ListGroup variant="flush">
             {todolists && todolists.map(todolist => 
               <button 
+                key={todolist._id}
                 id="button" 
                 onClick={(e) => onClickTodos(e,todolist._id)}
                 className={`list-button ${isDropDownBtn? "d-flex p-2" : null }`}
