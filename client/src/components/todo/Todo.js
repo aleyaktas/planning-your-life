@@ -1,10 +1,9 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { connect } from 'react-redux'
 import { addTodo, deleteTodoById, completeTodo, editTodo } from '../../actions/todo'
 import PropTypes from 'prop-types'
 import { Button, Card } from 'react-bootstrap'
 import { getAllTodo } from '../../actions/todo'
-import { useState } from 'react'
 import DeleteControl from '../modals/DeleteControl'
 import AddControl from '../modals/AddControl'
 import { FaRegTimesCircle, FaCheck, FaPencilAlt, FaRegSave } from 'react-icons/fa';
@@ -13,8 +12,10 @@ import completeSound from '../../sounds/complete.mp3';
 import addSound from '../../sounds/add.mp3';
 import { Link } from 'react-router-dom'
 import showNotice from '../../utils/showNotice'
-import { format } from 'date-fns'
-import {parseISO} from 'date-fns/esm';
+import { format, parseISO } from 'date-fns'
+// import {parseISO} from 'date-fns/esm';
+import ReactTooltip from 'react-tooltip';
+
 
 const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodoById, completeTodo, editTodo}) => {
   useEffect(() => {
@@ -25,6 +26,7 @@ const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodo
   useEffect(() => {
     setCount(todos.filter((todo) => todo.isCompleted).length)
   }, [todos])
+
 
   const [playComplete] = useSound(completeSound);
   const [playAdd] = useSound(addSound);
@@ -46,7 +48,6 @@ const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodo
     playAdd();
   }
  
-
   // For complete todo func
 
   const [isComplete, setIsComplete] = useState(false);
@@ -99,7 +100,7 @@ const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodo
         {todos.length>0 ? todos.map(todo => (
          <Card key={todo._id} className = {`todo-section ${todo.isCompleted ? "bg-complete display-none" : "display-block"}`} style= {{textAlign: "start", borderRadius: 15}}>
            <p className="date-style"> {format(parseISO(todo.date), 'Pp')} </p>
-            <Card.Body className="body">
+            <Card.Body onBlur={() => setIsEdit(false)} className="body">
               {todo.isCompleted ===true ? 
               <Card.Text className="todo-text" style={{ textDecoration:"line-through"}}>
                 {todo.text}
@@ -110,19 +111,35 @@ const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodo
               </Card.Text>}
               
               <div className="todo-button-style">
-              {(isEdit === true && editTodoId === todo._id && todo.isCompleted === false ? 
-                <Button onClick={(e) => onClickSave(e, editTodoId)} variant="light" className="save-button" >                
-                  <FaRegSave size={20} color="#A25016" />
-                </Button> : null)}
-                <Button onClick={(e) => onClickEdit(e, todo._id)} variant="light" className="btn-mg edit-button">
+              {(isEdit === true && editTodoId === todo._id && todo.isCompleted === false ?
+                <>
+                  <Button data-tip data-for='save' onClick={(e) => onClickSave(e, editTodoId)} variant="light" className="save-button " >                
+                    <FaRegSave size={20} color="#A25016" />
+                  </Button>
+                  <ReactTooltip textColor='white' backgroundColor='#9c6e6e' opacity="0 !important" id='save' place='top' effect="solid"><span>Save</span></ReactTooltip>
+                </>
+                 : 
+                 null
+                )
+              }
+                <Button data-tip data-for='edit' onClick={(e) => onClickEdit(e, todo._id)} variant="light" className="btn-mg edit-button">
                     <FaPencilAlt size={20} color="#F48924"/>
-                </Button>  
-                <Button onClick={(e) => onClickComplete(e,todo._id)} variant="light" className="btn-mg complete-button">
+                </Button>
+                <ReactTooltip id='edit' place='top' type='warning' effect="solid"><span>Edit</span></ReactTooltip>
+                <Button data-tip data-for='complete' title="Tooltip on top" onClick={(e) => onClickComplete(e,todo._id)} variant="light" className="btn-mg complete-button">
                     <FaCheck size={20} color="#5ECC62"/>
                 </Button>       
-                <Button onClick={() => controlShow(todo._id)} variant="light" className="btn-mg delete-button">
+                <ReactTooltip id="complete" place="top" type="success" effect="solid"><span>Complete</span></ReactTooltip>
+                <Button data-tip data-for='deleted' onClick={() => controlShow(todo._id)} variant="light" className="btn-mg delete-button">
                     <FaRegTimesCircle size={20} color="#FF0033"/>
                 </Button>
+                <ReactTooltip 
+                id="deleted"
+                textColor='#fff' 
+                backgroundColor='#ff000078' 
+                effect='solid'>
+                <span>Delete</span>
+              </ReactTooltip>
               </div>
             </Card.Body>
           </Card>))
@@ -138,7 +155,7 @@ const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodo
             </Card.Body>
           </Card>)
         }
-        {count>0 && <div style={{border: "2px solid rgb(255 255 255 / 46%)", width: "80%", margin:10}} ></div>}
+        {count>0 && (todos.length - count > 0) && <div style={{border: "2px solid rgb(255 255 255 / 46%)", width: "80%", margin:10}} ></div>}
         {todos.length>0 ? todos.map(todo => (
           <div key={todo._id} className={`${todo.isCompleted ? "display-block" : "display-none"}`} > 
           <Card className = {`todo-section ${todo.isCompleted ? "bg-complete" : null}`} style= {{textAlign: "start", borderRadius: 15}}>

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 import  PropTypes  from 'prop-types'
-import {useHistory} from 'react-router'
+import {useHistory} from 'react-router-dom'
 import { getTodoList } from '../../actions/todolist'
 
 const Landing = ({isAuthenticated, getTodoList}) => {

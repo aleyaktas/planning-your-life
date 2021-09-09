@@ -6,7 +6,7 @@ body{
 /*for landing component*/
 .landing {
   background: url('./img/todo-landing.png') no-repeat center center/cover;
-  height: 93vh;
+  height: 100vh;
   background-size: cover;
   top: 0;
   right: 0;
@@ -39,12 +39,14 @@ body{
 /*for navbar component*/
 .navbar {
   background-color: floralwhite;
-  position: relative;
+  position: fixed !important;
   box-sizing: border-box;
-  height: 7vh;
+  height: 7vh !important;
   justify-content: space-between !important;
   padding: 1rem 2rem;
   width: 100%;
+  top: 0;
+  z-index: 1;
 }
 .navbar-button {
   background-color: transparent;
@@ -114,11 +116,15 @@ body{
 /*for sidebar component*/
 .home {
   height: 93vh;
+  /* float: left; */
   background-size: cover;
   width: 20%;
   display: inline-block;
   border-right: 1px ridge;
-  
+  position: fixed !important;
+  z-index: 1;
+  overflow-x: hidden;
+  top: 7vh;
 }
 .position-home {
   height: inherit;
@@ -240,7 +246,7 @@ body{
   color: #592a2a;
 }
 .btn.delete-button:hover {
-  background-color: pink !important;
+  background-color: rgb(248, 71, 100) !important;
   border-radius: 10px;
 }
 .btn.complete-button:hover {
@@ -249,7 +255,7 @@ body{
 }
 .btn.save-button:hover {
   border-radius: 10px;
-  background-color: #C6AF92 !important;
+  background-color: #ad9577 !important;
 }
 .btn.edit-button:hover {
   background-color: #F6B128 !important;
@@ -276,6 +282,10 @@ body{
   color:black;
   margin:auto;
 }
+.tooltip-delete {
+  opacity: 0.9 !important;
+  font-size: 12px !important;
+}
 /*for todos component*/
 .todos-section {
   display: inline-block;
@@ -283,6 +293,8 @@ body{
   height: 93vh;
   text-align: -webkit-center;
   overflow-y: scroll;
+  float: right;
+  margin-top: 7vh !important;
 }
 /*for alert component*/
 .alert {
@@ -434,15 +446,21 @@ body{
   .home {
     display: none;
     width: 75%;
+    top: auto;
+  }
+  .dropdown-item{
+    display: none !important;
   }
   .todos-section {
     width: 95%;
     min-height: 93vh;
     overflow-y: auto;
+    margin-top: 0 !important;
+    
   }
   .drop-down {
     display: inline-block !important;
-    margin-top: 10px;
+    margin-top: 7vh;
   }
   .drop-down-item {
     display: block;
@@ -474,7 +492,7 @@ body{
     animation: flip 1s ease-out forwards;
   }
   .d-none {
-    display: block;
+    display: block !important;
   }
   .shake{
     animation: shake 2s infinite;

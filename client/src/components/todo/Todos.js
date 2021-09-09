@@ -6,8 +6,9 @@ import  PropTypes  from 'prop-types'
 const Todos = ({match, isDropDownBtn}) => {
   const id = match.params.id;
   return (
-    <div className={`todos-section ${isDropDownBtn? "d-none": null}`}>
-      <Todo id={id}/>
+    <div className={`todos-section`}>
+      <div className={`${isDropDownBtn? "dropdown-item": null}`} ><Todo id={id}/></div>
+      
     </div>
   )
 }

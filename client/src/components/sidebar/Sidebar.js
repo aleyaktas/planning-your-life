@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import "bootstrap-icons/font/bootstrap-icons.css";
+// import "bootstrap-icons/font/bootstrap-icons.css";
 import { connect, useDispatch } from 'react-redux'
 import  PropTypes  from 'prop-types'
 import {Col, Row, ListGroup, Button } from 'react-bootstrap'
@@ -12,6 +12,7 @@ import useSound from 'use-sound';
 import addSound from '../../sounds/add.mp3';
 import { CONTROL_MENU } from '../../actions/types';
 import { useHistory } from 'react-router';
+import ReactTooltip from 'react-tooltip'
 
 const Sidebar = ({ getTodoList, todolists, addTodoList, deleteTodoList, todo: {todos}, deleteTodoById, isDropDownBtn }) => {
 
@@ -95,13 +96,28 @@ const Sidebar = ({ getTodoList, todolists, addTodoList, deleteTodoList, todo: {t
                 >
                 <p >{todolist.title}</p>
               {(todolist.title !=="My Day" && todolist.title!=="Important") && 
-              <Button 
-                onClick={() => controlShow(todolist._id)} 
-                variant="light" 
-                className="float-right btn-sm delete-btn" 
-                style={{backgroundColor:"transparent", borderColor:"transparent"}}>
-              <FaRegTimesCircle className="delete-btn-item" size={18} color="#FF0033"/>
-            </Button>}
+              <>
+                <Button 
+                  data-tip 
+                  data-for='ddd' 
+                  onClick={() => controlShow(todolist._id)} 
+                  variant="light" 
+                  // className="float-right btn-sm delete-btn" 
+                  style={{backgroundColor:"transparent", borderColor:"transparent",fontSize: 5,
+                  padding: 0}}
+                  >
+                <FaRegTimesCircle className="delete-btn-item" size={18} color="#FF0033"/>
+              </Button>
+              <ReactTooltip 
+                id="ddd"
+                textColor='#fff' 
+                className="tooltip-delete"
+                backgroundColor='#f7737359' 
+                effect='solid'>
+                <span>Delete</span>
+              </ReactTooltip>
+            </>
+            }
             </button>
           )}
             <button 

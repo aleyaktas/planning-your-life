@@ -1,5 +1,5 @@
 // import axios from 'axios';
-import React, { useState, Fragment, useEffect } from 'react'
+import React, { useState, Fragment } from 'react'
 import { Navbar, Button, Container, Nav } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
@@ -13,7 +13,7 @@ import RegisterModal from '../modals/RegisterModal';
 import icon from '../../img/todo-icon-2.png'
 import iconGithub from '../../img/github-icon.png'
 import iconLinkedin from '../../img/linkedin-icon.png'
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, getTodoList ,setAlert, register, login, logout, addTodoList}) => {
 
@@ -59,7 +59,7 @@ const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, ge
       await addTodoList({title: "Important"}) 
       // await getTodoList();
     }
-    await history.push(`/todolist/${myDayId}`)  
+    history.push(`/todolist/${myDayId}`)  
       setFormRegister({
         firstname: '',
         lastname:'',
