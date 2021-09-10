@@ -13,6 +13,9 @@ import RegisterModal from '../modals/RegisterModal';
 import icon from '../../img/todo-icon-2.png'
 import iconGithub from '../../img/github-icon.png'
 import iconLinkedin from '../../img/linkedin-icon.png'
+import iconProfile from '../../img/profile-icon.png'
+import iconLogout from '../../img/logout-icon2.png'
+import iconHome from '../../img/home-icon.png'
 import { useHistory } from 'react-router-dom';
 
 const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, getTodoList ,setAlert, register, login, logout, addTodoList}) => {
@@ -69,7 +72,7 @@ const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, ge
       registerClose();
     }
   }
-  
+
   const onClickLogin = async e => {
     const {login_email, login_password} = formLogin;
     await login(login_email, login_password);
@@ -85,6 +88,17 @@ const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, ge
     e.preventDefault();
     logout();
     loginClose();
+  }
+
+  // for navbar link
+  const onClickHome = async e => {
+    e.preventDefault();
+    history.push(`/todolist/${myDayId}`)
+  }
+
+  const onClickProfile = async e => {
+    e.preventDefault();
+    history.push('/profile')
   }
 
   const guestLinks = (
@@ -120,19 +134,28 @@ const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, ge
 
   const authLinks = (
     <Navbar variant="light">
-        <Navbar.Brand href={`/todolist/${myDayId}`}>
+        <button style={{background:"transparent", border:"none"}} onClick={onClickHome}>
             <img src={icon} alt="" width="70" />
             <Navbar.Text className="text">Planning your life</Navbar.Text>
-          </Navbar.Brand>
-          <Nav>
-            <Nav.Link href={`/todolist/${myDayId}`}>
-              <Button className="navbar-button" variant="outline-warning">Home</Button>
-            </Nav.Link>
-            <Nav.Link>
-              <Button className="navbar-button" onClick={onClickLogout} variant="outline-warning" >Logout</Button>
-            </Nav.Link>
-          </Nav>
-      </Navbar>
+        </button>
+        <Nav>
+          <Nav.Link>
+            <Button onClick={onClickHome} className="navbar-button" variant="outline-warning">
+              <img src={iconHome} alt="" width="22" />
+            </Button>
+          </Nav.Link>
+          <Nav.Link>
+            <Button onClick={onClickProfile} className="navbar-button" variant="outline-warning">
+              <img src={iconProfile} alt="" width="22" />
+            </Button>
+          </Nav.Link>
+          <Nav.Link>
+            <Button className="navbar-button" onClick={onClickLogout} variant="outline-warning" >
+              <img src={iconLogout} alt="" width="22" />
+            </Button>
+          </Nav.Link>
+        </Nav>
+    </Navbar>
   );
 
   return (    

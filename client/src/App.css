@@ -195,7 +195,7 @@ body{
 .todo-section {
   color:black;
   background-color: floralwhite;
-  opacity: 0.8;
+  opacity: 0.9;
   width: 80%;
   margin: 10px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
@@ -296,6 +296,32 @@ body{
   float: right;
   margin-top: 7vh !important;
 }
+/*for profile component*/
+.profile-inner {
+  margin-top: 7vh;
+  height: 86vh;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+.card-container {
+	background-color: #ffe9ed;
+	border-radius: 10%;
+	color: #737788;
+	padding: 50px 80px;
+	max-width: 100%;
+	text-align: center;
+  box-shadow: rgba(240, 46, 170, 0.4) -5px 5px, rgba(240, 46, 170, 0.3) -10px 10px, rgba(240, 46, 170, 0.2) -15px 15px, rgba(240, 46, 170, 0.1) -20px 20px, rgba(240, 46, 170, 0.05) -25px 25px;
+}
+.card-container .round {
+	border: 1px solid #03BFCB;
+	border-radius: 50%;
+	padding: 7px;
+  margin-bottom: 14px;
+}
+
 /*for alert component*/
 .alert {
   padding: 0.8rem;
@@ -400,6 +426,11 @@ body{
   .btn.navbar-button {
     font-size: 0.9rem;
   }
+  .btn.navbar-button img{
+    display: inline-block !important;
+    width: 16px;
+    padding: 0;
+  }
   .todo-section {
     width: 90%;
   }
@@ -438,6 +469,10 @@ body{
   }
   img {
     display: none;
+  }
+  .card-container img {
+    display: flex;
+    margin-inline: auto;
   }
   
 }
@@ -484,6 +519,11 @@ body{
   .btn.navbar-button {
     font-size: 0.9rem;
   }
+  .btn.navbar-button img{
+    display: inline-block !important;
+    width: 16px;
+    padding: 0;
+  }
   .todo-section {
     width: 90%;
   }
@@ -525,6 +565,13 @@ body{
   }
   img {
     display: none;
+  }
+  .card-container {
+    padding: 30px 40px;
+  }
+  .card-container img {
+    display: flex;
+    margin-inline: auto;
   }
   .modal-dialog {
     right: 5px;

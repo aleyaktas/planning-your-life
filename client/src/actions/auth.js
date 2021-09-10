@@ -109,5 +109,3 @@ export const logout = () => dispatch => {
   dispatch({type: CLEAR_TODO})
   dispatch({type: CLEAR_TODOLIST})
 }
-
-

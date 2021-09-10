@@ -91,6 +91,10 @@ const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodo
     showNotice('😿 Todo removed', 'error')
   }
 
+  const onBlur = e => {
+    setIsEdit(false)
+  }
+
   return (
     <div>
       <Card.Title className = "todo-section" style={{marginTop: 10, padding: 15, borderRadius: 10, display: 'flex'}}>
@@ -100,25 +104,24 @@ const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodo
         {todos.length>0 ? todos.map(todo => (
          <Card key={todo._id} className = {`todo-section ${todo.isCompleted ? "bg-complete display-none" : "display-block"}`} style= {{textAlign: "start", borderRadius: 15}}>
            <p className="date-style"> {format(parseISO(todo.date), 'Pp')} </p>
-            <Card.Body onBlur={() => setIsEdit(false)} className="body">
+            <Card.Body className="body">
               {todo.isCompleted ===true ? 
               <Card.Text className="todo-text" style={{ textDecoration:"line-through"}}>
                 {todo.text}
               </Card.Text> 
-                : 
-              <Card.Text className={`todo-text ${(isEdit === true && editTodoId===todo._id) ? "todo-border" : null}`} suppressContentEditableWarning={true} contentEditable= {(isEdit === true && editTodoId===todo._id) ? "true" : "false"} onInput={(e) => setEditTodoText(e.target.innerText)}>
+                :
+                <Card.Text className={`todo-text ${(isEdit === true && editTodoId===todo._id) ? "todo-border" : null}`} suppressContentEditableWarning={true} contentEditable= {(isEdit === true && editTodoId===todo._id)} onInput={(e) => setEditTodoText(e.target.innerText)}>
                 {todo.text}
               </Card.Text>}
-              
               <div className="todo-button-style">
               {(isEdit === true && editTodoId === todo._id && todo.isCompleted === false ?
                 <>
-                  <Button data-tip data-for='save' onClick={(e) => onClickSave(e, editTodoId)} variant="light" className="save-button " >                
+                  <Button data-tip data-for='save' onMouseDown={(e) => onClickSave(e, editTodoId)} variant="light" className="save-button " >                
                     <FaRegSave size={20} color="#A25016" />
                   </Button>
                   <ReactTooltip textColor='white' backgroundColor='#9c6e6e' opacity="0 !important" id='save' place='top' effect="solid"><span>Save</span></ReactTooltip>
                 </>
-                 : 
+                 :
                  null
                 )
               }
