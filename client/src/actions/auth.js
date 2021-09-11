@@ -9,10 +9,10 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   CLEAR_TODO,
-  CLEAR_TODOLIST
+  CLEAR_TODOLIST,
 } from './types';
 import setAuthToken from '../utils/setAuthToken'
-import {getTodoList, addTodoList} from "./todolist"
+import {getTodoList} from "./todolist"
 import {getAllTodo} from "./todo"
 
 // Load User
@@ -67,7 +67,7 @@ export const register = ({ firstname, lastname, email, password }) => async disp
       type: REGISTER_FAIL
     })
   }
-} 
+}
 
 //Login user
 export const login = ( email, password ) => async dispatch => {
@@ -108,4 +108,25 @@ export const logout = () => dispatch => {
   dispatch({type: LOGOUT})
   dispatch({type: CLEAR_TODO})
   dispatch({type: CLEAR_TODOLIST})
+}
+
+export const resetPassword = (password) => async dispatch =>{
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+
+  try {
+    const res = await axios.put('/api/profile', password, config);
+    return res.status
+  }
+  catch(err) {
+    const errors = err.response.data.errors;
+
+    if(errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+  }
 }

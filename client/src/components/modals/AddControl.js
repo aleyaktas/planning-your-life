@@ -4,7 +4,6 @@ import { Modal, Form, Button } from 'react-bootstrap'
 const AddControl = ({onChange,todoClose,onClickAdd,showTodo, name}) => {
 
   const handleKeypress = e => {
-    
     if (e.key === "Enter") {
       console.log('do validate')
       onClickAdd();

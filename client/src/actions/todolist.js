@@ -24,7 +24,7 @@ export const addTodoList = formList => async (dispatch) => {
     });
 
     // dispatch(setAlert('Todo List added','success'))
-    showNotice('😿 Todo list added', 'success')
+    showNotice('😺 Todo list added', 'success')
     return res.data._id
   } catch (err) {
     dispatch({
