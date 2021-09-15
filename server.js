@@ -13,6 +13,8 @@ app.use('/api/todo', require('./routes/api/todo'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/todolist', require('./routes/api/todolist'));
 app.use('/api/profile', require('./routes/api/profile'));
+// app.use('/api/forgot', require('./routes/api/forgot'));
+
 
 // Serve static assets in productıon
 if(process.env.NODE_ENV === 'production') {

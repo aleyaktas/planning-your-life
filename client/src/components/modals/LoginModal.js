@@ -1,14 +1,14 @@
 import React from 'react'
 import { Button, Modal, Form } from 'react-bootstrap';
 
-const LoginModal = ({onChangeLogin,showlogin,loginClose, onClickLogin, registerShow, loginData}) => {
+const LoginModal = ({onChangeLogin,showlogin,loginClose, onClickLogin, registerShow, loginData, forgotModalShow}) => {
   return (
     <div>
       <Modal className="modal" show={showlogin} onHide={loginClose}>
         <Modal.Header>
           <Modal.Title>Login</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="login-modal-body">
           <Form>
             <Form.Group className="m-2 mb-4 " controlId="formBasicEmail">
               <Form.Control className="modal-form-text" value={loginData.login_email} name="login_email" type="email" placeholder="Enter email" onChange={e => onChangeLogin(e)}  />
@@ -16,12 +16,17 @@ const LoginModal = ({onChangeLogin,showlogin,loginClose, onClickLogin, registerS
             <Form.Group className="m-2" controlId="formBasicPassword">
               <Form.Control className="modal-form-text" value={loginData.login_password} name="login_password" type="password" placeholder="Password" onChange={e => onChangeLogin(e)} onKeyPress={(e) => { e.key === 'Enter' && onClickLogin() }} />
             </Form.Group>
+            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+              <Button style={{color: "#000000a6"}} className="modal-button modal-control-button" variant="light" onClick={(e) => {forgotModalShow(); loginClose()}}>Forgot your password?</Button>
+              <div>
+                <Button style={{marginRight: 3}} className="modal-button modal-close-button" variant="secondary" onClick={loginClose}>Close</Button>
+                <Button className="modal-button modal-save-button" variant="warning" onClick={onClickLogin}>Login</Button>
+              </div>
+            </div>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button className="modal-button modal-close-button" variant="secondary" onClick={loginClose}>Close</Button>
-          <Button className="modal-button modal-save-button" variant="warning" onClick={onClickLogin}>Login</Button>
-          <Button className="modal-button modal-control-button" variant="light" onClick={registerShow}>Don't have an account?</Button>
+        <Modal.Footer style={{display: 'flex', textDecoration: 'none', alignSelf: 'center',padding:0 }}>
+          <Button style={{}} className="modal-button modal-control-button" variant="light" onClick={registerShow}>Don't have an account?</Button>    
         </Modal.Footer>
       </Modal>
     </div>

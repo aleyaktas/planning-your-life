@@ -14,6 +14,7 @@ import {
 import setAuthToken from '../utils/setAuthToken'
 import {getTodoList} from "./todolist"
 import {getAllTodo} from "./todo"
+import showNotice from '../utils/showNotice';
 
 // Load User
 
@@ -110,7 +111,7 @@ export const logout = () => dispatch => {
   dispatch({type: CLEAR_TODOLIST})
 }
 
-export const resetPassword = (password) => async dispatch =>{
+export const resetPassword = (password) => async () =>{
 
   const config = {
     headers: {
@@ -119,7 +120,49 @@ export const resetPassword = (password) => async dispatch =>{
   }
 
   try {
-    const res = await axios.put('/api/profile', password, config);
+    const res = await axios.put('/api/profile', {password}, config);
+    return res.status
+  }
+  catch(err) {
+    const errors = err.res.data.error;
+    console.log(errors)
+    if(errors) {
+      errors.forEach(error => showNotice(`${error.msg}`, 'error'));
+    }
+  }
+}
+
+export const forgotPassword = (email) => async () => {
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+
+  try {
+    const res = await axios.post(`/api/profile/forgot`, email, config);
+    console.log(res)
+    showNotice(`${res.data.message}`, 'error')
+  }
+  catch(err) {
+    const errors = err.response.data.errors;
+    if(errors) {
+      errors.forEach(error => showNotice(`${error.msg}`, 'error'));
+    }
+  }
+} 
+
+export const setNewPassword = (password,token) => async dispatch =>{
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+
+  try {
+    const res = await axios.put(`/api/profile/forgot/${token}`, {password}, config);
     return res.status
   }
   catch(err) {
@@ -130,3 +173,4 @@ export const resetPassword = (password) => async dispatch =>{
     }
   }
 }
+

@@ -3,22 +3,23 @@ import React, { useState, Fragment } from 'react'
 import { Navbar, Button, Container, Nav } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
-import { register } from '../../actions/auth'
+import { forgotPassword, register } from '../../actions/auth'
 import { login } from '../../actions/auth'
 import { logout } from '../../actions/auth'
 import PropTypes from 'prop-types'
 import { addTodoList, getTodoList } from '../../actions/todolist'
 import LoginModal from '../modals/LoginModal';
 import RegisterModal from '../modals/RegisterModal';
+import ForgotPassword from '../modals/ForgotPassword'
 import icon from '../../img/todo-icon-2.png'
-import iconGithub from '../../img/github-icon.png'
-import iconLinkedin from '../../img/linkedin-icon.png'
+import iconGithub from '../../img/github-icon-2.png'
+import iconLinkedin from '../../img/linkedin-icon-2.png'
 import iconProfile from '../../img/profile-icon.png'
 import iconLogout from '../../img/logout-icon2.png'
 import iconHome from '../../img/home-icon.png'
 import { useHistory } from 'react-router-dom';
 
-const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, getTodoList ,setAlert, register, login, logout, addTodoList}) => {
+const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, getTodoList ,setAlert, register, login, logout, addTodoList, forgotPassword}) => {
 
   let myDayId = todolists.filter((todolist) => todolist.title === "My Day")[0]?._id;
   let history = useHistory();
@@ -39,10 +40,13 @@ const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, ge
   });
 
   const registerClose = () => setShowRegister(false);
+  // const loginClose = () => setShowLogin(false);
+
   const registerShow = () => {
     setShowRegister(true);
     loginClose(); 
   };
+  
   const loginClose = () => setShowLogin(false);
   const loginShow = () => setShowLogin(true);
 
@@ -101,12 +105,28 @@ const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, ge
     history.push('/profile')
   }
 
+    //for forgot password
+    const [showForgotModal, setShowForgotModal] = useState(false);
+    const [email, setEmail] = useState("");
+    const forgotModalClose = () => setShowForgotModal(false);
+    const forgotModalShow = () => setShowForgotModal(true);
+  
+    const onChangeForgot = e => setEmail(e.target.value)
+  
+    const onClickForgot = async () => {
+      var status = await forgotPassword({email})
+      if(status==404) {
+        // showNotice ('😺 Password updated', 'success')
+      }
+      forgotModalClose();
+    }
+
   const guestLinks = (
     <div>
       <Navbar variant="light">
         <Container>
           <Navbar.Brand>
-            <img className="todo-icon" src={icon} alt="" width="60" />
+            <img className="todo-icon" src={icon} alt="" width="50" />
             <Navbar.Text className="text">Planning your life</Navbar.Text>
           </Navbar.Brand>
           <div> 
@@ -127,15 +147,16 @@ const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, ge
           </Nav>
         </Container>
       </Navbar>
-      <LoginModal onChangeLogin={onChangeLogin} showlogin={showlogin} loginClose={loginClose} onClickLogin={onClickLogin} registerShow={registerShow} loginData={formLogin} />
+      <LoginModal forgotModalShow={forgotModalShow} onChangeLogin={onChangeLogin} showlogin={showlogin} loginClose={loginClose} onClickLogin={onClickLogin} registerShow={registerShow} loginData={formLogin} />
       <RegisterModal showregister={showregister} registerClose={registerClose} onChangeRegister={onChangeRegister} registerData={formRegister} onClickRegister={onClickRegister}/>
+      <ForgotPassword showForgotModal={showForgotModal} forgotModalClose={forgotModalClose} onChangeForgot={onChangeForgot} onClickForgot={onClickForgot}/>
     </div>
   );
 
   const authLinks = (
     <Navbar variant="light">
         <button style={{background:"transparent", border:"none"}} onClick={onClickHome}>
-            <img src={icon} alt="" width="70" />
+            <img src={icon} alt="" width="40" />
             <Navbar.Text className="text">Planning your life</Navbar.Text>
         </button>
         <Nav>
@@ -183,4 +204,4 @@ const mapStateToProps = state => ({
   todolist: state.todolist,
 })
 
-export default connect(mapStateToProps, { setAlert, register, login, logout, getTodoList, addTodoList }) (NavbarItem)
+export default connect(mapStateToProps, { setAlert, register, login, logout, getTodoList, addTodoList, forgotPassword }) (NavbarItem)

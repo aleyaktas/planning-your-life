@@ -3,11 +3,12 @@ import { connect } from 'react-redux'
 import  PropTypes  from 'prop-types'
 import iconUser from '../../img/user-icon.png'
 import ResetPassword from '../modals/ResetPassword'
-import { resetPassword } from '../../actions/auth'
 import showNotice from '../../utils/showNotice'
+import { resetPassword } from '../../actions/auth'
 
 const Profile = ({user, resetPassword}) => {
 
+  // for reset password
   const [showModal, setShowModal] = useState(false);
   const [password, setPassword] = useState("");
   const modalClose = () => setShowModal(false);
@@ -22,7 +23,7 @@ const Profile = ({user, resetPassword}) => {
     }
     modalClose();
   }
-  
+
   return (
     <section>
       <div className="profile" style={{height:"93vh"}}>
@@ -53,4 +54,4 @@ const mapStateToProps = state => ({
   user: state.auth.user
 })
 
-export default connect(mapStateToProps, {resetPassword}) (Profile)
+export default connect(mapStateToProps, {resetPassword }) (Profile)

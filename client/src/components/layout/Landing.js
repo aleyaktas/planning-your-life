@@ -19,9 +19,9 @@ const Landing = ({isAuthenticated, getTodoList}) => {
     <section className="landing">
       <div className="overlay">
         <div className="landing-inner">
-          <h1 className="x-large">Welcome To-Do Website </h1>
+          <h1 className="x-large">Welcome Planning Your Life</h1>
           <p>
-            Create a user and use to-do website for yourself
+            Create a user and use planning your life website for yourself
           </p>
         </div>
       </div>

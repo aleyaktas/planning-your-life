@@ -8,6 +8,7 @@ import PrivateRoute from './components/route/PrivateRoute'
 import Sidebar from './components/sidebar/Sidebar'
 import Todos from './components/todo/Todos'
 import Profile from './components/profile/Profile'
+import ForgotPassword from './components/layout/ForgotPassword'
 import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken'
 import { ToastContainer } from 'react-toastify';
@@ -32,11 +33,13 @@ const App = () => {
         <NavbarItem/>   
         <Alert/>
         <Route exact path='/' component={Landing} /> 
+        {/* <Route exact path='/forgot' component={ForgotPassword} /> */}
         <PrivateRoute path='/todolist' component={Sidebar} />
         <Switch>
           
           <PrivateRoute path="/todolist/:id" component={Todos} />
           <PrivateRoute exact path="/profile" component={Profile} />
+          <Route exact path="/forgot/:token" component={ForgotPassword}/>
         </Switch>
         {/* <Route component={Landing}/> */}
       </Fragment>
