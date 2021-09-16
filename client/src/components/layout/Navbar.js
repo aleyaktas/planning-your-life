@@ -125,10 +125,10 @@ const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, ge
     <div>
       <Navbar variant="light">
         <Container>
-          <Navbar.Brand>
+          <Nav.Link href='/'>
             <img className="todo-icon" src={icon} alt="" width="50" />
             <Navbar.Text className="text">Planning your life</Navbar.Text>
-          </Navbar.Brand>
+          </Nav.Link>
           <div> 
             <Nav.Link style={{display: 'inline-block', padding:0, paddingRight: 1}} href={'https://github.com/aleyaktas'} >
               <img src={iconGithub} alt="" width="40" />
