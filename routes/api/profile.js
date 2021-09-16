@@ -43,7 +43,7 @@ router.post('/forgot', async (req,res) => {
       if(user) {
         user.resetToken = token
         user.save()
-        mailSender(user.email, "Forgot Password ",`http://localhost:3000/forgot/${token}`)
+        mailSender(user.email, "Forgot Password ",`https://planning-your-life.herokuapp.com/forgot/${token}`)
         return res.status(200).json({message:  'Check your email, if the mail is not showing, check your spam box.' });
       }
   } catch(err){
