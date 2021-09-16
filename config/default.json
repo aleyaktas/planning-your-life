@@ -1,5 +1,0 @@
-{
-  "mongoURI": "mongodb+srv://aleyaktas:aleyaktas@todo.2u1tc.mongodb.net/todo-app?retryWrites=true&w=majority",
-  "jwtSecret": "mysecrettoken"
-}
-
