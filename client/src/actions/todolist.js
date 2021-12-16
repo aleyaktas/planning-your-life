@@ -63,7 +63,7 @@ export const deleteTodoList = (id) => async (dispatch) => {
       payload: id
     })
     // dispatch(setAlert('Todo List removed','success'))
-    showNotice('😿 Todo list removed', 'error')
+    showNotice('😿 Todo list removed', 'warn')
   } catch (err) {
     dispatch({
       type: TODOLIST_ERROR,

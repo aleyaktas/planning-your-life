@@ -36,7 +36,6 @@ const App = () => {
         {/* <Route exact path='/forgot' component={ForgotPassword} /> */}
         <PrivateRoute path='/todolist' component={Sidebar} />
         <Switch>
-          
           <PrivateRoute path="/todolist/:id" component={Todos} />
           <PrivateRoute exact path="/profile" component={Profile} />
           <Route exact path="/forgot/:token" component={ForgotPassword}/>

@@ -88,7 +88,7 @@ const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodo
     e.preventDefault();
     deleteTodoById(todoId)
     modalClose()
-    showNotice('😿 Todo removed', 'error')
+    showNotice('😿 Todo removed', 'warn')
   }
 
   const onBlur = e => {
@@ -151,7 +151,7 @@ const Todo = ({id, todos, todolist: {todolists}, getAllTodo, addTodo, deleteTodo
             <Card.Body className="body-item">           
               <Card.Text className="text-item">
                 You haven't any todo.
-                <Link style={{display:"block"}} onClick={todoShow}> Do you want add new todo task?</Link>
+                <button id="button" variant='warning' style={{width:"100%"}} className="list-button add-button" onClick={todoShow}> Do you want add new todo task?</button>
               </Card.Text>            
               <Card.Text className={`todo-text`}>      
               </Card.Text>

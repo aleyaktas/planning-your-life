@@ -18,6 +18,7 @@ import iconProfile from '../../img/profile-icon.png'
 import iconLogout from '../../img/logout-icon2.png'
 import iconHome from '../../img/home-icon.png'
 import { useHistory } from 'react-router-dom';
+import showNotice from '../../utils/showNotice';
 
 const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, getTodoList ,setAlert, register, login, logout, addTodoList, forgotPassword}) => {
 
@@ -116,7 +117,7 @@ const NavbarItem = ({ auth: {isAuthenticated, loading},todolist: {todolists}, ge
     const onClickForgot = async () => {
       var status = await forgotPassword({email})
       if(status==404) {
-        // showNotice ('😺 Password updated', 'success')
+        showNotice ('😺 Password updated', 'success')
       }
       forgotModalClose();
     }

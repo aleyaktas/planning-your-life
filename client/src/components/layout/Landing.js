@@ -16,16 +16,18 @@ const Landing = ({isAuthenticated, getTodoList}) => {
   }, [fetchId])
 
   return (
-    <section className="landing">
-      <div className="overlay">
-        <div className="landing-inner">
-          <h1 className="x-large">Welcome Planning Your Life</h1>
-          <p>
-            Create a user and use planning your life website for yourself
-          </p>
+    <div>
+      <section className="landing">
+        <div className="overlay">
+          <div className="landing-inner">
+            <h1 className="x-large landing-text">Welcome Planning Your Life</h1>
+            <p className='landing-text'>
+              Create a user and use planning your life website for yourself
+            </p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   )
 }
 

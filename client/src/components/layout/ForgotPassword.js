@@ -50,13 +50,18 @@ const ForgotPassword = ({match, setNewPassword}) => {
               </div>
             </div>
           </div>
-          <h1 className="x-large">Set new Password </h1>
-          <p>
-            Create new password
-          </p>
-          <input type="password" className="password-input" onChange={(e) => setPassword(e.target.value)} placeholder="New Password" />
-          <input onKeyDown={e => handleKeypress(e)} type="password" onChange={(e) => setConfirmPassword(e.target.value)} className="password-input" placeholder="Confirm Password" />
-          <button className="pass-save-button" onClick={(e) => onClickSave()}>Save</button>
+          <div style={{backgroundColor: "#faebd7de", borderRadius: "10%",
+    padding: "3%", border: "black"}}>
+            <h1 className="x-large" style={{color:"#a57c2e"}}>Set new Password </h1>
+            <p style={{width:"100%",color: "#a57c2e"}}>
+              Create new password
+            </p>
+            <div style={{textAlign:" -webkit-center"}}>
+              <input style={{width:"40%", display:"block"}} type="password" className="password-input" onChange={(e) => setPassword(e.target.value)} placeholder="New Password" />
+              <input style={{width:"40%", display:"block"}}  onKeyDown={e => handleKeypress(e)} type="password" onChange={(e) => setConfirmPassword(e.target.value)} className="password-input" placeholder="Confirm Password" />
+            </div>
+            <button className="pass-save-button" onClick={(e) => onClickSave()}>Save</button>
+            </div>
           </div>
         </div>
       </section>

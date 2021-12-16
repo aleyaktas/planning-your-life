@@ -143,7 +143,7 @@ export const forgotPassword = (email) => async () => {
   try {
     const res = await axios.post(`/api/profile/forgot`, email, config);
     console.log(res)
-    showNotice(`${res.data.message}`, 'error')
+    showNotice(`${res.data.message}`, 'success')
   }
   catch(err) {
     const errors = err.response.data.errors;
@@ -169,7 +169,7 @@ export const setNewPassword = (password,token) => async dispatch =>{
     const errors = err.response.data.errors;
 
     if(errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach(error => dispatch(setAlert(error.msg, 'success')));
     }
   }
 }

@@ -1,10 +1,10 @@
 body{
   margin: 0;
   padding: 0;
-  background: linear-gradient(rgba(0,0,0,-0.6), rgba(0,0,0,0.2)), url('./img/todo-home-5.png') no-repeat center center/cover;
+  /* background: linear-gradient(rgba(0,0,0,-0.6), rgba(0,0,0,0.2)), url('./img/todo-home-5.png') no-repeat center center/cover; */
 }
 /*for landing component*/
-.landing {
+/* .landing {
   background: url('./img/todo-landing.png') no-repeat center center/cover;
   height: 100vh;
   background-size: cover;
@@ -13,7 +13,26 @@ body{
   bottom: 0;
   z-index: 1;
   left: 0;
+} */
+
+.landing {
+  height: 100vh;
+  display: block;
+  position: relative;
 }
+
+.landing::after {
+  content: "";
+  background: url('./img/todo-landing.png') no-repeat center center/cover;
+  opacity: 0.7;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;   
+}
+
 .landing-inner {
   color: #fff;
   height: 100%;
@@ -26,6 +45,10 @@ body{
   text-align: center;
   font-style:italic;
 }
+
+.landing-text {
+  color: #5a4037;
+}
 .overlay {
   background-color: rgba(0, 0, 0, 0.1);
   max-width: 100%;
@@ -37,13 +60,11 @@ body{
   text-shadow: 1.5px 1px saddlebrown;
   font-size: 4rem;
   margin-bottom: 20px;
-  color: #FFFAF0;
 }
 .landing-inner p{
   text-shadow: 1px 1px saddlebrown;
   font-size: 2rem;
   width: 40%;
-  color: #FFFAF0;
 }
 /*for navbar component*/
 .navbar {
@@ -139,6 +160,7 @@ body{
   height: inherit;
   overflow-y: scroll;
   padding-top: 10px;
+  background-color: lightpink;
 }
 .drop-down-button {
   display: none !important;
@@ -304,14 +326,21 @@ body{
   overflow-y: scroll;
   float: right;
   margin-top: 7vh !important;
+  background: linear-gradient(rgba(0,0,0,-0.6), rgba(0,0,0,0.2)), url('./img/todo-home-5.png') no-repeat center center/cover;
+  
 }
 /*for profile component*/
+.profile {
+  background: linear-gradient(rgba(0,0,0,-0.6), rgba(0,0,0,0.2)), url('./img/todo-home-5.png') no-repeat center center/cover;
+
+}
 .profile-inner {
   margin-top: 7vh;
   height: 86vh;
   justify-content: center;
   display: flex;
   align-items: center;
+
 }
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
