@@ -16,11 +16,11 @@ It is a platform makes your life easier by saving your plans
 
 To clone this project:
 ```bash
-  git clone https://github.com/aleyaktas/TodoApp.git
+  git clone https://github.com/aleyaktas/planning-your-life.git
 ```
 To make necessary downloads for backend:
 ```bash
-  cd TodoApp
+  cd planning-your-life
   npm install
 ```
 To make necessary downloads for frontend:
