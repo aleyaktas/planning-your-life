@@ -1,4 +1,4 @@
-body{
+body {
   margin: 0;
   padding: 0;
   /* background: linear-gradient(rgba(0,0,0,-0.6), rgba(0,0,0,0.2)), url('./img/todo-home-5.png') no-repeat center center/cover; */
@@ -14,6 +14,15 @@ body{
   z-index: 1;
   left: 0;
 } */
+html {
+  font-size: 82.5% !important; /*10px*/
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
 
 .landing {
   height: 100vh;
@@ -23,14 +32,23 @@ body{
 
 .landing::after {
   content: "";
-  background: url('./img/todo-landing.png') no-repeat center center/cover;
-  opacity: 0.7;
+  /* background: url("./img/todo-home-3.png") no-repeat center center/cover; */
+
+  /* background: rgb(245, 171, 183);
+  background: linear-gradient(
+    90deg,
+    rgba(245, 171, 183, 1) 0%,
+    rgba(247, 241, 242, 1) 45%
+  ); */
+  background: url("./img/home.png") no-repeat center center/cover;
+  object-fit: cover;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   position: absolute;
-  z-index: -1;   
+  z-index: -1;
+  margin-top: 7vh;
 }
 
 .landing-inner {
@@ -43,11 +61,18 @@ body{
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-style:italic;
+  font-style: italic;
 }
 
 .landing-text {
-  color: #5a4037;
+  color: white;
+}
+.landing-text-container {
+  display: flex;
+  margin-top: 30rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .overlay {
   background-color: rgba(0, 0, 0, 0.1);
@@ -56,15 +81,13 @@ body{
   width: 100%;
   height: 100%;
 }
-.landing-inner h1{
-  text-shadow: 1.5px 1px saddlebrown;
+.landing-inner h1 {
   font-size: 4rem;
   margin-bottom: 20px;
 }
-.landing-inner p{
-  text-shadow: 1px 1px saddlebrown;
+.landing-inner p {
   font-size: 2rem;
-  width: 40%;
+  width: 70%;
 }
 /*for navbar component*/
 .navbar {
@@ -78,23 +101,38 @@ body{
   top: 0;
   z-index: 1;
 }
-.navbar-button {
-  background-color: transparent;
+.navbar-title {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
 }
+
 .nav-link {
   width: max-content;
 }
 .navbar-text.text {
-  font-style:italic; 
-  font-weight:500;
-  margin:15px
+  font-style: italic;
+  font-weight: 500;
 }
 .btn.navbar-button {
   font-weight: bold;
   border-radius: 10px;
   padding: 7px 12px;
-  color: #b38879;
-  border-color: #ddb028;
+
+  color: white;
+  background-color: #0097a5;
+}
+.btn.navbar-button:hover {
+  background-color: #006b7a !important;
+  color: white !important;
+  transition: 0.5s;
+}
+.account-button {
+  padding: 10px 15px;
+  color: black;
+  border: none;
+  border-radius: 7px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 /*for modals*/
 .form-control.modal-form-text {
@@ -113,7 +151,7 @@ body{
   border-color: #8f9498;
 }
 .btn.modal-save-button {
-  background-color:#bda96c;
+  background-color: #bda96c;
   border-color: #bda96c !important;
   border-radius: 15px;
   color: white;
@@ -127,21 +165,21 @@ body{
   text-decoration: underline;
 }
 .btn.modal-control-button:hover {
-  color:rgb(2, 95, 182);
+  color: rgb(2, 95, 182);
   background-color: transparent;
 }
 .btn.modal-delete-button {
   background-color: #ff5d5d;
-  border-color: #ff5d5d
+  border-color: #ff5d5d;
 }
 .btn.modal-delete-button:hover {
-  background-color: #ab0d0d ;
+  background-color: #ab0d0d;
 }
 .modal-content {
   transform: translate(5px, 200px);
   background-color: floralwhite !important;
   border-radius: 30px !important;
-  padding: 10px
+  padding: 10px;
 }
 /*for sidebar component*/
 .home {
@@ -160,7 +198,8 @@ body{
   height: inherit;
   overflow-y: scroll;
   padding-top: 10px;
-  background-color: lightpink;
+  /* background-color: lightpink; */
+  background-color: rgb(255 207 207 / 64%);
 }
 .drop-down-button {
   display: none !important;
@@ -184,7 +223,7 @@ body{
   border: solid 2px black;
   outline: 0;
   letter-spacing: 0.08rem;
-  background-color: #FBF0E8;
+  background-color: #fbf0e8;
   border-radius: 0.35rem;
   position: relative;
   cursor: pointer;
@@ -224,12 +263,14 @@ body{
 }
 /*for todo component*/
 .todo-section {
-  color:black;
+  color: black;
   background-color: floralwhite;
   opacity: 0.9;
   width: 80%;
   margin: 10px;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 }
 .card-text.text {
   flex: auto;
@@ -239,19 +280,19 @@ body{
   background-color: floralwhite;
 }
 .card.bg-complete {
-  background-color: #E7DCDD;
+  background-color: #e7dcdd;
 }
 .card-text.todo-text {
-  display:inline-block;
-  margin: 0; 
+  display: inline-block;
+  margin: 0;
   justify-content: center;
-  align-self:center;
+  align-self: center;
   width: 80%;
   padding: 3px;
 }
 .todo-button-style {
-  margin-left:auto; 
-  text-align:center; 
+  margin-left: auto;
+  text-align: center;
   width: 20%;
   align-self: center;
 }
@@ -260,7 +301,7 @@ body{
   width: 15%;
   padding: 4px;
   background-color: pink;
-  display:inline-block;
+  display: inline-block;
   align-self: center;
   font-size: 1rem;
 }
@@ -269,11 +310,11 @@ body{
   border-radius: 10px;
 }
 .date-style {
-  margin-bottom: 0px; 
+  margin-bottom: 0px;
   padding-bottom: 3px;
-  font-size: 0.85rem; 
+  font-size: 0.85rem;
   font-style: italic;
-  padding-left: 9px; 
+  padding-left: 9px;
   color: #592a2a;
 }
 .btn.delete-button:hover {
@@ -281,7 +322,7 @@ body{
   border-radius: 10px;
 }
 .btn.complete-button:hover {
-  background-color: #B0DB64 !important;
+  background-color: #b0db64 !important;
   border-radius: 10px;
 }
 .btn.save-button:hover {
@@ -289,29 +330,32 @@ body{
   background-color: #ad9577 !important;
 }
 .btn.edit-button:hover {
-  background-color: #F6B128 !important;
+  background-color: #f6b128 !important;
   border-radius: 10px;
 }
-.edit-button, .save-button, .complete-button, .delete-button {
+.edit-button,
+.save-button,
+.complete-button,
+.delete-button {
   background-color: transparent !important;
   border-color: transparent !important;
   border-radius: 10px;
 }
 .card-body.body {
-  padding: 0.5rem 1rem; 
+  padding: 0.5rem 1rem;
   padding-top: 0;
   display: flex;
 }
 .card-body.body-item {
-  display:inline-block;
+  display: inline-block;
   text-align: center;
 }
 .card-text.text-item {
-  font-size:1.5rem;
-  font-weight:500;
-  font-style:italic;
-  color:black;
-  margin:auto;
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-style: italic;
+  color: black;
+  margin: auto;
 }
 .tooltip-delete {
   opacity: 0.9 !important;
@@ -326,13 +370,16 @@ body{
   overflow-y: scroll;
   float: right;
   margin-top: 7vh !important;
-  background: linear-gradient(rgba(0,0,0,-0.6), rgba(0,0,0,0.2)), url('./img/todo-home-5.png') no-repeat center center/cover;
-  
+  /* background: linear-gradient(rgba(0, 0, 0, -0.6), rgba(0, 0, 0, 0.2)),
+    url("./img/todo-home-5.png") no-repeat center center/cover; */
+  background-color: #dddddd;
 }
+
 /*for profile component*/
 .profile {
-  background: linear-gradient(rgba(0,0,0,-0.6), rgba(0,0,0,0.2)), url('./img/todo-home-5.png') no-repeat center center/cover;
-
+  /* background: linear-gradient(rgba(0, 0, 0, -0.6), rgba(0, 0, 0, 0.2)),
+    url("./img/todo-home-5.png") no-repeat center center/cover; */
+  background-color: #dddddd;
 }
 .profile-inner {
   margin-top: 7vh;
@@ -340,23 +387,24 @@ body{
   justify-content: center;
   display: flex;
   align-items: center;
-
 }
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
 
 .card-container {
-	background-color: #ffe9ed;
-	border-radius: 10%;
-	color: #737788;
-	padding: 50px 80px;
-	max-width: 100%;
-	text-align: center;
-  box-shadow: rgba(240, 46, 170, 0.4) -5px 5px, rgba(240, 46, 170, 0.3) -10px 10px, rgba(240, 46, 170, 0.2) -15px 15px, rgba(240, 46, 170, 0.1) -20px 20px, rgba(240, 46, 170, 0.05) -25px 25px;
+  background-color: #ffe9ed;
+  border-radius: 10%;
+  color: #737788;
+  padding: 50px 80px;
+  max-width: 100%;
+  text-align: center;
+  box-shadow: rgba(240, 46, 170, 0.4) -5px 5px,
+    rgba(240, 46, 170, 0.3) -10px 10px, rgba(240, 46, 170, 0.2) -15px 15px,
+    rgba(240, 46, 170, 0.1) -20px 20px, rgba(240, 46, 170, 0.05) -25px 25px;
 }
 .card-container .round {
-	border: 1px solid #03BFCB;
-	border-radius: 50%;
-	padding: 7px;
+  border: 1px solid #03bfcb;
+  border-radius: 50%;
+  padding: 7px;
   margin-bottom: 14px;
 }
 
@@ -403,7 +451,7 @@ body{
 }
 
 .float-right {
-  float: right
+  float: right;
 }
 
 /*for scrollbar*/
@@ -440,7 +488,7 @@ body{
 }
 
 .pass-save-button:hover {
-  background-color:#ffd500 ;
+  background-color: #ffd500;
 }
 
 .password-input {
@@ -481,7 +529,8 @@ body{
   left: 50%;
   transform: translate(-50%, 0);
   background: var(--color);
-  box-shadow: -30px 0 0px 0px var(--color-one) inset, 10px 0 0px 0px var(--color-two) inset;
+  box-shadow: -30px 0 0px 0px var(--color-one) inset,
+    10px 0 0px 0px var(--color-two) inset;
 }
 .padlock__face {
   height: 25%;
@@ -499,10 +548,10 @@ body{
   top: 0;
   border-radius: 50%;
   -webkit-animation: blink 4s infinite linear;
-          animation: blink 4s infinite linear;
+  animation: blink 4s infinite linear;
 }
 .padlock__eye:after {
-  content: '';
+  content: "";
   height: 25%;
   width: 25%;
   background: #fff;
@@ -519,18 +568,26 @@ body{
   right: 0;
 }
 @-webkit-keyframes blink {
-  0%, 24%, 27%, 100% {
+  0%,
+  24%,
+  27%,
+  100% {
     transform: scaleY(1);
   }
-  25%, 26% {
+  25%,
+  26% {
     transform: scaleY(0);
   }
 }
 @keyframes blink {
-  0%, 24%, 27%, 100% {
+  0%,
+  24%,
+  27%,
+  100% {
     transform: scaleY(1);
   }
-  25%, 26% {
+  25%,
+  26% {
     transform: scaleY(0);
   }
 }
@@ -564,7 +621,7 @@ body{
 }
 .padlock__mouth--two:before,
 .padlock__mouth--three:before {
-  content: '';
+  content: "";
   height: 100%;
   width: 100%;
   position: absolute;
@@ -577,7 +634,7 @@ body{
   background: #000;
 }
 .padlock__mouth--three:after {
-  content: '';
+  content: "";
   position: absolute;
   height: 6px;
   width: 10px;
@@ -597,10 +654,12 @@ body{
   transform: translate(-50%, calc(var(--pos, 40) * -1%));
   -webkit-clip-path: inset(0 0 30% 0);
   clip-path: inset(0 0 30% 0);
-  transition: transform calc(var(--transition, 0.2) * 1s) calc(((var(--transition, 0.2) * 1.5) * var(--delay, 0)) * 1s) cubic-bezier(0.78, 0.16, 0.64, 1.8);
+  transition: transform calc(var(--transition, 0.2) * 1s)
+    calc(((var(--transition, 0.2) * 1.5) * var(--delay, 0)) * 1s)
+    cubic-bezier(0.78, 0.16, 0.64, 1.8);
 }
 .padlock__hook:after {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -609,8 +668,22 @@ body{
   border-radius: 50%/40%;
   transform: translate(-50%, -50%);
   box-shadow: 5px 0 0 0 #fff inset, -10px 0 0 0 #666 inset;
-  -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(var(--clip) * 1%), 50% calc(var(--clip) * 1%), 50% 100%, 0 100%);
-  clip-path: polygon(0 0, 100% 0, 100% calc(var(--clip) * 1%), 50% calc(var(--clip) * 1%), 50% 100%, 0 100%);
+  -webkit-clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(var(--clip) * 1%),
+    50% calc(var(--clip) * 1%),
+    50% 100%,
+    0 100%
+  );
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(var(--clip) * 1%),
+    50% calc(var(--clip) * 1%),
+    50% 100%,
+    0 100%
+  );
 }
 .padlock__hook > div {
   position: absolute;
@@ -623,22 +696,51 @@ body{
   height: 100%;
   border: 36px solid #000;
   border-radius: 50%/40%;
-  -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(calc(var(--clip) * 1%) + 8px), 50% calc(calc(var(--clip) * 1%) + 8px), 50% 100%, 0 100%);
-  clip-path: polygon(0 0, 100% 0, 100% calc(calc(var(--clip) * 1%) + 8px), 50% calc(calc(var(--clip) * 1%) + 8px), 50% 100%, 0 100%);
+  -webkit-clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(calc(var(--clip) * 1%) + 8px),
+    50% calc(calc(var(--clip) * 1%) + 8px),
+    50% 100%,
+    0 100%
+  );
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(calc(var(--clip) * 1%) + 8px),
+    50% calc(calc(var(--clip) * 1%) + 8px),
+    50% 100%,
+    0 100%
+  );
 }
 .padlock__hook > div:nth-of-type(2) {
   width: calc(100% - 16px);
   height: calc(100% - 16px);
   border: 20px solid #bfbfbf;
   border-radius: 50%/40%;
-  -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(var(--clip) * 1%), 50% calc(var(--clip) * 1%), 50% 100%, 0 100%);
-  clip-path: polygon(0 0, 100% 0, 100% calc(var(--clip) * 1%), 50% calc(var(--clip) * 1%), 50% 100%, 0 100%);
+  -webkit-clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(var(--clip) * 1%),
+    50% calc(var(--clip) * 1%),
+    50% 100%,
+    0 100%
+  );
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(var(--clip) * 1%),
+    50% calc(var(--clip) * 1%),
+    50% 100%,
+    0 100%
+  );
 }
 
-
-
 /**/
-@media (max-width:768px){
+@media (max-width: 768px) {
+  .landing::after {
+    background: url("./img/home-1.png") no-repeat center center/cover;
+  }
   .home {
     display: none;
     width: 75%;
@@ -656,7 +758,7 @@ body{
     display: block;
     margin-inline: auto;
     color: white;
-  } 
+  }
   .btn.drop-down-button {
     margin-top: 15px;
     display: inline-block !important;
@@ -670,11 +772,11 @@ body{
     background-color: pink;
     border-radius: 10px;
     border-color: pink;
-  } 
+  }
   .btn.navbar-button {
     font-size: 0.9rem;
   }
-  .btn.navbar-button img{
+  .btn.navbar-button img {
     display: inline-block !important;
     width: 16px;
     padding: 0;
@@ -689,14 +791,18 @@ body{
   .d-none {
     display: block;
   }
-  .shake{
+  .shake {
     animation: shake 2s infinite;
     max-width: 75%;
-}
+  }
   @keyframes shake {
-    from {width: 40%;}
-    to {width: 75%;}
-}
+    from {
+      width: 40%;
+    }
+    to {
+      width: 75%;
+    }
+  }
   .todo-card {
     display: none;
   }
@@ -722,16 +828,25 @@ body{
     display: flex;
     margin-inline: auto;
   }
-  
 }
 
-@media (max-width:576px){
+@media (max-width: 576px) {
+  .landing::after {
+    background: url("./img/home-2.png") no-repeat center center/cover;
+  }
+  .landing-text-container {
+    margin-top: 40rem;
+  }
+  html {
+    font-size: 60% !important; /*10px*/
+  }
+
   .home {
     display: none;
     width: 75%;
     top: auto;
   }
-  .dropdown-item{
+  .dropdown-item {
     display: none !important;
   }
   .todos-section {
@@ -739,7 +854,6 @@ body{
     min-height: 93vh;
     overflow-y: auto;
     margin-top: 0 !important;
-    
   }
   .drop-down {
     display: inline-block !important;
@@ -749,7 +863,7 @@ body{
     display: block;
     margin-inline: auto;
     color: white;
-  } 
+  }
   .btn.drop-down-button {
     margin-top: 15px;
     display: inline-block !important;
@@ -763,11 +877,11 @@ body{
     background-color: pink;
     border-radius: 10px;
     border-color: pink;
-  } 
+  }
   .btn.navbar-button {
     font-size: 0.9rem;
   }
-  .btn.navbar-button img{
+  .btn.navbar-button img {
     display: inline-block !important;
     width: 16px;
     padding: 0;
@@ -782,14 +896,18 @@ body{
   .d-none {
     display: block !important;
   }
-  .shake{
+  .shake {
     animation: shake 2s infinite;
     max-width: 75%;
-}
+  }
   @keyframes shake {
-    from {width: 40%;}
-    to {width: 75%;}
-}
+    from {
+      width: 40%;
+    }
+    to {
+      width: 75%;
+    }
+  }
   .todo-card {
     display: none;
   }
@@ -825,25 +943,26 @@ body{
     right: 5px;
   }
   .card-text.text-item {
-    font-size:1.25rem
+    font-size: 1.25rem;
   }
   .navbar-brand {
-    margin:0px;
+    margin: 0px;
     font-size: 1rem !important;
   }
   .navbar {
     padding: 1rem 1rem !important;
   }
+  .modal-content {
+    width: 70% !important;
+    margin: auto !important;
+  }
   .login-modal-body {
     padding: 0 !important;
   }
-  .landing-inner h1{
-    text-shadow: 1.5px 1px black;
+  .landing-inner h1 {
     font-size: 3rem;
   }
-  .landing-inner p{
-    text-shadow: 1px 1px darkslateblue;
+  .landing-inner p {
     font-size: 1.5rem;
   }
 }
-
