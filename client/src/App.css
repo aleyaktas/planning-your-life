@@ -54,14 +54,14 @@ html {
 .landing-inner {
   color: #fff;
   height: 100%;
-  width: 80%;
+  /* width: 80%; */
   margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-style: italic;
+  font-weight: bold;
 }
 
 .landing-text {
@@ -144,11 +144,14 @@ html {
 }
 .btn.modal-button {
   border-radius: 15px !important;
+  border: none;
 }
 .btn.modal-close-button {
   color: #fff;
+  font-weight: bold;
   background-color: #8f9498;
   border-color: #8f9498;
+  padding: 7px 12px;
 }
 .btn.modal-save-button {
   background-color: #bda96c;
@@ -171,6 +174,8 @@ html {
 .btn.modal-delete-button {
   background-color: #ff5d5d;
   border-color: #ff5d5d;
+  padding: 7px 12px;
+  font-weight: bold;
 }
 .btn.modal-delete-button:hover {
   background-color: #ab0d0d;
@@ -201,9 +206,7 @@ html {
   /* background-color: lightpink; */
   background-color: rgb(255 207 207 / 64%);
 }
-.drop-down-button {
-  display: none !important;
-}
+
 .drop-down {
   display: none;
 }
@@ -228,6 +231,7 @@ html {
   position: relative;
   cursor: pointer;
   display: flex;
+  color: white;
   justify-content: space-between;
 }
 #button::after {
@@ -372,14 +376,14 @@ html {
   margin-top: 7vh !important;
   /* background: linear-gradient(rgba(0, 0, 0, -0.6), rgba(0, 0, 0, 0.2)),
     url("./img/todo-home-5.png") no-repeat center center/cover; */
-  background-color: #dddddd;
+  background-color: #9a7c92;
 }
 
 /*for profile component*/
 .profile {
   /* background: linear-gradient(rgba(0, 0, 0, -0.6), rgba(0, 0, 0, 0.2)),
     url("./img/todo-home-5.png") no-repeat center center/cover; */
-  background-color: #dddddd;
+  background-color: #9a7c92;
 }
 .profile-inner {
   margin-top: 7vh;
@@ -406,6 +410,9 @@ html {
   border-radius: 50%;
   padding: 7px;
   margin-bottom: 14px;
+}
+.modal-dialog {
+  max-width: 460px !important;
 }
 
 /*for alert component*/
@@ -746,33 +753,11 @@ html {
     width: 75%;
   }
   .todos-section {
-    width: 95%;
+    width: 100%;
     min-height: 93vh;
     overflow-y: auto;
   }
-  .drop-down {
-    display: inline-block !important;
-    margin-top: 10px;
-  }
-  .drop-down-item {
-    display: block;
-    margin-inline: auto;
-    color: white;
-  }
-  .btn.drop-down-button {
-    margin-top: 15px;
-    display: inline-block !important;
-    margin: 0.5rem 1rem;
-    background-color: pink;
-    border-radius: 10px;
-    border-color: pink;
-    font-size: 24px;
-  }
-  .btn.drop-down-button:hover {
-    background-color: pink;
-    border-radius: 10px;
-    border-color: pink;
-  }
+
   .btn.navbar-button {
     font-size: 0.9rem;
   }
@@ -821,9 +806,9 @@ html {
   .todo-button-style {
     width: 35%;
   }
-  img {
+  /* img {
     display: none;
-  }
+  } */
   .card-container img {
     display: flex;
     margin-inline: auto;
@@ -846,38 +831,42 @@ html {
     width: 75%;
     top: auto;
   }
-  .dropdown-item {
-    display: none !important;
-  }
+
   .todos-section {
-    width: 95%;
+    width: 100%;
     min-height: 93vh;
     overflow-y: auto;
-    margin-top: 0 !important;
   }
   .drop-down {
-    display: inline-block !important;
-    margin-top: 7vh;
-  }
-  .drop-down-item {
+    position: relative !important;
     display: block;
-    margin-inline: auto;
-    color: white;
+    top: 15px;
+    left: 4%;
+    z-index: 5;
+    height: 0px;
   }
+  .navbar-text.text {
+    display: none !important;
+  }
+
   .btn.drop-down-button {
-    margin-top: 15px;
-    display: inline-block !important;
-    margin: 0.5rem 1rem;
     background-color: pink;
     border-radius: 10px;
     border-color: pink;
-    font-size: 24px;
+    font-size: 14px;
   }
   .btn.drop-down-button:hover {
     background-color: pink;
     border-radius: 10px;
     border-color: pink;
   }
+  .drop-down-item {
+    color: white;
+  }
+  .navbar-expand {
+    position: absolute !important;
+  }
+
   .btn.navbar-button {
     font-size: 0.9rem;
   }
@@ -892,6 +881,7 @@ html {
   .d-block {
     display: inline-block;
     animation: flip 1s ease-out forwards;
+    margin-top: 7vh;
   }
   .d-none {
     display: block !important;
@@ -929,9 +919,9 @@ html {
     justify-content: flex-start;
     align-self: auto;
   }
-  img {
+  /* img {
     display: none;
-  }
+  } */
   .card-container {
     padding: 30px 40px;
   }
@@ -963,6 +953,15 @@ html {
     font-size: 3rem;
   }
   .landing-inner p {
-    font-size: 1.5rem;
+    font-size: 2rem;
+  }
+  .todo-icon {
+    display: none !important;
+  }
+  img {
+    width: 50px;
+  }
+  #button p {
+    color: black !important;
   }
 }

@@ -138,25 +138,11 @@ const NavbarItem = ({
       <Navbar variant="light">
         <Container>
           <Nav.Link href="/" className="navbar-title">
-            <img className="todo-icon" src={icon} alt="" width="60" />
+            <img src={icon} alt="" width="60" />
             <Navbar.Text style={{ fontSize: "1.6rem" }} className="text">
               Planning your life
             </Navbar.Text>
           </Nav.Link>
-          {/* <div>
-            <Nav.Link
-              style={{ display: "inline-block", padding: 0, paddingRight: 1 }}
-              href={"https://github.com/aleyaktas"}
-            >
-              <img src={iconGithub} alt="" width="45" />
-            </Nav.Link>
-            <Nav.Link
-              style={{ display: "inline-block", padding: 0 }}
-              href={"https://www.linkedin.com/in/aleyna-akta%C5%9F-39b660197/"}
-            >
-              <img src={iconLinkedin} alt="" width="45" />
-            </Nav.Link>
-          </div> */}
           <Nav>
             <Nav.Link>
               <Button
@@ -210,34 +196,22 @@ const NavbarItem = ({
         style={{ background: "transparent", border: "none" }}
         onClick={onClickHome}
       >
-        <img src={icon} alt="" width="40" />
+        <img className="todo-icon" src={icon} alt="" width="40" />
         <Navbar.Text className="text">Planning your life</Navbar.Text>
       </button>
       <Nav>
         <Nav.Link>
-          <Button
-            onClick={onClickHome}
-            className="navbar-button"
-            variant="outline-warning"
-          >
+          <Button onClick={onClickHome} className="btn navbar-button">
             <img src={iconHome} alt="" width="22" />
           </Button>
         </Nav.Link>
         <Nav.Link>
-          <Button
-            onClick={onClickProfile}
-            className="navbar-button"
-            variant="outline-warning"
-          >
+          <Button onClick={onClickProfile} className="btn navbar-button">
             <img src={iconProfile} alt="" width="22" />
           </Button>
         </Nav.Link>
         <Nav.Link>
-          <Button
-            className="navbar-button"
-            onClick={onClickLogout}
-            variant="outline-warning"
-          >
+          <Button className="btn navbar-button" onClick={onClickLogout}>
             <img src={iconLogout} alt="" width="22" />
           </Button>
         </Nav.Link>

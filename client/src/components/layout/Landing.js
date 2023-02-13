@@ -22,7 +22,7 @@ const Landing = ({ isAuthenticated, getTodoList }) => {
           <div className="landing-inner">
             <div className="landing-text-container">
               <p className="landing-text">
-                Create a user and use planning your life website for yourself
+                Step into a more organized life by creating a free account
               </p>
               {/* <button className="account-button">Create Account</button> */}
             </div>

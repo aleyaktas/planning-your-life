@@ -36,8 +36,8 @@ const Profile = ({ user, resetPassword }) => {
               <h6 style={{ marginBottom: 9, marginTop: 7 }}>{user?.email}</h6>
               <button
                 onClick={modalShow}
-                style={{ color: "white", marginTop: 13, borderRadius: 10 }}
-                className="btn btn-success"
+                style={{ marginTop: 13, borderRadius: 10 }}
+                className="btn navbar-button"
               >
                 Change password
               </button>
