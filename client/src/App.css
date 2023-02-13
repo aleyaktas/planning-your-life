@@ -3,17 +3,7 @@ body {
   padding: 0;
   /* background: linear-gradient(rgba(0,0,0,-0.6), rgba(0,0,0,0.2)), url('./img/todo-home-5.png') no-repeat center center/cover; */
 }
-/*for landing component*/
-/* .landing {
-  background: url('./img/todo-landing.png') no-repeat center center/cover;
-  height: 100vh;
-  background-size: cover;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  left: 0;
-} */
+
 html {
   font-size: 82.5% !important; /*10px*/
 }
@@ -32,14 +22,6 @@ html {
 
 .landing::after {
   content: "";
-  /* background: url("./img/todo-home-3.png") no-repeat center center/cover; */
-
-  /* background: rgb(245, 171, 183);
-  background: linear-gradient(
-    90deg,
-    rgba(245, 171, 183, 1) 0%,
-    rgba(247, 241, 242, 1) 45%
-  ); */
   background: url("./img/home.png") no-repeat center center/cover;
   object-fit: cover;
   top: 0;
@@ -126,6 +108,9 @@ html {
   background-color: #006b7a !important;
   color: white !important;
   transition: 0.5s;
+}
+#button p {
+  color: black;
 }
 .account-button {
   padding: 10px 15px;
@@ -401,12 +386,10 @@ html {
   padding: 50px 80px;
   max-width: 100%;
   text-align: center;
-  box-shadow: rgba(240, 46, 170, 0.4) -5px 5px,
-    rgba(240, 46, 170, 0.3) -10px 10px, rgba(240, 46, 170, 0.2) -15px 15px,
-    rgba(240, 46, 170, 0.1) -20px 20px, rgba(240, 46, 170, 0.05) -25px 25px;
 }
 .card-container .round {
-  border: 1px solid #03bfcb;
+  border: 2px solid gray;
+  border-style: dashed;
   border-radius: 50%;
   padding: 7px;
   margin-bottom: 14px;
@@ -813,6 +796,35 @@ html {
     display: flex;
     margin-inline: auto;
   }
+  .drop-down {
+    position: relative !important;
+    display: block;
+    top: 15px;
+    left: 4%;
+    z-index: 5;
+    height: 0px;
+  }
+
+  .btn.drop-down-button {
+    background-color: pink;
+    border-radius: 10px;
+    border-color: pink;
+    font-size: 14px;
+  }
+  .btn.drop-down-button:hover {
+    background-color: pink;
+    border-radius: 10px;
+    border-color: pink;
+  }
+  .drop-down-item {
+    color: white;
+  }
+  .todo-icon {
+    display: none;
+  }
+  .navbar-text.text {
+    margin-left: 40px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -837,6 +849,9 @@ html {
     min-height: 93vh;
     overflow-y: auto;
   }
+  .navbar-text.text {
+    display: none !important;
+  }
   .drop-down {
     position: relative !important;
     display: block;
@@ -844,9 +859,6 @@ html {
     left: 4%;
     z-index: 5;
     height: 0px;
-  }
-  .navbar-text.text {
-    display: none !important;
   }
 
   .btn.drop-down-button {
