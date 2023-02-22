@@ -201,17 +201,17 @@ const NavbarItem = ({
       </button>
       <Nav>
         <Nav.Link>
-          <Button onClick={onClickHome} className="btn navbar-button">
+          <Button onClick={onClickHome} className="navbar-button">
             <img src={iconHome} alt="" width="22" />
           </Button>
         </Nav.Link>
         <Nav.Link>
-          <Button onClick={onClickProfile} className="btn navbar-button">
+          <Button onClick={onClickProfile} className="navbar-button">
             <img src={iconProfile} alt="" width="22" />
           </Button>
         </Nav.Link>
         <Nav.Link>
-          <Button className="btn navbar-button" onClick={onClickLogout}>
+          <Button className="navbar-button" onClick={onClickLogout}>
             <img src={iconLogout} alt="" width="22" />
           </Button>
         </Nav.Link>

@@ -19,11 +19,11 @@ const RegisterModal = ({
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group className="mb-4 mt-2">
+            <Form.Group className="">
               <Row>
                 <Col>
                   <Form.Control
-                    className="mb-4 modal-form-text"
+                    className="modal-form-text"
                     value={registerData.firstname}
                     name="firstname"
                     placeholder="First name"
@@ -41,7 +41,7 @@ const RegisterModal = ({
                 </Col>
               </Row>
               <Form.Control
-                className="modal-form-text"
+                className="modal-form-text mb-4 "
                 value={registerData.email}
                 name="email"
                 type="email"
