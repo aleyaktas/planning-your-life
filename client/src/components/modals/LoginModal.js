@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
+import ShowMessage from "../../utils/ShowMessage";
 
 const LoginModal = ({
   onChangeLogin,
@@ -9,6 +10,7 @@ const LoginModal = ({
   registerShow,
   loginData,
   forgotModalShow,
+  authError,
 }) => {
   return (
     <div>
@@ -18,6 +20,9 @@ const LoginModal = ({
         </Modal.Header>
         <Modal.Body className="login-modal-body">
           <Form>
+            {authError.isAvailable && (
+              <ShowMessage errorMsg={authError.errorMsg} />
+            )}
             <Form.Group className="m-2 mb-4 " controlId="formBasicEmail">
               <Form.Control
                 className="modal-form-text"
@@ -55,7 +60,7 @@ const LoginModal = ({
               </Button>
               <div>
                 <Button
-                  style={{ marginRight: 3 }}
+                  style={{ marginRight: 2 }}
                   className="modal-button modal-close-button"
                   variant="secondary"
                   onClick={loginClose}
@@ -64,7 +69,6 @@ const LoginModal = ({
                 </Button>
                 <Button
                   className="modal-button navbar-button"
-                  variant="warning"
                   onClick={onClickLogin}
                 >
                   Login

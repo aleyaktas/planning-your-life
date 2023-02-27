@@ -19,6 +19,12 @@ button.btn.navbar-button.btn.btn-primary {
 .btn.navbar-button:hover {
   border: none !important;
 }
+.btn.navbar-button {
+  font-size: 1rem !important;
+}
+.modal-footer {
+  margin-top: 1rem !important;
+}
 .landing {
   height: 100vh;
   display: block;
@@ -76,6 +82,10 @@ button.btn.navbar-button.btn.btn-primary {
   font-size: 2rem;
   width: 70%;
 }
+.dropdown-item:focus,
+.dropdown-item:hover {
+  background-color: transparent !important;
+}
 /*for navbar component*/
 .navbar {
   background-color: floralwhite;
@@ -110,8 +120,7 @@ button.btn.navbar-button.btn.btn-primary {
 .btn.navbar-button {
   font-weight: bold;
   border-radius: 10px;
-  padding: 7px 12px;
-
+  padding: 7px 10px;
   color: white;
   background-color: #0097a5;
 }
@@ -147,17 +156,28 @@ button.btn.navbar-button.btn.btn-primary {
   font-weight: bold;
   background-color: #8f9498;
   border-color: #8f9498;
-  padding: 7px 12px;
+  padding: 7px 12px !important;
+  margin-right: 10px !important;
+  font-size: 1rem !important;
 }
 .btn.modal-save-button {
   background-color: #bda96c;
   border-color: #bda96c !important;
   border-radius: 15px;
   color: white;
+  padding: 7px 12px !important;
+  font-size: 1rem !important;
+  font-weight: bold;
+}
+.btn.modal-save-button:focus {
+  background-color: #bda96c !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 .btn.modal-save-button:hover {
   color: #fff;
   transition: 0.2s;
+  background-color: #b3963f;
 }
 .btn.modal-control-button {
   font-style: italic;
@@ -179,6 +199,7 @@ button.btn.navbar-button.btn.btn-primary {
   background-color: #ab0d0d;
   transition: 0.2s;
 }
+
 .modal-content {
   transform: translate(5px, 200px);
   background-color: floralwhite !important;
@@ -433,6 +454,8 @@ button.btn.navbar-button.btn.btn-primary {
 
 /*for alert component*/
 .alert {
+  width: 100%;
+  position: absolute !important;
   height: 7vh;
   padding: 0.8rem;
   opacity: 0.9;
@@ -440,7 +463,10 @@ button.btn.navbar-button.btn.btn-primary {
   z-index: 1070;
   box-sizing: border-box;
   margin-bottom: 0;
-  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* position: fixed; */
 }
 .alert-primary {
   background: var(--primary-color);
@@ -455,8 +481,8 @@ button.btn.navbar-button.btn.btn-primary {
   color: #fff;
 }
 .alert-danger {
-  background: var(--danger-color);
-  color: #fff;
+  background-color: #f8d7da !important;
+  color: #842029 !important;
 }
 .alert-success {
   background: var(--success-color);
@@ -784,19 +810,21 @@ button.btn.navbar-button.btn.btn-primary {
   }
 
   .btn.navbar-button {
-    font-size: 0.9rem;
+    font-size: 0.9rem !important;
+    padding: 7px 10px !important;
   }
   .btn.navbar-button img {
     display: inline-block !important;
     width: 16px;
     padding: 0;
   }
+
   .todo-section {
     width: 90%;
   }
   .d-block {
     display: inline-block;
-    animation: flip 1s ease-out forwards;
+    animation: flip 0.5s ease-out forwards;
   }
   .d-none {
     display: block;
@@ -813,7 +841,7 @@ button.btn.navbar-button.btn.btn-primary {
     overflow-wrap: anywhere;
   }
   #button.add-button {
-    width: 35%;
+    width: auto !important;
   }
   .modal-dialog {
     right: 5px;
@@ -877,15 +905,18 @@ button.btn.navbar-button.btn.btn-primary {
 
   .home {
     display: none;
-    width: 35%;
+    width: 45%;
     top: auto;
+  }
+  .Toastify__toast {
+    min-height: 56px !important;
   }
   @keyframes shake {
     from {
-      width: 30%;
+      width: 35%;
     }
     to {
-      width: 35%;
+      width: 45%;
     }
   }
 
@@ -920,6 +951,13 @@ button.btn.navbar-button.btn.btn-primary {
     border-radius: 10px;
     border-color: pink;
   }
+  .btn.drop-down-button:active,
+  .btn.drop-down-button:focus {
+    background-color: pink !important;
+    border-radius: 10px;
+    border-color: pink !important;
+    box-shadow: none !important;
+  }
   .drop-down-item {
     color: white;
   }
@@ -935,12 +973,24 @@ button.btn.navbar-button.btn.btn-primary {
     width: 16px;
     padding: 0;
   }
+  .btn.modal-close-button {
+    padding: 7px 10px !important;
+    font-size: 0.9rem !important;
+  }
+  .btn.modal-delete-button {
+    padding: 7px 10px !important;
+    font-size: 0.9rem !important;
+  }
+  .btn.modal-save-button {
+    padding: 7px 10px !important;
+    font-size: 0.9rem !important;
+  }
   .todo-section {
     width: 90%;
   }
   .d-block {
     display: inline-block;
-    animation: flip 1s ease-out forwards;
+    animation: flip 0.5s ease-out forwards;
     margin-top: 7vh;
   }
   .d-none {
@@ -1006,7 +1056,7 @@ button.btn.navbar-button.btn.btn-primary {
     padding: 1rem 1rem !important;
   }
   .modal-content {
-    width: 70% !important;
+    width: 90% !important;
     margin: auto !important;
   }
   .login-modal-body {

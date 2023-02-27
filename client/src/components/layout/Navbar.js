@@ -47,16 +47,31 @@ const NavbarItem = ({
     login_email: "",
     login_password: "",
   });
+  const [authError, setAuthError] = useState({
+    isAvailable: false,
+    errorMsg: "Please fill out the information in the form",
+  });
 
-  const registerClose = () => setShowRegister(false);
-  // const loginClose = () => setShowLogin(false);
+  const registerClose = () => {
+    setShowRegister(false);
+    setAuthError({
+      ...authError,
+      isAvailable: false,
+    });
+  };
 
   const registerShow = () => {
     setShowRegister(true);
     loginClose();
   };
 
-  const loginClose = () => setShowLogin(false);
+  const loginClose = () => {
+    setShowLogin(false);
+    setAuthError({
+      ...authError,
+      isAvailable: false,
+    });
+  };
   const loginShow = () => setShowLogin(true);
 
   const onChangeRegister = (e) =>
@@ -67,37 +82,62 @@ const NavbarItem = ({
   const onClickRegister = async (e) => {
     const { firstname, lastname, email, password, confirmpassword } =
       formRegister;
-    if (password !== confirmpassword) {
-      setAlert("Passwords do not match", "danger");
+
+    if (!firstname || !lastname || !email || !password || !confirmpassword) {
+      setAuthError({
+        ...authError,
+        isAvailable: true,
+      });
     } else {
-      await register({ firstname, lastname, email, password });
+      const res = await register({ firstname, lastname, email, password });
       if (firstname && lastname && email && password === confirmpassword) {
         myDayId = await addTodoList({ title: "My Day" });
         console.log(myDayId);
         await addTodoList({ title: "Important" });
         // await getTodoList();
       }
-      history.push(`/todolist/${myDayId}`);
-      setFormRegister({
-        firstname: "",
-        lastname: "",
-        email: "",
-        password: "",
-        confirmpassword: "",
-      });
-      registerClose();
+      if (res) {
+        history.push(`/todolist/${myDayId}`);
+        setFormRegister({
+          firstname: "",
+          lastname: "",
+          email: "",
+          password: "",
+          confirmpassword: "",
+        });
+        setAuthError({
+          ...authError,
+          isAvailable: false,
+        });
+        registerClose();
+      }
     }
   };
 
   const onClickLogin = async (e) => {
     const { login_email, login_password } = formLogin;
-    await login(login_email, login_password);
-    setFormLogin({
-      login_email: "",
-      login_password: "",
-    });
-    myDayId = await getTodoList();
-    history.push(`/todolist/${myDayId}`);
+    if (!login_email || !login_password) {
+      setAuthError({
+        ...authError,
+        isAvailable: true,
+      });
+    } else {
+      const res = await login(login_email, login_password);
+      console.log(res);
+      if (res) {
+        myDayId = await getTodoList();
+        history.push(`/todolist/${myDayId}`);
+        setFormLogin({
+          login_email: "",
+          login_password: "",
+        });
+        setAuthError({
+          ...authError,
+          isAvailable: false,
+        });
+        loginClose();
+      }
+    }
   };
 
   const onClickLogout = (e) => {
@@ -129,8 +169,8 @@ const NavbarItem = ({
     var status = await forgotPassword({ email });
     if (status == 404) {
       showNotice("😺 Password updated", "success");
+      forgotModalClose();
     }
-    forgotModalClose();
   };
 
   const guestLinks = (
@@ -173,6 +213,7 @@ const NavbarItem = ({
         onClickLogin={onClickLogin}
         registerShow={registerShow}
         loginData={formLogin}
+        authError={authError}
       />
       <RegisterModal
         showregister={showregister}
@@ -180,6 +221,7 @@ const NavbarItem = ({
         onChangeRegister={onChangeRegister}
         registerData={formRegister}
         onClickRegister={onClickRegister}
+        authError={authError}
       />
       <ForgotPassword
         showForgotModal={showForgotModal}

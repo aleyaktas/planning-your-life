@@ -17,6 +17,7 @@ import addSound from "../../sounds/add.mp3";
 import { CONTROL_MENU } from "../../actions/types";
 import { useHistory } from "react-router";
 import ReactTooltip from "react-tooltip";
+import showNotice from "../../utils/showNotice";
 
 const Sidebar = ({
   getTodoList,
@@ -48,9 +49,14 @@ const Sidebar = ({
   const dispatch = useDispatch();
 
   const onClickAdd = async (e) => {
+    if (title === "") {
+      showNotice("🤔 Please enter a title for your list", "warn");
+      return;
+    }
     const id = await addTodoList({ title });
     playAdd();
     todoClose();
+    setTitle("");
     history.push(`/todolist/${id}`);
   };
 
@@ -155,7 +161,7 @@ const Sidebar = ({
                 <button
                   id="button"
                   className={`list-button ${isDropDownBtn ? "d-block" : null}`}
-                  style={{ backgroundColor: "pink" }}
+                  style={{ backgroundColor: "pink", color: "black" }}
                   onClick={todoShow}
                   variant="light"
                 >

@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal, Form, Row, Col, Button } from "react-bootstrap";
+import ShowMessage from "../../utils/ShowMessage";
 
 const RegisterModal = ({
   showregister,
@@ -7,6 +8,7 @@ const RegisterModal = ({
   onChangeRegister,
   onClickRegister,
   registerData,
+  authError,
 }) => {
   const onKeyPress = async (e) => {
     e.key === "Enter" && (await onClickRegister());
@@ -19,6 +21,9 @@ const RegisterModal = ({
         </Modal.Header>
         <Modal.Body>
           <Form>
+            {authError.isAvailable && (
+              <ShowMessage errorMsg={authError.errorMsg} />
+            )}
             <Form.Group className="">
               <Row>
                 <Col>
@@ -82,7 +87,6 @@ const RegisterModal = ({
           </Button>
           <Button
             className="modal-button navbar-button"
-            variant="warning"
             onClick={onClickRegister}
           >
             Sign Up
