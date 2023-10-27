@@ -36,7 +36,7 @@ To run project:
 
 ## Demo
 
-Demo link: https://pyl.aleynaaktas.me
+Demo link: https://pyl.aleynaaktas.com
 
 
 ## Photos related to Planning Your Life Website
