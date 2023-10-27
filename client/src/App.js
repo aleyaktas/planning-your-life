@@ -27,7 +27,7 @@ const App = () => {
     store.dispatch(loadUser());
   }, []);
 
-  axios.defaults.baseURL = "https://api-pyl.aleynaaktas.me";
+  axios.defaults.baseURL = "https://api-pyl.aleynaaktas.com";
 
   return (
     <Provider store={store}>
